@@ -18,8 +18,10 @@ class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
         activity?.tw_birthday?.text = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(calendar.time)
     }
 
-    override fun onCancel(dialog: DialogInterface?) {
-        Toast.makeText(activity, "Дата рождения не была выбрана", Toast.LENGTH_SHORT).show()
+    override fun onCancel(dialog: DialogInterface) {
+        if(activity?.tw_birthday?.text == "") {
+            Toast.makeText(activity, "Дата рождения не была выбрана", Toast.LENGTH_SHORT).show()
+        }
         super.onCancel(dialog)
     }
 

@@ -2,8 +2,8 @@ package com.example.aboutme
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentActivity
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.part_address_info.*
 import kotlinx.android.synthetic.main.part_interest.*
@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.part_main_info.*
 import kotlinx.android.synthetic.main.part_photo_picker.*
 import kotlinx.android.synthetic.main.part_social_settings.*
 
-class Settings : FragmentActivity() {
+class Settings : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
