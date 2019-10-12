@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.part_address_info.*
 import kotlinx.android.synthetic.main.part_interest.*
@@ -12,7 +14,12 @@ import kotlinx.android.synthetic.main.part_main_info.*
 import kotlinx.android.synthetic.main.part_photo_picker.*
 import kotlinx.android.synthetic.main.part_social_settings.*
 
+
 class Settings : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +59,13 @@ class Settings : AppCompatActivity() {
             DatePickerFragment().show(supportFragmentManager, "Выбор даты рождения")
         }
 
+
+        viewManager = LinearLayoutManager(this)
+        recyclerView = rv_photos.apply {
+            setHasFixedSize(true)
+            layoutManager = viewManager
+            viewAdapter = RecyclerAdapter(data)
+        }
 
     }
 }

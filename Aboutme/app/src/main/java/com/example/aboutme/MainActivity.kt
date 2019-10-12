@@ -3,7 +3,6 @@ package com.example.aboutme
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
 import android.view.animation.AlphaAnimation
@@ -16,13 +15,13 @@ import java.io.*
 
 class MainActivity : AppCompatActivity() {
     private var me: Me? = null
-    private val dims by lazy {
+/*    private val dims by lazy {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         val width = displayMetrics.widthPixels / (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
         val height = displayMetrics.heightPixels / (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
         Pair(width, height)
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

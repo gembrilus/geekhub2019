@@ -5,21 +5,21 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 data class Me(val name: String, val surname: String): Serializable {
-    var photos: List<String>? = null
+    var photos: Array<String>? = null
     var sex: Int? = null
     var birthday: String? = null
     var age: Int? = null
         get() = GregorianCalendar.getInstance() - birthday
         set(value) { field = value }
     var address: Address? = null
-    var works: List<String>? = null
-    var education: List<String>? = null
-    var hobbies: List<String>? = null
+    var works: String? = null
+    var education: String? = null
+    var hobbies: String? = null
     var lovingMovies: String? = null
     var lovingMusic: String? = null
     var lovingBooks: String? = null
-    var phoneNumber: List<String>? = null
-    var email: List<String>? = null
+    var phoneNumber: String? = null
+    var email: String? = null
     var social: Map<String, String>? = null
 }
 
