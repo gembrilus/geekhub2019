@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Settings">
+
+    <LinearLayout
+        android:id="@+id/ll_group1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/group1_minimize"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:background="#eeffaa"
+            android:src="@drawable/arrow_down"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:textAlignment="center"/>
+
+        <include
+            android:id="@+id/hided_group1"
+            layout="@layout/part_main_info"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_group2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/group2_minimize"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:background="#eeffaa"
+                android:src="@drawable/arrow_down"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:textAlignment="center"/>
+
+        <include
+            android:id="@+id/hided_group2"
+            layout="@layout/part_address_info"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_group3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginTop="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/group3_minimize"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:background="#eeffaa"
+                android:src="@drawable/arrow_down"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:textAlignment="center"/>
+
+        <include
+            android:id="@+id/hided_group3"
+            layout="@layout/part_job_and_study"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/tw_country"
+        android:padding="@dimen/pad8"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Страна проживания"/>
+
+    <EditText
+        android:id="@+id/et_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/pad8"
+        android:inputType="textPersonName"/>
+
+    <TextView
+        android:id="@+id/tw_city"
+        android:padding="@dimen/pad8"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Город проживания"/>
+
+    <EditText
+        android:id="@+id/et_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/pad8"
+        android:inputType="textPersonName"/>
+
+    <TextView
+        android:id="@+id/tw_address"
+        android:padding="@dimen/pad8"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Почтовый адрес"/>
+
+    <EditText
+        android:id="@+id/et_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/pad8"
+        android:inputType="text"/>
+</merge>

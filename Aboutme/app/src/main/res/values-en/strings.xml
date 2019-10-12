@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">About me</string>
+    <string name="b_info_text">Detailed information</string>
+    <string name="wellcome">Wellcome!</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="change_info">Change info</string>
+    <string name="exit">Exit</string>
+    <string name="theme">Theme</string>
+    <string name="invitation">Hello, my name is</string>
+    <string name="me_name">Name</string>
+    <string name="man">Man</string>
+    <string name="manOrWoman">Man or Woman?</string>
+    <string name="surname">Surname</string>
+    <string name="woman">Woman</string>
+    <string name="birthday">Birthday</string>
+</resources>
