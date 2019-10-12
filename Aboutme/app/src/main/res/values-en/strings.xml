@@ -29,4 +29,10 @@
     <string name="social_pages">Social pages</string>
     <string name="what_is_name">What is your name?</string>
     <string name="what_is_surname">What is your surname?</string>
+    <string name="loving_books">Loving books</string>
+    <string name="loving_movies">Loving movies, serials</string>
+    <string name="loving_music">Loving music</string>
+    <string name="where_study">And where did you study?</string>
+    <string name="where_work">Tell, where did you work or are working?</string>
+    <string name="you_loving_hobbies">Your the best hobbies, interests</string>
 </resources>

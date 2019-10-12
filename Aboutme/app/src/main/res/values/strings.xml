@@ -28,4 +28,10 @@
     <string name="what_is_surname">Ваша фамилия?</string>
     <string name="social_pages">Странички в соцсетях</string>
     <string name="save">Сохранить</string>
+    <string name="where_work">Расскажите, где Вы работали и/или работаете</string>
+    <string name="where_study">А где Вы учились?</string>
+    <string name="you_loving_hobbies">Ваши самые любимые занятия, хобби</string>
+    <string name="loving_books">Любимые книги</string>
+    <string name="loving_movies">Любимые фильмы, сериалы</string>
+    <string name="loving_music">Любимая музыка</string>
 </resources>

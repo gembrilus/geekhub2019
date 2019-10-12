@@ -9,7 +9,32 @@
     android:layout_marginEnd="@dimen/margin"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/tw_work"
+        android:padding="@dimen/pad8"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/where_work"/>
 
+    <EditText
+        android:id="@+id/et_work"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="@dimen/pad8"
+        android:inputType="textMultiLine"/>
 
+    <TextView
+        android:id="@+id/tw_study"
+        android:padding="@dimen/pad8"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/where_study"/>
+
+    <EditText
+        android:id="@+id/et_study"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="@dimen/pad8"
+        android:inputType="textMultiLine"/>
 
 </LinearLayout>
