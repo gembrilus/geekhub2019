@@ -5,8 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.animation.AlphaAnimation
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.aboutme.data.Me
@@ -14,14 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.io.*
 
 class MainActivity : AppCompatActivity() {
-    private var me: Me? = null
-/*    private val dims by lazy {
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val width = displayMetrics.widthPixels / (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
-        val height = displayMetrics.heightPixels / (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)
-        Pair(width, height)
-    }*/
+    internal var me: Me? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,28 +20,12 @@ class MainActivity : AppCompatActivity() {
 
         initialize()
 
-        val inAnimation = AlphaAnimation(0f, 1f).apply { duration = 2000 }
-        val outAnimation = AlphaAnimation(1f, 0f).apply { duration = 2000 }
-
-        image_switcher.apply {
-            setFactory {
-                ImageView(this@MainActivity).apply {
-                    scaleType = ImageView.ScaleType.FIT_CENTER
-                    adjustViewBounds = true
-                }
+        iv_photo.apply {
+            if (me?.photos.isNullOrEmpty()) {
+                setImageDrawable(resources.getDrawable(R.drawable.anonim_photo))
             }
-            setInAnimation(inAnimation)
-            setOutAnimation(outAnimation)
-            if (me?.photos.isNullOrEmpty()) setImageDrawable(resources.getDrawable(R.drawable.anonim_photo))
-            else setImageURI(Uri.parse(me?.photos?.get(0)))
-
-            setOnClickListener {
-                var i = 0
-                if (me == null) return@setOnClickListener
-                if (me?.photos.isNullOrEmpty()) return@setOnClickListener
-                val lastIndex = me?.photos?.lastIndex ?: 0
-                i = if (lastIndex > i) ++i else 0
-                setImageURI(Uri.parse(me?.photos?.get(i)))
+            else {
+                setImageURI(Uri.parse(me?.photos))
             }
         }
 
@@ -71,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
 
-        val mainActivity = MainActivity()
+        private val mainActivity = MainActivity()
 
         fun save(file: File, obj: Me) {
             var output: ObjectOutputStream? = null
@@ -100,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showErrorPopup(s: String) = Toast.makeText(this, s, Toast.LENGTH_LONG).show()
+    private fun showErrorPopup(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
 
     private fun initialize() {
         val file = File(filesDir, "me_store")
@@ -113,6 +88,4 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setInfo(item: MenuItem) = startActivity(Intent(this, Settings::class.java))
-    fun setTheme(item: MenuItem) = Unit
-    fun exit(item: MenuItem) = finish()
 }

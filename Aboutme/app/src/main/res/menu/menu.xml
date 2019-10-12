@@ -4,14 +4,4 @@
         android:id="@+id/menu_settings"
         android:title="@string/change_info"
         android:onClick="setInfo"/>
-    <group android:id="@+id/group1">
-    <item
-        android:id="@+id/menu_theme"
-        android:title="@string/theme"
-        android:onClick="setTheme"/>
-    <item
-        android:id="@+id/menu_exit"
-        android:title="@string/exit"
-        android:onClick="exit"/>
-    </group>
 </menu>

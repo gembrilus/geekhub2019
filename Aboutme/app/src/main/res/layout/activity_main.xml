@@ -16,8 +16,8 @@
         android:textSize="@dimen/text_size"
         android:text="@string/invitation"/>
 
-    <ImageSwitcher
-        android:id="@+id/image_switcher"
+    <ImageView
+        android:id="@+id/iv_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin"

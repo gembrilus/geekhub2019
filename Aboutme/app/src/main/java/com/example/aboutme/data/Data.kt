@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 data class Me(val name: String, val surname: String): Serializable {
-    var photos: Array<String>? = null
+    var photos: String? = null
     var sex: Int? = null
     var birthday: String? = null
     var age: Int? = null
