@@ -14,4 +14,18 @@
     <string name="man">Мужчина</string>
     <string name="woman">Женщина</string>
     <string name="birthday">Дата рождения</string>
+    <string name="country">Страна проживания</string>
+    <string name="city">Город проживания</string>
+    <string name="address">Почтовый адрес</string>
+    <string name="main_info">Основная информация</string>
+    <string name="full_address">Адрес проживания</string>
+    <string name="work_and_study">Работа и учеба</string>
+    <string name="hobbes_interest">Интересы, увлечения</string>
+    <string name="all_photos">Фотографии</string>
+    <string name="phonenumber">Контактный номер телефона</string>
+    <string name="email">Электронный адрес</string>
+    <string name="what_is_name">Как Вас зовут?</string>
+    <string name="what_is_surname">Ваша фамилия?</string>
+    <string name="social_pages">Странички в соцсетях</string>
+    <string name="save">Сохранить</string>
 </resources>

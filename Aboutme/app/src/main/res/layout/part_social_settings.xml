@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_group6"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin"
+    android:layout_marginTop="@dimen/margin"
+    android:layout_marginEnd="@dimen/margin"
+    android:layout_gravity="bottom"
+    android:gravity="center"
+    android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="@dimen/icon_size32dp"
+        android:maxWidth="@dimen/icon_size32dp"
+        android:src="@drawable/facebook"/>
+
+    <EditText
+        android:id="@+id/et_facebook"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:padding="@dimen/pad8"
+        android:inputType="text"/>
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:orientation="horizontal">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="@dimen/icon_size32dp"
+        android:maxWidth="@dimen/icon_size32dp"
+        android:src="@drawable/google_plus"/>
+
+    <EditText
+        android:id="@+id/et_google"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:padding="@dimen/pad8"
+        android:inputType="text"/>
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:orientation="horizontal">
+
+        <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="@dimen/icon_size32dp"
+        android:maxWidth="@dimen/icon_size32dp"
+        android:src="@drawable/instagram"/>
+
+        <EditText
+            android:id="@+id/et_instagram"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:padding="@dimen/pad8"
+            android:inputType="text"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:orientation="horizontal">
+
+        <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="@dimen/icon_size32dp"
+        android:maxWidth="@dimen/icon_size32dp"
+        android:src="@drawable/whatsapp"/>
+
+        <EditText
+            android:id="@+id/et_whatsup"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:padding="@dimen/pad8"
+            android:inputType="text"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:orientation="horizontal">
+
+        <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="@dimen/icon_size32dp"
+        android:maxWidth="@dimen/icon_size32dp"
+        android:src="@drawable/twitter"/>
+
+        <EditText
+            android:id="@+id/et_twitter"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:padding="@dimen/pad8"
+            android:inputType="text"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:orientation="horizontal">
+
+        <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxHeight="@dimen/icon_size32dp"
+        android:maxWidth="@dimen/icon_size32dp"
+        android:src="@drawable/youtube"/>
+
+        <EditText
+            android:id="@+id/et_youtube"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:padding="@dimen/pad8"
+            android:inputType="text"/>
+
+    </LinearLayout>
+</LinearLayout>

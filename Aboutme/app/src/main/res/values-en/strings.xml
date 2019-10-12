@@ -15,4 +15,18 @@
     <string name="surname">Surname</string>
     <string name="woman">Woman</string>
     <string name="birthday">Birthday</string>
+    <string name="city">City</string>
+    <string name="country">Country</string>
+    <string name="address">Address</string>
+    <string name="all_photos">Photos</string>
+    <string name="full_address">Full Address</string>
+    <string name="hobbes_interest">Interests, hobbies</string>
+    <string name="main_info">Main information</string>
+    <string name="work_and_study">Work and study</string>
+    <string name="email">E-mail</string>
+    <string name="phonenumber">Contact phonenumber</string>
+    <string name="save">Save</string>
+    <string name="social_pages">Social pages</string>
+    <string name="what_is_name">What is your name?</string>
+    <string name="what_is_surname">What is your surname?</string>
 </resources>

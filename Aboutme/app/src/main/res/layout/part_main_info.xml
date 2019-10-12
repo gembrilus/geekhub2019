@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_group1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin"
+    android:layout_marginTop="@dimen/margin"
+    android:layout_marginEnd="@dimen/margin"
+    android:orientation="vertical">
     <TextView
         android:id="@+id/tw_name"
         android:padding="@dimen/pad8"
@@ -65,4 +73,4 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/pad8"
         android:inputType="date"/>
-</merge>
+</LinearLayout>

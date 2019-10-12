@@ -1,87 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".Settings">
 
     <LinearLayout
-        android:id="@+id/ll_group1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin"
-        android:layout_marginTop="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/group1_minimize"
+        <Button
+            android:id="@+id/hided_group1"
             android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:background="#eeffaa"
-            android:src="@drawable/arrow_down"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:textAlignment="center"/>
+            android:layout_height="wrap_content"
+            android:background="@color/color_sliders"
+            android:text="@string/main_info"
+            android:textAlignment="center" />
 
         <include
-            android:id="@+id/hided_group1"
             layout="@layout/part_main_info"
             android:visibility="gone" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_group2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin"
-        android:layout_marginTop="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin"
-        android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/group2_minimize"
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:background="#eeffaa"
-                android:src="@drawable/arrow_down"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:textAlignment="center"/>
+        <Button
+            android:id="@+id/hided_group2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_sliders"
+            android:text="@string/full_address"
+            android:textAlignment="center" />
 
         <include
-            android:id="@+id/hided_group2"
             layout="@layout/part_address_info"
             android:visibility="gone" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_group3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin"
-        android:layout_marginTop="@dimen/margin"
-        android:layout_marginEnd="@dimen/margin"
-        android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/group3_minimize"
-                android:layout_width="match_parent"
-                android:layout_height="24dp"
-                android:background="#eeffaa"
-                android:src="@drawable/arrow_down"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:textAlignment="center"/>
+        <Button
+            android:id="@+id/hided_group3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_sliders"
+            android:text="@string/work_and_study"
+            android:textAlignment="center" />
 
         <include
-            android:id="@+id/hided_group3"
             layout="@layout/part_job_and_study"
             android:visibility="gone" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/hided_group4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_sliders"
+            android:text="@string/hobbes_interest"
+            android:textAlignment="center" />
 
-</LinearLayout>
+        <include
+            layout="@layout/part_interest"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/hided_group5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_sliders"
+            android:text="@string/all_photos" />
+
+        <include
+            layout="@layout/part_photo_picker"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/hided_group6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_sliders"
+            android:text="@string/social_pages" />
+
+        <include layout="@layout/part_social_settings"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#6C8BC34A"
+            android:layout_gravity="center|bottom"
+            android:text="@string/save" />
+
+    </LinearLayout>
+</ScrollView>

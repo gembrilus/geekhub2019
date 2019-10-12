@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_group2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin"
+    android:layout_marginTop="@dimen/margin"
+    android:layout_marginEnd="@dimen/margin"
+    android:orientation="vertical">
     <TextView
         android:id="@+id/tw_country"
         android:padding="@dimen/pad8"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Страна проживания"/>
+        android:text="@string/country"/>
 
     <EditText
         android:id="@+id/et_country"
@@ -19,7 +27,7 @@
         android:padding="@dimen/pad8"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Город проживания"/>
+        android:text="@string/city"/>
 
     <EditText
         android:id="@+id/et_city"
@@ -33,7 +41,7 @@
         android:padding="@dimen/pad8"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Почтовый адрес"/>
+        android:text="@string/address"/>
 
     <EditText
         android:id="@+id/et_address"
@@ -41,4 +49,32 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/pad8"
         android:inputType="text"/>
-</merge>
+
+    <TextView
+        android:id="@+id/tw_phonenumber"
+        android:padding="@dimen/pad8"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/phonenumber"/>
+
+    <EditText
+        android:id="@+id/et_phonenumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/pad8"
+        android:inputType="phone"/>
+
+    <TextView
+        android:id="@+id/tw_email"
+        android:padding="@dimen/pad8"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/email"/>
+
+    <EditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/pad8"
+        android:inputType="textEmailAddress"/>
+</LinearLayout>
