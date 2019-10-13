@@ -13,8 +13,7 @@
         android:layout_marginEnd="@dimen/margin"
         android:layout_alignParentTop="true"
         android:textAlignment="center"
-        android:textSize="@dimen/text_size"
-        android:text="@string/invitation"/>
+        android:textSize="@dimen/text_size" />
 
     <ImageView
         android:id="@+id/iv_photo"

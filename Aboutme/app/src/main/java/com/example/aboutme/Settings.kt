@@ -2,14 +2,18 @@ package com.example.aboutme
 
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.example.aboutme.data.Address
+import com.example.aboutme.data.Me
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.part_address_info.*
 import kotlinx.android.synthetic.main.part_interest.*
 import kotlinx.android.synthetic.main.part_job_and_study.*
 import kotlinx.android.synthetic.main.part_main_info.*
 import kotlinx.android.synthetic.main.part_social_settings.*
+import java.io.File
 
 
 class Settings : AppCompatActivity() {
@@ -47,6 +51,36 @@ class Settings : AppCompatActivity() {
             DatePickerFragment().show(supportFragmentManager, "Выбор даты рождения")
         }
 
-
+        b_save.setOnClickListener {
+            val me1 = fillMe()
+            val file = File(filesDir, "me_store")
+            save(this, file, me1)
+        }
     }
+
+    private fun fillMe(): Me {
+        val me = intent.getSerializableExtra("ME") as Me
+        me.sex = findViewById<RadioButton>(rg_sex.checkedRadioButtonId).text.toString()
+        me.birthday = tw_birthday.text.toString()
+        me.address = Address(et_country.text.toString(), et_city.text.toString(), et_address.text.toString())
+        me.works = et_work.text.toString()
+        me.education = et_study.text.toString()
+        me.hobbies = et_hobbies.text.toString()
+        me.lovingMovies = et_loving_movies.text.toString()
+        me.lovingMusic = et_loving_music.text.toString()
+        me.lovingBooks = et_loving_books.text.toString()
+        me.phoneNumber = et_phonenumber.text.toString()
+        me.email = et_email.text.toString()
+        me.social = mapOf(
+            "facebook" to et_facebook.text.toString(),
+            "google" to et_google.text.toString(),
+            "instagram" to et_instagram.text.toString(),
+            "whatsapp" to et_whatsup.text.toString(),
+            "twitter" to et_twitter.text.toString(),
+            "youtube" to et_youtube.text.toString()
+        )
+
+        return me
+    }
+
 }

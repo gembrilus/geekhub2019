@@ -4,26 +4,28 @@ import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class Me(val name: String, val surname: String): Serializable {
+data class Me(val name: String = "Шаман", val surname: String = "Повалянбатыргора"): Serializable {
     var photos: String? = null
-    var sex: Int? = null
-    var birthday: String? = null
+    var sex = "Мужской"
+    var birthday = "7 февраля 1983"
     var age: Int? = null
         get() = GregorianCalendar.getInstance() - birthday
         set(value) { field = value }
-    var address: Address? = null
-    var works: String? = null
-    var education: String? = null
-    var hobbies: String? = null
-    var lovingMovies: String? = null
-    var lovingMusic: String? = null
-    var lovingBooks: String? = null
-    var phoneNumber: String? = null
-    var email: String? = null
-    var social: Map<String, String>? = null
+    var address = Address()
+    var works = "IT-плиточник"
+    var education = "инженер-ломастер из Гарварда"
+    var hobbies = "Поедание пончиков"
+    var lovingMovies = "Звездные врата"
+    var lovingMusic = "под настроение"
+    var lovingBooks = "учебники"
+    var phoneNumber = "+102 103 104"
+    var email = "tuneyadec@uh.ty"
+    var social = mapOf("facebook" to "http://zukerberg")
 }
 
-data class Address(val country: String?, val City: String?, val address: String?) : Serializable
+data class Address(val country: String = "Китай",
+                   val City: String = "Тянь-Ши",
+                   val address: String = "Загогулько 10, кв. 5") : Serializable
 
 private operator fun Calendar.minus(otherDate: String?): Int? {
     var a: Int? = null
