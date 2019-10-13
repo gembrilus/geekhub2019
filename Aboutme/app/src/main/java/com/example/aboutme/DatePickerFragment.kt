@@ -15,12 +15,12 @@ class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, day: Int) {
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day)
-        activity?.tw_birthday?.text = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(calendar.time)
+        activity?.tw_birthday?.text = SimpleDateFormat("dd MM yyyy", Locale.getDefault()).format(calendar.time)
     }
 
     override fun onCancel(dialog: DialogInterface) {
         if(activity?.tw_birthday?.text == "") {
-            Toast.makeText(activity, "Дата рождения не была выбрана", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, getString(R.string.do_not_pick_birthday), Toast.LENGTH_SHORT).show()
         }
         super.onCancel(dialog)
     }

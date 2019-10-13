@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">About me</string>
-    <string name="b_info_text">Detailed information</string>
-    <string name="wellcome">Wellcome!</string>
+    <string name="b_info_text">More details..</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="change_info">Change info</string>
     <string name="exit">Exit</string>
-    <string name="theme">Theme</string>
     <string name="invitation">Hello, my name is</string>
     <string name="me_name">Name</string>
     <string name="man">Man</string>
@@ -18,7 +16,6 @@
     <string name="city">City</string>
     <string name="country">Country</string>
     <string name="address">Address</string>
-    <string name="all_photos">Photos</string>
     <string name="full_address">Full Address</string>
     <string name="hobbes_interest">Interests, hobbies</string>
     <string name="main_info">Main information</string>
@@ -35,4 +32,15 @@
     <string name="where_study">And where did you study?</string>
     <string name="where_work">Tell, where did you work or are working?</string>
     <string name="you_loving_hobbies">Your the best hobbies, interests</string>
+    <string name="get_from_camera">Get from camera</string>
+    <string name="load_from_storage">Load from storage..</string>
+    <string name="chooser_title">What app to use</string>
+    <string name="error_chooser_app">Do not install a FileManager</string>
+    <string name="no_activity_result">Result of onActivityResult() is incorrect</string>
+    <string name="can_not_load_data">Data loading is failed</string>
+    <string name="can_not_save_data">Data saving is failed</string>
+    <string name="do_not_pick_birthday">A birthday does not choose</string>
+    <string name="year">year</string>
+    <string name="years">years</string>
+    <string name="years2">years</string>
 </resources>

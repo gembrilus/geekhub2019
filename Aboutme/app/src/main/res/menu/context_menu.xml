@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/from_storage"
+        android:title="@string/load_from_storage"
+        android:onClick="loadFromStorage"/>
+    <item
+        android:id="@+id/from_camera"
+        android:title="@string/get_from_camera"
+        android:onClick="getFromCamera"/>
+
+
+</menu>

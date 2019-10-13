@@ -27,7 +27,7 @@
         <EditText
             android:id="@+id/et_facebook"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:inputType="text"
             android:padding="@dimen/pad8" />
 
@@ -50,7 +50,7 @@
         <EditText
             android:id="@+id/et_google"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:inputType="text"
             android:padding="@dimen/pad8" />
 
@@ -73,7 +73,7 @@
         <EditText
             android:id="@+id/et_instagram"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:inputType="text"
             android:padding="@dimen/pad8" />
 
@@ -96,7 +96,7 @@
         <EditText
             android:id="@+id/et_whatsup"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:inputType="text"
             android:padding="@dimen/pad8" />
 
@@ -119,7 +119,7 @@
         <EditText
             android:id="@+id/et_twitter"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:inputType="text"
             android:padding="@dimen/pad8" />
 
@@ -142,7 +142,7 @@
         <EditText
             android:id="@+id/et_youtube"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:inputType="text"
             android:padding="@dimen/pad8" />
 
