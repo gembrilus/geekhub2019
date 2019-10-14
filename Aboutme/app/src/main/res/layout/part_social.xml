@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_social"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/margin"
-    android:layout_marginTop="@dimen/margin"
-    android:layout_marginEnd="@dimen/margin"
-    android:layout_gravity="bottom"
     android:gravity="center"
+    android:layout_alignParentBottom="true"
     android:orientation="horizontal">
 
     <ImageButton
         android:id="@+id/facebook"
+        android:tag="facebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
@@ -24,6 +23,7 @@
 
     <ImageButton
         android:id="@+id/google"
+        android:tag="google"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
@@ -32,10 +32,11 @@
         android:adjustViewBounds="true"
         android:maxHeight="@dimen/icon_size"
         android:maxWidth="@dimen/icon_size"
-        android:src="@drawable/google_plus"/>
+        android:src="@drawable/google"/>
 
     <ImageButton
         android:id="@+id/instagram"
+        android:tag="instagram"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
@@ -48,6 +49,7 @@
 
     <ImageButton
         android:id="@+id/whatsapp"
+        android:tag="whatsapp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"
@@ -60,6 +62,7 @@
 
     <ImageButton
         android:id="@+id/twitter"
+        android:tag="twitter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin"

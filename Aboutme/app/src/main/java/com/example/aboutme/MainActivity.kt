@@ -1,6 +1,7 @@
 package com.example.aboutme
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
@@ -16,11 +17,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.aboutme.data.Me
-import com.example.aboutme.util.getInvitation
+import com.example.aboutme.util.birthday
 import com.example.aboutme.util.load
 import com.example.aboutme.util.save
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var me: Me
@@ -58,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         when (requestCode) {
             SETTINGS_REQUEST_CODE -> {
                 me = data.getSerializableExtra("ME1") as Me
-                tw_invitation.text = getInvitation(this, me)
+                getInvitation(me)
             }
             FROM_STORAGE_CODE -> {
                 val uri = data.data
@@ -106,6 +109,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialize() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
         perms = mutableMapOf(
             android.Manifest.permission.CAMERA to checkPerms(android.Manifest.permission.CAMERA),
             android.Manifest.permission.READ_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -114,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         registerForContextMenu(iv_photo)
         val file = File(filesDir, "me_store")
         me = if (file.exists()) load(this, file) else Me()
-        tw_invitation.text = getInvitation(this, me)
+        getInvitation(me)
     }
 
     fun loadFromStorage(item: MenuItem) {
@@ -163,5 +167,18 @@ class MainActivity : AppCompatActivity() {
             return false
         }
         return true
+    }
+
+    fun getInvitation(obj: Me) {
+        val bDay = birthday(obj.birthday)
+        val s = when(bDay % 10){
+            1 -> getString(R.string.year)
+            in 2..4 -> getString(R.string.years)
+            else -> getString(R.string.years2)
+        }
+        tw_invitation.text = "${obj.name} ${obj.surname}, ${bDay} $s"
+        val date = obj.birthday
+        val localDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
+        birthday.text = "${getString(R.string.was_born)} ${localDate}"
     }
 }

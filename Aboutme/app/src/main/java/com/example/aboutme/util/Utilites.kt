@@ -36,15 +36,12 @@ fun save(context: Context, file: File, obj: Me) {
 
 fun showErrorPopup(context: Context, s: String) = Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
 
-fun birthday(otherDate: String?): Int? {
-    var a: Int? = null
-    if (otherDate == null) return null
-    val df = SimpleDateFormat("dd MM yyyy", Locale.getDefault())
-    val date = df.parse(otherDate)
+fun birthday(d: Long): Int {
+    val date = Date(d)
     val cal = Calendar.getInstance()
-    cal.time = date ?: return null
+    cal.time = date
 
-    a = Calendar.getInstance().get(Calendar.YEAR) - cal.get(Calendar.YEAR)
+    var a = Calendar.getInstance().get(Calendar.YEAR) - cal.get(Calendar.YEAR)
     if (Calendar.getInstance().get(Calendar.MONTH) < cal.get(Calendar.MONTH) ||
         (Calendar.getInstance().get(Calendar.MONTH) < cal.get(Calendar.MONTH) &&
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH) < cal.get(Calendar.DAY_OF_MONTH))
@@ -54,12 +51,14 @@ fun birthday(otherDate: String?): Int? {
     return a
 }
 
-fun getInvitation(context: Context, obj: Me): String {
-    val bDay = birthday(obj.birthday) ?: 0
-    val s = when(bDay % 10){
-        1 -> context.getString(R.string.year)
-        in 2..4 -> context.getString(R.string.years)
-        else -> context.getString(R.string.years2)
+fun dateToLong(d: String): Long =
+    try {
+        SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).parse(d).time
+    } catch (e: Exception){
+        0L
     }
-    return "${obj.name} ${obj.surname}\n${bDay} $s"
+
+fun dateToString(d: Long): String {
+    val date = Date(d)
+    return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
 }

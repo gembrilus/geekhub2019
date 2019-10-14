@@ -45,7 +45,7 @@
             android:adjustViewBounds="true"
             android:maxWidth="@dimen/icon_size32dp"
             android:maxHeight="@dimen/icon_size32dp"
-            android:src="@drawable/google_plus" />
+            android:src="@drawable/google" />
 
         <EditText
             android:id="@+id/et_google"

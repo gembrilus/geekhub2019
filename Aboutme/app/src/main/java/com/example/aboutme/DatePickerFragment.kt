@@ -15,7 +15,7 @@ class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, day: Int) {
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day)
-        activity?.tw_birthday?.text = SimpleDateFormat("dd MM yyyy", Locale.getDefault()).format(calendar.time)
+        activity?.tw_birthday?.text = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(calendar.time)
     }
 
     override fun onCancel(dialog: DialogInterface) {

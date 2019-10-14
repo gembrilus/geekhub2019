@@ -3,11 +3,12 @@ package com.example.aboutme
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.example.aboutme.data.Address
 import com.example.aboutme.data.Me
+import com.example.aboutme.util.dateToLong
+import com.example.aboutme.util.dateToString
 import com.example.aboutme.util.save
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.part_address_info.*
@@ -53,11 +54,11 @@ class Settings : AppCompatActivity() {
         }
 
         ib_date.setOnClickListener {
-            DatePickerFragment().show(supportFragmentManager, "Выбор даты рождения")
+            DatePickerFragment().show(supportFragmentManager, getString(R.string.choose_a_birthday))
         }
 
         b_save.setOnClickListener {
-            fillMe()
+            me = fillMe()
             val intent = Intent()
             intent.putExtra("ME1", me)
             setResult(1, intent)
@@ -68,25 +69,25 @@ class Settings : AppCompatActivity() {
         }
     }
 
-    private fun fillMe() {
-        me.apply {
-            name = et_name.text.toString()
-            surname = et_surname.text.toString()
-            sex = rg_sex.checkedRadioButtonId
-            birthday = tw_birthday.text.toString()
-            address = Address().apply {
-                country = et_country.text.toString()
-                city = et_city.text.toString()
+    private fun fillMe() =
+        Me (
+            name = et_name.text.toString(),
+            surname = et_surname.text.toString(),
+            sex = if(is_a_man.isChecked) 0 else 1,
+            birthday = dateToLong(tw_birthday.text.toString()),
+            address = Address(
+                country = et_country.text.toString(),
+                city = et_city.text.toString(),
                 address = et_address.text.toString()
-            }
-            works = et_work.text.toString()
-            education = et_study.text.toString()
-            hobbies = et_hobbies.text.toString()
-            lovingMovies = et_loving_movies.text.toString()
-            lovingMusic = et_loving_music.text.toString()
-            lovingBooks = et_loving_books.text.toString()
-            phoneNumber = et_phonenumber.text.toString()
-            email = et_email.text.toString()
+            ),
+            works = et_work.text.toString(),
+            education = et_study.text.toString(),
+            hobbies = et_hobbies.text.toString(),
+            lovingMovies = et_loving_movies.text.toString(),
+            lovingMusic = et_loving_music.text.toString(),
+            lovingBooks = et_loving_books.text.toString(),
+            phoneNumber = et_phonenumber.text.toString(),
+            email = et_email.text.toString(),
             social = mapOf(
                 "facebook" to et_facebook.text.toString(),
                 "google" to et_google.text.toString(),
@@ -95,15 +96,15 @@ class Settings : AppCompatActivity() {
                 "twitter" to et_twitter.text.toString(),
                 "youtube" to et_youtube.text.toString()
             )
-        }
-    }
+        )
 
-    private fun fillFields(){
+    private fun fillFields() =
         with(me){
-            if(sex > 0) findViewById<RadioButton>(sex).isChecked = true
+            if(sex == 0) is_a_man.isChecked = true
+            else is_a_woman.isChecked = true
             et_name.setText(name)
             et_surname.setText(surname)
-            tw_birthday.setText(birthday)
+            tw_birthday.text = dateToString(birthday)
             et_country.setText(address.country)
             et_city.setText(address.city)
             et_address.setText(address.address)
@@ -122,5 +123,4 @@ class Settings : AppCompatActivity() {
             et_twitter.setText(social.get("twitter"))
             et_youtube.setText(social.get("youtube"))
         }
-    }
 }
