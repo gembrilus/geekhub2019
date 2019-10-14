@@ -10,7 +10,7 @@ data class Me(
     var surname: String = "Повалянбатыргора",
     var photos: String = "",
     var sex: Int = 0,
-    var birthday: Long = 0L,
+    var birthday: Long = 100000000000L,
     var address: Address = Address(),
     var works: String = "IT-плиточник",
     var education: String = "инженер-ломастер из Гарварда",

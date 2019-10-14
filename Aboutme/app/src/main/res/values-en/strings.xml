@@ -46,7 +46,7 @@
     <string name="choose_a_birthday">Choose a birthday</string>
     <string name="age">Age</string>
     <string name="loving_hobbis">Hobbies and interests</string>
-    <string name="was_born">Was born</string>
+    <string name="was_born">Was born %1$s</string>
     <string name="university">Educational establishments</string>
     <string name="work">Work</string>
 </resources>

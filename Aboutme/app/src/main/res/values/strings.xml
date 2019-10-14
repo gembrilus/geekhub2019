@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Обо мне</string>
     <string name="b_info_text">Подробнее..</string>
     <string name="ok">OK</string>
@@ -12,7 +12,7 @@
     <string name="man">Мужчина</string>
     <string name="woman">Женщина</string>
     <string name="birthday">Дата рождения</string>
-    <string name="was_born">Родился</string>
+    <string name="was_born">Родился %1$s</string>
     <string name="age">Возраст</string>
     <string name="country">Страна проживания</string>
     <string name="city">Город проживания</string>
@@ -48,4 +48,5 @@
     <string name="work">Работа</string>
     <string name="university">Учебные заведения</string>
     <string name="loving_hobbis">Любимы занятия, хобби</string>
+    <string name="welcome_message" tools:ignore="MissingTranslation">%1$s %2$s, %3$d %4$s</string>
 </resources>

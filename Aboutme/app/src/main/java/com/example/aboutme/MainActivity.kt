@@ -1,5 +1,6 @@
 package com.example.aboutme
 
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -12,7 +13,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,6 +20,7 @@ import com.example.aboutme.data.Me
 import com.example.aboutme.util.birthday
 import com.example.aboutme.util.load
 import com.example.aboutme.util.save
+import com.example.aboutme.util.showErrorPopup
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         iv_photo.apply {
             if (me.photos.isEmpty()) {
-                setImageDrawable(resources.getDrawable(R.drawable.anonim_photo))
+                setImageDrawable(resources.getDrawable(R.drawable.anonim_photo, resources.newTheme()))
             } else {
                 setImageURI(Uri.parse(me.photos))
             }
@@ -58,27 +59,25 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data == null) return
-        when (requestCode) {
-            SETTINGS_REQUEST_CODE -> {
-                me = data.getSerializableExtra("ME1") as Me
-                getInvitation(me)
-            }
-            FROM_STORAGE_CODE -> {
-                val uri = data.data
-                iv_photo.setImageURI(uri)
-                me.photos = uri.toString()
-                save(this, File(filesDir, "me_store"), me)
-            }
-            FROM_CAMERA_CODE -> {
-                val imageBitmap = data.extras?.get("data") as Bitmap
-                iv_photo.setImageBitmap(imageBitmap)
-            }
-            else -> {
-                Toast.makeText(
-                    this,
-                    resources.getString(R.string.no_activity_result),
-                    Toast.LENGTH_SHORT
-                ).show()
+        if(resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                SETTINGS_REQUEST_CODE -> {
+                    me = data.getSerializableExtra("ME1") as Me
+                    getInvitation(me)
+                }
+                FROM_STORAGE_CODE -> {
+                    val uri = data.data
+                    iv_photo.setImageURI(uri)
+                    me.photos = uri.toString()
+                    save(this, File(filesDir, "me_store"), me)
+                }
+                FROM_CAMERA_CODE -> {
+                    val imageBitmap = data.extras?.get("data") as Bitmap
+                    iv_photo.setImageBitmap(imageBitmap)
+                }
+                else -> {
+                    showErrorPopup(this, getString(R.string.no_activity_result))
+                }
             }
         }
     }
@@ -176,9 +175,9 @@ class MainActivity : AppCompatActivity() {
             in 2..4 -> getString(R.string.years)
             else -> getString(R.string.years2)
         }
-        tw_invitation.text = "${obj.name} ${obj.surname}, ${bDay} $s"
+        tw_invitation.text = getString(R.string.welcome_message, obj.name, obj.surname, bDay, s)
         val date = obj.birthday
         val localDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
-        birthday.text = "${getString(R.string.was_born)} ${localDate}"
+        birthday.text = getString(R.string.was_born, localDate)
     }
 }
