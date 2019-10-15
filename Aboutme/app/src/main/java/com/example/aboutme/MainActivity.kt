@@ -136,14 +136,14 @@ class MainActivity : AppCompatActivity() {
             takePictureIntent.resolveActivity(packageManager).also {
                 startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA)
             }
-        } else ActivityCompat.requestPermissions(
+        }/* else ActivityCompat.requestPermissions(
             this,
             arrayOf(
                 android.Manifest.permission.READ_EXTERNAL_STORAGE,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
             ),
             FROM_CAMERA_CODE
-        )
+        )*/
     }
 
     fun setInfo(item: MenuItem) {
