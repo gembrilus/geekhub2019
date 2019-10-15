@@ -6,8 +6,8 @@ import kotlinx.android.synthetic.main.activity_additional_info.*
 import java.io.Serializable
 
 data class Me(
-    var name: String = "Шаман",
-    var surname: String = "Повалянбатыргора",
+    var name: String = "Шайтан",
+    var surname: String = "Македонский",
     var photos: String = "",
     var sex: Int = 0,
     var birthday: Long = 100000000000L,
@@ -17,7 +17,7 @@ data class Me(
     var hobbies: String = "Поедание пончиков",
     var lovingMovies: String = "Звездные врата",
     var lovingMusic: String = "под настроение",
-    var lovingBooks: String = "учебники",
+    var lovingBooks: String = "комиксы",
     var phoneNumber: String = "+102 103 104",
     var email: String = "tuneyadec@uh.ty",
     var social: Map<String, String> = mapOf("facebook" to "http://zukerberg")

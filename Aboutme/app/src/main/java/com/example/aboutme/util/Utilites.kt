@@ -54,7 +54,7 @@ fun birthday(d: Long): Int {
 fun dateToLong(d: String): Long =
     try {
         SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).parse(d).time
-    } catch (e: Exception){
+    } catch (e: Throwable){
         0L
     }
 
