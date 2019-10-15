@@ -17,10 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.aboutme.data.Me
-import com.example.aboutme.util.birthday
-import com.example.aboutme.util.load
-import com.example.aboutme.util.save
-import com.example.aboutme.util.showErrorPopup
+import com.example.aboutme.util.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -47,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             }
             adjustViewBounds = true
             scaleType = ImageView.ScaleType.FIT_CENTER
+            maxHeight = getDisplaySize(this@MainActivity).x
         }
 
         b_info_text.setOnClickListener {

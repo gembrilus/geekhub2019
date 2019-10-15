@@ -1,6 +1,9 @@
 package com.example.aboutme.util
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Point
+import android.view.WindowManager
 import android.widget.Toast
 import com.example.aboutme.R
 import com.example.aboutme.data.Me
@@ -61,4 +64,11 @@ fun dateToLong(d: String): Long =
 fun dateToString(d: Long): String {
     val date = Date(d)
     return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
+}
+
+fun getDisplaySize(context: Activity): Point{
+    val point = Point()
+    (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
+        .defaultDisplay.getSize(point)
+    return point
 }
