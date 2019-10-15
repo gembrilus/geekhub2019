@@ -63,7 +63,7 @@ class Settings : AppCompatActivity() {
             me = fillMe()
             val intent = Intent()
             intent.putExtra("ME1", me)
-            setResult(1, intent)
+            setResult(10, intent)
 
             val file = File(filesDir, "me_store")
             save(this, file, me)

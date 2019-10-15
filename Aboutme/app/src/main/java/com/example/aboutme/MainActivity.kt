@@ -1,6 +1,5 @@
 package com.example.aboutme
 
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -96,7 +95,6 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data == null) return
-        if(resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_SETTINGS -> {
                     me = data.getSerializableExtra("ME1") as Me
@@ -115,7 +113,6 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     showErrorPopup(this, getString(R.string.no_activity_result))
                 }
-            }
         }
     }
 
