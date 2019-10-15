@@ -41,6 +41,7 @@
     <string name="do_not_pick_birthday">Дата рождения не была выбрана</string>
     <string name="can_not_load_data">Не удалось загрузить данные</string>
     <string name="can_not_save_data">Не удалось сохранить данные</string>
+    <string name="cant_create_file_image">Не получилось создать файл изображения</string>
     <string name="year">год</string>
     <string name="years">года</string>
     <string name="years2">лет</string>
@@ -48,7 +49,7 @@
     <string name="work">Работа</string>
     <string name="university">Учебные заведения</string>
     <string name="loving_hobbis">Любимы занятия, хобби</string>
-    <string name="welcome_message" tools:ignore="MissingTranslation">%1$s %2$s, %3$d %4$s</string>
+    <string name="welcome_message">%1$s %2$s, %3$d %4$s</string>
     <string name="title_add_info">Дополнительные сведения</string>
     <string name="title_settings">Изменение сведений</string>
 </resources>

@@ -3,9 +3,9 @@ package com.example.aboutme
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.view.ContextMenu
 import android.view.Menu
@@ -15,17 +15,22 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.example.aboutme.data.Me
 import com.example.aboutme.util.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var me: Me
     private lateinit var perms: MutableMap<String, Boolean>
     private lateinit var store_file: File
+    private lateinit var photoPath: String
+    private lateinit var photoURI: Uri
     private val REQUEST_CODE_SETTINGS = 10
     private val REQUEST_CODE_CAMERA = 20
     private val REQUEST_CODE_STORAGE = 30
@@ -108,8 +113,9 @@ class MainActivity : AppCompatActivity() {
                     save(this, store_file, me)
                 }
                 REQUEST_CODE_CAMERA -> {
-                    val imageBitmap = data.extras?.get("data") as Bitmap
-                    iv_photo.setImageBitmap(imageBitmap)
+                    iv_photo.setImageURI(photoURI)
+                    me.photos = photoURI.toString()
+                    save(this, store_file, me)
                 }
                 else -> {
                     showErrorPopup(this, getString(R.string.no_activity_result))
@@ -133,18 +139,15 @@ class MainActivity : AppCompatActivity() {
 
     fun getFromCamera(item: MenuItem) {
         if (perms.values.all { it }) {
-            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            takePictureIntent.resolveActivity(packageManager).also {
-                startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA)
-            }
-        }/* else ActivityCompat.requestPermissions(
+            getPictureIntent()
+        } else ActivityCompat.requestPermissions(
             this,
             arrayOf(
                 android.Manifest.permission.READ_EXTERNAL_STORAGE,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
             ),
             FROM_CAMERA_CODE
-        )*/
+        )
     }
 
     fun setInfo(item: MenuItem) {
@@ -175,5 +178,38 @@ class MainActivity : AppCompatActivity() {
         val date = obj.birthday
         val localDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
         birthday.text = getString(R.string.was_born, localDate)
+    }
+
+    private fun createImageFile(): File {
+        val imageFileName = "JPEG_" + Date().time
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val image = File.createTempFile(
+            imageFileName,
+            ".jpg",
+            storageDir
+        )
+        photoPath = image.absolutePath
+        return image
+    }
+
+    private fun getPictureIntent() {
+        val picIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        picIntent.resolveActivity(packageManager).also {
+            var photoFile: File? = null
+            try {
+                photoFile = createImageFile()
+            } catch (ex: IOException) {
+                showErrorPopup(this, getString(R.string.cant_create_file_image))
+            }
+            if (photoFile != null) {
+                photoURI = FileProvider.getUriForFile(
+                    this,
+                    "com.example.fileprovider",
+                    photoFile
+                )
+                picIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                startActivityForResult(picIntent, REQUEST_CODE_CAMERA)
+            }
+        }
     }
 }

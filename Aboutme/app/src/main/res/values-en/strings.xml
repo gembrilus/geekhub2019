@@ -39,6 +39,7 @@
     <string name="no_activity_result">Result of onActivityResult() is incorrect</string>
     <string name="can_not_load_data">Data loading is failed</string>
     <string name="can_not_save_data">Data saving is failed</string>
+    <string name="cant_create_file_image">Failed to create an image file</string>
     <string name="do_not_pick_birthday">A birthday does not choose</string>
     <string name="year">year</string>
     <string name="years">years</string>
