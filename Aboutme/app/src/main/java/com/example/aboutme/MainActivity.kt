@@ -25,6 +25,7 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private lateinit var me: Me
     private lateinit var perms: MutableMap<String, Boolean>
+    private lateinit var store_file: File
     private val REQUEST_CODE_SETTINGS = 10
     private val REQUEST_CODE_CAMERA = 20
     private val REQUEST_CODE_STORAGE = 30
@@ -61,9 +62,9 @@ class MainActivity : AppCompatActivity() {
             android.Manifest.permission.READ_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.READ_EXTERNAL_STORAGE),
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         )
+        store_file = File(filesDir, "me_store")
+        me = load(this, store_file)
         registerForContextMenu(iv_photo)
-        val file = File(filesDir, "me_store")
-        me = if (file.exists()) load(this, file) else Me()
         setMainInfo(me)
     }
 
@@ -104,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                     val uri = data.data
                     iv_photo.setImageURI(uri)
                     me.photos = uri.toString()
-                    save(this, File(filesDir, "me_store"), me)
+                    save(this, store_file, me)
                 }
                 REQUEST_CODE_CAMERA -> {
                     val imageBitmap = data.extras?.get("data") as Bitmap

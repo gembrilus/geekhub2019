@@ -13,16 +13,14 @@ import java.util.*
 
 fun load(context: Context, file: File): Me {
     var input: ObjectInputStream? = null
-    var me = Me()
-    try {
+    return try {
         input = ObjectInputStream(FileInputStream(file))
-        me = input.readObject() as Me
+        input.readObject() as Me
     } catch (e: IOException) {
-        showErrorPopup(context, context.getString(R.string.can_not_load_data))
+        Me()
     } finally {
         input?.close()
     }
-    return me
 }
 
 fun save(context: Context, file: File, obj: Me) {
