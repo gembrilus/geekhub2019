@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         )
         store_file = File(filesDir, "me_store")
-        me = load(this, store_file)
+        me = load(store_file)
         registerForContextMenu(iv_photo)
         setMainInfo(me)
     }
@@ -165,13 +165,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setMainInfo(obj: Me) {
-        val bDay = birthday(obj.birthday)
-        val s = when(bDay % 10){
+        val age = getAge(obj.birthday)
+        val s = when(age % 10){
             1 -> getString(R.string.year)
             in 2..4 -> getString(R.string.years)
             else -> getString(R.string.years2)
         }
-        tw_invitation.text = getString(R.string.welcome_message, obj.name, obj.surname, bDay, s)
+        tw_invitation.text = getString(R.string.welcome_message, obj.name, obj.surname, age, s)
         val date = obj.birthday
         val localDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
         birthday.text = getString(R.string.was_born, localDate)

@@ -11,7 +11,7 @@ import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun load(context: Context, file: File): Me {
+fun load(file: File): Me {
     var input: ObjectInputStream? = null
     return try {
         input = ObjectInputStream(FileInputStream(file))
@@ -37,7 +37,7 @@ fun save(context: Context, file: File, obj: Me) {
 
 fun showErrorPopup(context: Context, s: String) = Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
 
-fun birthday(d: Long): Int {
+fun getAge(d: Long): Int {
     val date = Date(d)
     val cal = Calendar.getInstance()
     cal.time = date
