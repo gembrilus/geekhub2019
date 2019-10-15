@@ -21,6 +21,7 @@ class AdditionalInfo : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_additional_info)
+        title = getString(R.string.title_add_info)
 
         me = intent.getSerializableExtra("ME") as Me
         val map = me.map(this)

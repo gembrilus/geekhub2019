@@ -26,6 +26,8 @@ class Settings : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        title = getString(R.string.title_settings)
+
         me = intent.getSerializableExtra("ME") as Me
         fillFields()
         hided_group1.setOnClickListener {

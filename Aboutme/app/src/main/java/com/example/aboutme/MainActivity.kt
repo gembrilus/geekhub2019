@@ -29,9 +29,9 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private lateinit var me: Me
     private lateinit var perms: MutableMap<String, Boolean>
-    val SETTINGS_REQUEST_CODE = 1
-    val FROM_STORAGE_CODE = 2
-    val FROM_CAMERA_CODE = 3
+    private val SETTINGS_REQUEST_CODE = 1
+    private val FROM_STORAGE_CODE = 2
+    private val FROM_CAMERA_CODE = 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialize() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
         perms = mutableMapOf(
             android.Manifest.permission.CAMERA to checkPerms(android.Manifest.permission.CAMERA),
             android.Manifest.permission.READ_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -168,7 +168,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    fun getInvitation(obj: Me) {
+    private fun getInvitation(obj: Me) {
         val bDay = birthday(obj.birthday)
         val s = when(bDay % 10){
             1 -> getString(R.string.year)
