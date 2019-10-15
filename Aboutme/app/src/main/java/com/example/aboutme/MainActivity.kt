@@ -26,9 +26,11 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private lateinit var me: Me
     private lateinit var perms: MutableMap<String, Boolean>
-    private val SETTINGS_REQUEST_CODE = 1
-    private val FROM_STORAGE_CODE = 2
-    private val FROM_CAMERA_CODE = 3
+    private val REQUEST_CODE_SETTINGS = 10
+    private val REQUEST_CODE_CAMERA = 20
+    private val REQUEST_CODE_STORAGE = 30
+    private val FROM_STORAGE_CODE = 1
+    private val FROM_CAMERA_CODE = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,35 +51,21 @@ class MainActivity : AppCompatActivity() {
 
         b_info_text.setOnClickListener {
             val intent = Intent(this, AdditionalInfo::class.java)
-            intent.putExtra("ME", me)
+            intent.putExtra("ADD", me)
             startActivity(intent)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (data == null) return
-        if(resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                SETTINGS_REQUEST_CODE -> {
-                    me = data.getSerializableExtra("ME1") as Me
-                    getInvitation(me)
-                }
-                FROM_STORAGE_CODE -> {
-                    val uri = data.data
-                    iv_photo.setImageURI(uri)
-                    me.photos = uri.toString()
-                    save(this, File(filesDir, "me_store"), me)
-                }
-                FROM_CAMERA_CODE -> {
-                    val imageBitmap = data.extras?.get("data") as Bitmap
-                    iv_photo.setImageBitmap(imageBitmap)
-                }
-                else -> {
-                    showErrorPopup(this, getString(R.string.no_activity_result))
-                }
-            }
-        }
+    private fun initialize() {
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
+        perms = mutableMapOf(
+            android.Manifest.permission.READ_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        )
+        registerForContextMenu(iv_photo)
+        val file = File(filesDir, "me_store")
+        me = if (file.exists()) load(this, file) else Me()
+        setMainInfo(me)
     }
 
     override fun onCreateContextMenu(
@@ -105,17 +93,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initialize() {
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
-        perms = mutableMapOf(
-            android.Manifest.permission.CAMERA to checkPerms(android.Manifest.permission.CAMERA),
-            android.Manifest.permission.READ_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        )
-        registerForContextMenu(iv_photo)
-        val file = File(filesDir, "me_store")
-        me = if (file.exists()) load(this, file) else Me()
-        getInvitation(me)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (data == null) return
+        if(resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_CODE_SETTINGS -> {
+                    me = data.getSerializableExtra("ME1") as Me
+                    setMainInfo(me)
+                }
+                REQUEST_CODE_STORAGE -> {
+                    val uri = data.data
+                    iv_photo.setImageURI(uri)
+                    me.photos = uri.toString()
+                    save(this, File(filesDir, "me_store"), me)
+                }
+                REQUEST_CODE_CAMERA -> {
+                    val imageBitmap = data.extras?.get("data") as Bitmap
+                    iv_photo.setImageBitmap(imageBitmap)
+                }
+                else -> {
+                    showErrorPopup(this, getString(R.string.no_activity_result))
+                }
+            }
+        }
     }
 
     fun loadFromStorage(item: MenuItem) {
@@ -124,7 +125,7 @@ class MainActivity : AppCompatActivity() {
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             )
-            startActivityForResult(intent, FROM_STORAGE_CODE)
+            startActivityForResult(intent, REQUEST_CODE_STORAGE)
         } else ActivityCompat.requestPermissions(
             this,
             arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
@@ -136,23 +137,22 @@ class MainActivity : AppCompatActivity() {
         if (perms.values.all { it }) {
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             takePictureIntent.resolveActivity(packageManager).also {
-                startActivityForResult(takePictureIntent, FROM_CAMERA_CODE)
+                startActivityForResult(takePictureIntent, REQUEST_CODE_CAMERA)
             }
         } else ActivityCompat.requestPermissions(
             this,
             arrayOf(
                 android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.CAMERA
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
             ),
-            FROM_STORAGE_CODE
+            FROM_CAMERA_CODE
         )
     }
 
     fun setInfo(item: MenuItem) {
         val intent = Intent(this, Settings::class.java)
         intent.putExtra("ME", me)
-        startActivityForResult(intent, SETTINGS_REQUEST_CODE)
+        startActivityForResult(intent, REQUEST_CODE_SETTINGS)
     }
 
     private fun checkPerms(permission: String): Boolean {
@@ -166,7 +166,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun getInvitation(obj: Me) {
+    private fun setMainInfo(obj: Me) {
         val bDay = birthday(obj.birthday)
         val s = when(bDay % 10){
             1 -> getString(R.string.year)

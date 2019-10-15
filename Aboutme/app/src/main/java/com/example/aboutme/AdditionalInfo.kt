@@ -23,7 +23,7 @@ class AdditionalInfo : AppCompatActivity() {
         setContentView(R.layout.activity_additional_info)
         title = getString(R.string.title_add_info)
 
-        me = intent.getSerializableExtra("ME") as Me
+        me = intent.getSerializableExtra("ADD") as Me
         val map = me.map(this)
 
         ll_add_info.children.forEach {
@@ -36,6 +36,7 @@ class AdditionalInfo : AppCompatActivity() {
                 val name = me.social[it.tag as String?] ?: ""
                 if (name == "") visibility = View.GONE
                 else {
+                    visibility = View.VISIBLE
                     setOnClickListener {
                         goToURL(name)
                     }
