@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         initialize()
 
-        iv_photo.apply {
+        with(iv_photo) {
             if (me.photos.isEmpty()) {
                 setImageDrawable(resources.getDrawable(R.drawable.anonim_photo, resources.newTheme()))
             } else {
@@ -55,9 +55,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         b_info_text.setOnClickListener {
-            val intent = Intent(this, AdditionalInfo::class.java)
-            intent.putExtra("ADD", me)
-            startActivity(intent)
+            startActivity(Intent(this, AdditionalInfo::class.java). apply {
+                putExtra("ADD", me)
+            })
         }
     }
 
