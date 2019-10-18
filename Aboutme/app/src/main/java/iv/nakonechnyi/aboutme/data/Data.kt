@@ -1,4 +1,4 @@
-package com.example.aboutme.data
+package iv.nakonechnyi.aboutme.data
 
 import android.view.View
 import kotlinx.android.synthetic.main.activity_additional_info.view.*

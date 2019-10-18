@@ -1,4 +1,4 @@
-package com.example.aboutme
+package iv.nakonechnyi.aboutme
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -7,7 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.aboutme.data.Me
+import iv.nakonechnyi.aboutme.data.Me
 import java.io.File
 
 

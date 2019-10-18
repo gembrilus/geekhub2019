@@ -1,11 +1,11 @@
-package com.example.aboutme.util
+package iv.nakonechnyi.aboutme.util
 
 import android.content.Context
 import android.graphics.Point
 import android.view.WindowManager
 import android.widget.Toast
-import com.example.aboutme.R
-import com.example.aboutme.data.Me
+import iv.nakonechnyi.aboutme.R
+import iv.nakonechnyi.aboutme.data.Me
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,7 +28,10 @@ fun save(context: Context, file: File, obj: Me) {
         output = ObjectOutputStream(FileOutputStream(file))
         output.writeObject(obj)
     } catch (e: IOException) {
-        showErrorPopup(context, context.getString(R.string.can_not_save_data))
+        showErrorPopup(
+            context,
+            context.getString(R.string.can_not_save_data)
+        )
         e.printStackTrace()
     } finally {
         output?.close()

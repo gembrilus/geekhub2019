@@ -1,4 +1,4 @@
-package com.example.aboutme
+package iv.nakonechnyi.aboutme
 
 import android.content.Intent
 import android.net.Uri
@@ -10,8 +10,8 @@ import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
-import com.example.aboutme.data.Me
-import com.example.aboutme.util.*
+import iv.nakonechnyi.aboutme.data.Me
+import iv.nakonechnyi.aboutme.util.*
 import kotlinx.android.synthetic.main.fragment_info_short.*
 import kotlinx.android.synthetic.main.fragment_info_short.view.*
 import java.io.File
@@ -50,7 +50,8 @@ class ShortInfoFragment : MainFragment() {
                     }
                     adjustViewBounds = true
                     scaleType = ImageView.ScaleType.FIT_CENTER
-                    maxHeight = getDisplaySize(activity as FragmentActivity).x
+                    maxHeight = getDisplaySize(activity as FragmentActivity)
+                        .x
                 }
 
                 b_info_text.setOnClickListener {
@@ -78,15 +79,26 @@ class ShortInfoFragment : MainFragment() {
                 val uri = data.data
                 iv_photo.setImageURI(uri)
                 me.photos = uri.toString()
-                save(activity as FragmentActivity, store_file, me)
+                save(
+                    activity as FragmentActivity,
+                    store_file,
+                    me
+                )
             }
             REQUEST_CODE_CAMERA -> {
                 iv_photo.setImageURI(photoURI)
                 me.photos = photoURI.toString()
-                save(activity as FragmentActivity, store_file, me)
+                save(
+                    activity as FragmentActivity,
+                    store_file,
+                    me
+                )
             }
             else -> {
-                showErrorPopup(activity as FragmentActivity, getString(R.string.no_activity_result))
+                showErrorPopup(
+                    activity as FragmentActivity,
+                    getString(R.string.no_activity_result)
+                )
                 super.onActivityResult(requestCode, resultCode, data)
             }
         }
@@ -166,7 +178,10 @@ class ShortInfoFragment : MainFragment() {
             try {
                 photoFile = createImageFile()
             } catch (ex: IOException) {
-                showErrorPopup(activity as FragmentActivity, getString(R.string.cant_create_file_image))
+                showErrorPopup(
+                    activity as FragmentActivity,
+                    getString(R.string.cant_create_file_image)
+                )
             }
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(

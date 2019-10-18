@@ -1,4 +1,4 @@
-package com.example.aboutme
+package iv.nakonechnyi.aboutme
 
 import android.content.Intent
 import android.net.Uri
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.children
-import com.example.aboutme.data.map
+import iv.nakonechnyi.aboutme.data.map
 import kotlinx.android.synthetic.main.activity_additional_info.view.*
 import kotlinx.android.synthetic.main.part_social.view.*
 

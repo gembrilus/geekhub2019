@@ -1,4 +1,4 @@
-package com.example.aboutme
+package iv.nakonechnyi.aboutme
 
 import android.net.Uri
 import androidx.fragment.app.Fragment

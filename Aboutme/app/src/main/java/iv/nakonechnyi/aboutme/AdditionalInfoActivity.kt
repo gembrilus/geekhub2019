@@ -1,7 +1,6 @@
-package com.example.aboutme
+package iv.nakonechnyi.aboutme
 
 import android.os.Bundle
-
 
 class AdditionalInfoActivity : MainActivity() {
     override fun createFragment() = AdditionalInfoFragment()

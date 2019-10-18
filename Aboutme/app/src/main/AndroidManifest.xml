@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.aboutme">
+    package="iv.nakonechnyi.aboutme">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -14,13 +14,12 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".AdditionalInfoActivity"
-            android:parentActivityName=".MainActivity"></activity>
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".ShortInfoActivity" >
+        <activity android:name="iv.nakonechnyi.aboutme.SettingsActivity"
+            android:parentActivityName="iv.nakonechnyi.aboutme.MainActivity"/>
+        <activity android:name="iv.nakonechnyi.aboutme.AdditionalInfoActivity"
+            android:parentActivityName="iv.nakonechnyi.aboutme.MainActivity"/>
+        <activity android:name="iv.nakonechnyi.aboutme.MainActivity"/>
+        <activity android:name="iv.nakonechnyi.aboutme.ShortInfoActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -28,7 +27,7 @@
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.fileprovider"
+            android:authorities="iv.nakonechnyi.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

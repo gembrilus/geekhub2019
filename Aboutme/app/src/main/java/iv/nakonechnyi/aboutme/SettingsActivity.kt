@@ -1,14 +1,14 @@
-package com.example.aboutme
+package iv.nakonechnyi.aboutme
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import com.example.aboutme.data.Address
-import com.example.aboutme.data.Me
-import com.example.aboutme.util.dateToLong
-import com.example.aboutme.util.dateToString
-import com.example.aboutme.util.save
+import iv.nakonechnyi.aboutme.data.Address
+import iv.nakonechnyi.aboutme.data.Me
+import iv.nakonechnyi.aboutme.util.dateToLong
+import iv.nakonechnyi.aboutme.util.dateToString
+import iv.nakonechnyi.aboutme.util.save
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.part_address_info.*
 import kotlinx.android.synthetic.main.part_interest.*
@@ -52,7 +52,8 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         ib_date.setOnClickListener {
-            DatePickerFragment().show(supportFragmentManager, getString(R.string.choose_a_birthday))
+            DatePickerFragment()
+                .show(supportFragmentManager, getString(R.string.choose_a_birthday))
         }
 
         b_save.setOnClickListener {
@@ -63,10 +64,10 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun fillMe() =
-        Me (
+        Me(
             name = et_name.text.toString(),
             surname = et_surname.text.toString(),
-            sex = if(is_a_man.isChecked) 0 else 1,
+            sex = if (is_a_man.isChecked) 0 else 1,
             birthday = dateToLong(tw_birthday.text.toString()),
             address = Address(
                 country = et_country.text.toString(),
