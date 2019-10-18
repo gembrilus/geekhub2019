@@ -3,4 +3,7 @@
     <item
         android:id="@+id/menu_settings"
         android:title="@string/change_info" />
+    <item
+        android:id="@+id/crash_menu_item"
+        android:title="@string/crash_app"/>
 </menu>

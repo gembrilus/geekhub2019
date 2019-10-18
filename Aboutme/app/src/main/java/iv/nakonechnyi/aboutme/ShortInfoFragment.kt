@@ -10,6 +10,7 @@ import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
+import com.crashlytics.android.Crashlytics
 import iv.nakonechnyi.aboutme.data.Me
 import iv.nakonechnyi.aboutme.util.*
 import kotlinx.android.synthetic.main.fragment_info_short.*
@@ -128,6 +129,7 @@ class ShortInfoFragment : MainFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.menu_settings -> startActivity (Intent(activity, SettingsActivity::class.java))
+            R.id.crash_menu_item -> { Crashlytics.getInstance().crash() }
         }
         return true
     }
@@ -186,7 +188,7 @@ class ShortInfoFragment : MainFragment() {
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(
                     activity as FragmentActivity,
-                    "com.example.fileprovider",
+                    "iv.nakonechnyi.fileprovider",
                     photoFile
                 )
                 picIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)

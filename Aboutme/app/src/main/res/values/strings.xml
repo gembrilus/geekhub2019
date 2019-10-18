@@ -52,4 +52,5 @@
     <string name="welcome_message" translatable="false">%1$s %2$s, %3$d %4$s</string>
     <string name="title_add_info">Дополнительные сведения</string>
     <string name="title_settings">Изменение сведений</string>
+    <string name="crash_app">Крешнуть приложение</string>
 </resources>
