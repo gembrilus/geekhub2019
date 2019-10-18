@@ -52,7 +52,14 @@ class ShortInfoFragment : MainFragment() {
                     }
                     adjustViewBounds = true
                     scaleType = ImageView.ScaleType.FIT_CENTER
-                    maxHeight = getDisplaySize(activity as FragmentActivity).x
+                    maxHeight =
+                        if(getDisplaySize(activity as FragmentActivity) < 500)
+                            (getDisplaySize(activity as FragmentActivity) - 100)
+                        else 500
+                    maxWidth =
+                        if(getDisplaySize(activity as FragmentActivity) < 500)
+                            (getDisplaySize(activity as FragmentActivity) - 100)
+                        else 500
                 }
 
                 b_info_text.setOnClickListener {
@@ -65,6 +72,11 @@ class ShortInfoFragment : MainFragment() {
     override fun onResume() {
         super.onResume()
         setMainInfo(me)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        save( activity as FragmentActivity, store_file, me )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -82,20 +94,20 @@ class ShortInfoFragment : MainFragment() {
                     val uri = data.data
                     iv_photo.setImageURI(uri)
                     me.photos = uri.toString()
-                    save(
-                        activity as FragmentActivity,
-                        store_file,
-                        me
-                    )
+//                    save(
+//                        activity as FragmentActivity,
+//                        store_file,
+//                        me
+//                    )
                 }
                 REQUEST_CODE_CAMERA -> {
                     iv_photo.setImageURI(photoURI)
                     me.photos = photoURI.toString()
-                    save(
-                        activity as FragmentActivity,
-                        store_file,
-                        me
-                    )
+//                    save(
+//                        activity as FragmentActivity,
+//                        store_file,
+//                        me
+//                    )
                 }
             }
         } else {
@@ -113,12 +125,13 @@ class ShortInfoFragment : MainFragment() {
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
         activity?.menuInflater?.inflate(R.menu.context_menu, menu)
+        if(hasCamera) menu.findItem(R.id.from_camera).isEnabled = true
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.from_storage -> getFromStorage()
-            R.id.from_camera -> getFromCamera()
+            R.id.from_camera -> if(hasCamera) getFromCamera()
         }
         return super.onContextItemSelected(item)
     }

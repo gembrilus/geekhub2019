@@ -6,6 +6,7 @@
         android:title="@string/load_from_storage" />
     <item
         android:id="@+id/from_camera"
+        android:enabled="false"
         android:title="@string/get_from_camera" />
 
 

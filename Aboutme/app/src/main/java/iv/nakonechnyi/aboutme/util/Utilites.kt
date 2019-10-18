@@ -9,6 +9,7 @@ import iv.nakonechnyi.aboutme.data.Me
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.min
 
 fun load(file: File): Me {
     var input: ObjectInputStream? = null
@@ -66,7 +67,10 @@ fun dateToString(d: Long): String =
     SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date(d))
 
 
-fun getDisplaySize(context: Context) = Point().also {
-    (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
-        .defaultDisplay.getSize(it)
+fun getDisplaySize(context: Context): Int {
+    val point = Point().also {
+        (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
+            .defaultDisplay.getSize(it)
+    }
+    return min(point.x, point.y)
 }
