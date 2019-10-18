@@ -1,5 +1,6 @@
 package iv.nakonechnyi.aboutme
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -51,8 +52,7 @@ class ShortInfoFragment : MainFragment() {
                     }
                     adjustViewBounds = true
                     scaleType = ImageView.ScaleType.FIT_CENTER
-                    maxHeight = getDisplaySize(activity as FragmentActivity)
-                        .x
+                    maxHeight = getDisplaySize(activity as FragmentActivity).x
                 }
 
                 b_info_text.setOnClickListener {
@@ -74,36 +74,38 @@ class ShortInfoFragment : MainFragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (data == null) return
-        when (requestCode) {
-            REQUEST_CODE_STORAGE -> {
-                val uri = data.data
-                iv_photo.setImageURI(uri)
-                me.photos = uri.toString()
-                save(
-                    activity as FragmentActivity,
-                    store_file,
-                    me
-                )
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_CODE_STORAGE -> {
+                    val uri = data.data
+                    iv_photo.setImageURI(uri)
+                    me.photos = uri.toString()
+                    save(
+                        activity as FragmentActivity,
+                        store_file,
+                        me
+                    )
+                }
+                REQUEST_CODE_CAMERA -> {
+                    iv_photo.setImageURI(photoURI)
+                    me.photos = photoURI.toString()
+                    save(
+                        activity as FragmentActivity,
+                        store_file,
+                        me
+                    )
+                }
             }
-            REQUEST_CODE_CAMERA -> {
-                iv_photo.setImageURI(photoURI)
-                me.photos = photoURI.toString()
-                save(
-                    activity as FragmentActivity,
-                    store_file,
-                    me
-                )
-            }
-            else -> {
-                showErrorPopup(
-                    activity as FragmentActivity,
-                    getString(R.string.no_activity_result)
-                )
-                super.onActivityResult(requestCode, resultCode, data)
-            }
+        } else {
+            showErrorPopup(
+                activity as FragmentActivity,
+                getString(R.string.no_activity_result)
+            )
         }
     }
+
     override fun onCreateContextMenu(
         menu: ContextMenu,
         v: View,
@@ -114,7 +116,7 @@ class ShortInfoFragment : MainFragment() {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.from_storage -> getFromStorage()
             R.id.from_camera -> getFromCamera()
         }
@@ -127,9 +129,11 @@ class ShortInfoFragment : MainFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.menu_settings -> startActivity (Intent(activity, SettingsActivity::class.java))
-            R.id.crash_menu_item -> { Crashlytics.getInstance().crash() }
+        when (item.itemId) {
+            R.id.menu_settings -> startActivity(Intent(activity, SettingsActivity::class.java))
+            R.id.crash_menu_item -> {
+                Crashlytics.getInstance().crash()
+            }
         }
         return true
     }
@@ -163,7 +167,8 @@ class ShortInfoFragment : MainFragment() {
 
     private fun createImageFile(): File {
         val imageFileName = "JPEG_" + Date().time
-        val storageDir = (activity as FragmentActivity).getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir =
+            (activity as FragmentActivity).getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val image = File.createTempFile(
             imageFileName,
             ".jpg",
