@@ -143,7 +143,7 @@ class ShortInfoFragment : MainFragment() {
             val intent = Intent(
                 Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            )
+            ).apply { type = "image/*" }
             startActivityForResult(intent, REQUEST_CODE_STORAGE)
         } else ActivityCompat.requestPermissions(
             activity as FragmentActivity,

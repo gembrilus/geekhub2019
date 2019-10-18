@@ -67,6 +67,7 @@ class SettingsActivity : AppCompatActivity() {
         Me(
             name = et_name.text.toString(),
             surname = et_surname.text.toString(),
+            photos = me.photos,
             sex = if (is_a_man.isChecked) 0 else 1,
             birthday = dateToLong(tw_birthday.text.toString()),
             address = Address(
