@@ -1,6 +1,5 @@
 package com.example.aboutme
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -16,20 +15,17 @@ import kotlinx.android.synthetic.main.part_interest.*
 import kotlinx.android.synthetic.main.part_job_and_study.*
 import kotlinx.android.synthetic.main.part_main_info.*
 import kotlinx.android.synthetic.main.part_social_settings.*
-import java.io.File
 
 
-class Settings : AppCompatActivity() {
-
-    lateinit var me: Me
+class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         title = getString(R.string.title_settings)
 
-        me = intent.getSerializableExtra("ME") as Me
         fillFields()
+
         hided_group1.setOnClickListener {
             if (ll_group1.isVisible) ll_group1.visibility = View.GONE
             else ll_group1.visibility = View.VISIBLE
@@ -61,12 +57,7 @@ class Settings : AppCompatActivity() {
 
         b_save.setOnClickListener {
             me = fillMe()
-            val intent = Intent()
-            intent.putExtra("ME1", me)
-            setResult(10, intent)
-
-            val file = File(filesDir, "me_store")
-            save(this, file, me)
+            save(this, store_file, me)
             finish()
         }
     }

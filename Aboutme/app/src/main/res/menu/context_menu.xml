@@ -3,12 +3,10 @@
 
     <item
         android:id="@+id/from_storage"
-        android:title="@string/load_from_storage"
-        android:onClick="loadFromStorage"/>
+        android:title="@string/load_from_storage" />
     <item
         android:id="@+id/from_camera"
-        android:title="@string/get_from_camera"
-        android:onClick="getFromCamera"/>
+        android:title="@string/get_from_camera" />
 
 
 </menu>

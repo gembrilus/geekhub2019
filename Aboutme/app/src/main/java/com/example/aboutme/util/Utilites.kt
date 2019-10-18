@@ -1,6 +1,5 @@
 package com.example.aboutme.util
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.view.WindowManager
@@ -30,12 +29,14 @@ fun save(context: Context, file: File, obj: Me) {
         output.writeObject(obj)
     } catch (e: IOException) {
         showErrorPopup(context, context.getString(R.string.can_not_save_data))
+        e.printStackTrace()
     } finally {
         output?.close()
     }
 }
 
-fun showErrorPopup(context: Context, s: String) = Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
+fun showErrorPopup(context: Context, s: String) =
+    Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
 
 fun getAge(d: Long): Int {
     val date = Date(d)
@@ -52,21 +53,17 @@ fun getAge(d: Long): Int {
     return a
 }
 
-fun dateToLong(d: String): Long =
-    try {
-        SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).parse(d).time
-    } catch (e: Throwable){
-        0L
-    }
-
-fun dateToString(d: Long): String {
-    val date = Date(d)
-    return SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
+fun dateToLong(d: String): Long = try {
+    SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).parse(d).time
+} catch (e: Throwable) {
+    0L
 }
 
-fun getDisplaySize(context: Activity): Point{
-    val point = Point()
+fun dateToString(d: Long): String =
+    SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date(d))
+
+
+fun getDisplaySize(context: Context) = Point().also {
     (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
-        .defaultDisplay.getSize(point)
-    return point
+        .defaultDisplay.getSize(it)
 }

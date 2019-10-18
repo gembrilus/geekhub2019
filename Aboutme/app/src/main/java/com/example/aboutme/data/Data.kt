@@ -1,8 +1,7 @@
 package com.example.aboutme.data
 
-import android.app.Activity
 import android.view.View
-import kotlinx.android.synthetic.main.activity_additional_info.*
+import kotlinx.android.synthetic.main.activity_additional_info.view.*
 import java.io.Serializable
 
 data class Me(
@@ -10,7 +9,7 @@ data class Me(
     var surname: String = "Македонский",
     var photos: String = "",
     var sex: Int = 0,
-    var birthday: Long = 100000000000L,
+    var birthday: Long = 1000000000000L,
     var address: Address = Address(),
     var works: String = "IT-плиточник",
     var education: String = "инженер-ломастер из Гарварда",
@@ -20,7 +19,9 @@ data class Me(
     var lovingBooks: String = "комиксы",
     var phoneNumber: String = "+102 103 104",
     var email: String = "tuneyadec@uh.ty",
-    var social: Map<String, String> = mapOf("facebook" to "http://zukerberg")
+    var social: Map<String, String> = mapOf(
+        "facebook" to "http://www.facebook.com",
+        "google" to "http://google.com.ua")
 ) : Serializable
 
 data class Address(
@@ -29,8 +30,7 @@ data class Address(
     var address: String = "Загогулько 10, кв. 5"
 ) : Serializable
 
-
-fun Me.map(a: Activity): Map<View, String> {
+fun Me.map(a: View): Map<View, String> {
     return mapOf(
         a.tw_address_info to "${address.country}, ${address.city}, ${address.address}",
         a.tw_work_info to works,

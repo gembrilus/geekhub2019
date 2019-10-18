@@ -17,6 +17,7 @@
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
         android:adjustViewBounds="true"
+        android:elevation="@dimen/elevation"
         android:maxHeight="@dimen/icon_size"
         android:maxWidth="@dimen/icon_size"
         android:src="@drawable/facebook"/>
@@ -30,6 +31,7 @@
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
         android:adjustViewBounds="true"
+        android:elevation="@dimen/elevation"
         android:maxHeight="@dimen/icon_size"
         android:maxWidth="@dimen/icon_size"
         android:src="@drawable/google"/>
@@ -43,6 +45,7 @@
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
         android:adjustViewBounds="true"
+        android:elevation="@dimen/elevation"
         android:maxHeight="@dimen/icon_size"
         android:maxWidth="@dimen/icon_size"
         android:src="@drawable/instagram"/>
@@ -56,6 +59,7 @@
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
         android:adjustViewBounds="true"
+        android:elevation="@dimen/elevation"
         android:maxHeight="@dimen/icon_size"
         android:maxWidth="@dimen/icon_size"
         android:src="@drawable/whatsapp"/>
@@ -69,6 +73,7 @@
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
         android:adjustViewBounds="true"
+        android:elevation="@dimen/elevation"
         android:maxHeight="@dimen/icon_size"
         android:maxWidth="@dimen/icon_size"
         android:src="@drawable/twitter"/>
@@ -80,6 +85,7 @@
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"
         android:adjustViewBounds="true"
+        android:elevation="@dimen/elevation"
         android:maxHeight="@dimen/icon_size"
         android:maxWidth="@dimen/icon_size"
         android:src="@drawable/youtube"/>

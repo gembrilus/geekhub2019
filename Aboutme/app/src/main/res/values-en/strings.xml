@@ -50,4 +50,6 @@
     <string name="was_born">Was born %1$s</string>
     <string name="university">Educational establishments</string>
     <string name="work">Work</string>
+    <string name="title_add_info">Detailed info</string>
+    <string name="title_settings">Change info</string>
 </resources>

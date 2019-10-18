@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,153 +8,107 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding16dp"
-        android:orientation="vertical"
-        tools:context=".AdditionalInfo">
+        android:orientation="vertical">
 
         <TextView
-            android:padding="@dimen/pad8"
+            style="@style/TextView_title_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_sliders"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:textAlignment="textStart"
             android:text="@string/address" />
         <TextView
             android:id="@+id/tw_address_info"
-            android:padding="@dimen/pad8"
-            android:textSize="@dimen/text_size"
+            style="@style/TextView_item_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:padding="@dimen/pad8"
+            style="@style/TextView_title_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_sliders"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:textAlignment="textStart"
             android:layout_marginTop="@dimen/margin"
             android:text="@string/phonenumber"/>
         <TextView
             android:id="@+id/tw_phonenumber_info"
-            android:padding="@dimen/pad8"
-            android:textSize="@dimen/text_size"
+            style="@style/TextView_item_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:padding="@dimen/pad8"
+            style="@style/TextView_title_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_sliders"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:textAlignment="textStart"
             android:layout_marginTop="@dimen/margin"
             android:text="@string/email"/>
         <TextView
             android:id="@+id/tw_email_info"
-            android:padding="@dimen/pad8"
-            android:textSize="@dimen/text_size"
+            style="@style/TextView_item_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:padding="@dimen/pad8"
+            style="@style/TextView_title_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_sliders"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:textAlignment="textStart"
             android:layout_marginTop="@dimen/margin"
             android:text="@string/work"/>
         <TextView
             android:id="@+id/tw_work_info"
-            android:padding="@dimen/pad8"
-            android:textSize="@dimen/text_size"
+            style="@style/TextView_item_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
-            android:padding="@dimen/pad8"
+            style="@style/TextView_title_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_sliders"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:textAlignment="textStart"
             android:layout_marginTop="@dimen/margin"
             android:text="@string/university"/>
         <TextView
             android:id="@+id/tw_study_info"
-            android:padding="@dimen/pad8"
-            android:textSize="@dimen/text_size"
+            style="@style/TextView_item_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:padding="@dimen/pad8"
+            style="@style/TextView_title_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_sliders"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:textAlignment="textStart"
             android:layout_marginTop="@dimen/margin"
             android:text="@string/loving_hobbis"/>
         <TextView
             android:id="@+id/tw_hobbies_info"
-            android:padding="@dimen/pad8"
-            android:textSize="@dimen/text_size"
+            style="@style/TextView_item_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:padding="@dimen/pad8"
+            style="@style/TextView_title_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_sliders"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:textAlignment="textStart"
             android:layout_marginTop="@dimen/margin"
             android:text="@string/loving_books"/>
         <TextView
             android:id="@+id/tw_loving_books_info"
-            android:padding="@dimen/pad8"
-            android:textSize="@dimen/text_size"
+            style="@style/TextView_item_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:padding="@dimen/pad8"
+            style="@style/TextView_title_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_sliders"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:textAlignment="textStart"
             android:layout_marginTop="@dimen/margin"
             android:text="@string/loving_movies"/>
         <TextView
             android:id="@+id/tw_loving_movies_info"
-            android:padding="@dimen/pad8"
-            android:textSize="@dimen/text_size"
+            style="@style/TextView_item_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:padding="@dimen/pad8"
+            style="@style/TextView_title_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_sliders"
-            android:textStyle="bold"
-            android:typeface="sans"
-            android:textAlignment="textStart"
             android:layout_marginTop="@dimen/margin"
             android:text="@string/loving_music"/>
         <TextView
             android:id="@+id/tw_loving_music_info"
-            android:padding="@dimen/pad8"
-            android:textSize="@dimen/text_size"
+            style="@style/TextView_item_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

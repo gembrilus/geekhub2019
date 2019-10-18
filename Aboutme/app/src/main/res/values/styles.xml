@@ -8,4 +8,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextView_title_style">
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/color_sliders</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:padding">@dimen/pad8</item>
+    </style>
+
+    <style name="TextView_item_style">
+        <item name="android:textSize">@dimen/text_size</item>
+        <item name="android:padding">@dimen/pad8</item>
+    </style>
+
 </resources>
