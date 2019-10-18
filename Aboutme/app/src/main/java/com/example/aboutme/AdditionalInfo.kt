@@ -45,9 +45,7 @@ class AdditionalInfo : AppCompatActivity() {
         }
     }
 
-    private fun goToURL(url: String){
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        startActivity(intent)
-    }
+    private fun goToURL(url: String) =
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 
 }

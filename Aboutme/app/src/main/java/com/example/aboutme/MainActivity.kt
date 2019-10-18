@@ -1,7 +1,7 @@
 package com.example.aboutme
 
+import android.app.Activity
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -45,7 +45,12 @@ class MainActivity : AppCompatActivity() {
 
         with(iv_photo) {
             if (me.photos.isEmpty()) {
-                setImageDrawable(resources.getDrawable(R.drawable.anonim_photo, resources.newTheme()))
+                setImageDrawable(
+                    resources.getDrawable(
+                        R.drawable.anonim_photo,
+                        resources.newTheme()
+                    )
+                )
             } else {
                 setImageURI(Uri.parse(me.photos))
             }
@@ -55,14 +60,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         b_info_text.setOnClickListener {
-            startActivity(Intent(this, AdditionalInfo::class.java). apply {
+            startActivity(Intent(this, AdditionalInfo::class.java).apply {
                 putExtra("ADD", me)
             })
         }
     }
 
     private fun initialize() {
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED;
         perms = mutableMapOf(
             android.Manifest.permission.READ_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.READ_EXTERNAL_STORAGE),
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE to checkPerms(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -101,6 +105,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data == null) return
+        if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_SETTINGS -> {
                     me = data.getSerializableExtra("ME1") as Me
@@ -117,10 +122,8 @@ class MainActivity : AppCompatActivity() {
                     me.photos = photoURI.toString()
                     save(this, store_file, me)
                 }
-                else -> {
-                    showErrorPopup(this, getString(R.string.no_activity_result))
-                }
-        }
+            }
+        } else showErrorPopup(this, getString(R.string.no_activity_result))
     }
 
     fun loadFromStorage(item: MenuItem) {
@@ -150,26 +153,17 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    fun setInfo(item: MenuItem) {
-        val intent = Intent(this, Settings::class.java)
-        intent.putExtra("ME", me)
-        startActivityForResult(intent, REQUEST_CODE_SETTINGS)
-    }
+    fun setInfo(item: MenuItem) = startActivityForResult(
+        Intent(this, Settings::class.java).apply {
+            putExtra("ME", me)
+        }, REQUEST_CODE_SETTINGS)
 
-    private fun checkPerms(permission: String): Boolean {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                permission
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return false
-        }
-        return true
-    }
+    private fun checkPerms(permission: String) =
+        ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
 
     private fun setMainInfo(obj: Me) {
         val age = getAge(obj.birthday)
-        val s = when(age % 10){
+        val s = when (age % 10) {
             1 -> getString(R.string.year)
             in 2..4 -> getString(R.string.years)
             else -> getString(R.string.years2)
@@ -181,34 +175,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun createImageFile(): File {
-        val imageFileName = "JPEG_" + Date().time
-        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val image = File.createTempFile(
-            imageFileName,
+            "JPEG_" + Date().time,
             ".jpg",
-            storageDir
+            getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         )
         photoPath = image.absolutePath
         return image
     }
 
-    private fun getPictureIntent() {
-        val picIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        picIntent.resolveActivity(packageManager).also {
+    private fun getPictureIntent() = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+        resolveActivity(packageManager).also {
             var photoFile: File? = null
             try {
                 photoFile = createImageFile()
             } catch (ex: IOException) {
-                showErrorPopup(this, getString(R.string.cant_create_file_image))
+                showErrorPopup(this@MainActivity, getString(R.string.cant_create_file_image))
             }
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(
-                    this,
+                    this@MainActivity,
                     "com.example.fileprovider",
                     photoFile
                 )
-                picIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(picIntent, REQUEST_CODE_CAMERA)
+                putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                startActivityForResult(this, REQUEST_CODE_CAMERA)
             }
         }
     }

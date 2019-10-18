@@ -1,5 +1,6 @@
 package com.example.aboutme
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -61,12 +62,8 @@ class Settings : AppCompatActivity() {
 
         b_save.setOnClickListener {
             me = fillMe()
-            val intent = Intent()
-            intent.putExtra("ME1", me)
-            setResult(10, intent)
-
-            val file = File(filesDir, "me_store")
-            save(this, file, me)
+            setResult(Activity.RESULT_OK, Intent().apply { putExtra("ME1", me) })
+            save(this, File(filesDir, "me_store"), me)
             finish()
         }
     }
