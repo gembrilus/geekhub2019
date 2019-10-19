@@ -3,24 +3,24 @@ package iv.nakonechnyi.aboutme
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import iv.nakonechnyi.aboutme.data.Me
 import java.io.File
 
-
 internal lateinit var perms: MutableMap<String, Boolean>
 internal lateinit var store_file: File
 internal lateinit var me: Me
-internal val fileName = "me_store"
+internal val fileName: String get() = "me_store"
 
 abstract class MainActivity : AppCompatActivity() {
 
+    protected abstract fun createFragment(): Fragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getLayout())
+        setContentView(R.layout.activity_main)
 
         store_file = File(filesDir, fileName)
 
@@ -48,17 +48,6 @@ abstract class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun checkPerms(permission: String): Boolean {
-        if (ContextCompat.checkSelfPermission(
-                    this,
-                    permission
-                ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return false
-        }
-        return true
-    }
-
-    protected abstract fun createFragment(): Fragment
-    @LayoutRes protected open fun getLayout() = R.layout.activity_main
+    private fun checkPerms(permission: String) =
+        ContextCompat.checkSelfPermission(this, permission ) == PackageManager.PERMISSION_GRANTED
 }

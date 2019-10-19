@@ -13,8 +13,7 @@ open class MainFragment : Fragment(){
     protected val REQUEST_CODE_STORAGE = 30
     protected val FROM_STORAGE_CODE = 1
     protected val FROM_CAMERA_CODE = 2
-    protected var hasCamera: Boolean = false
-
+    protected var hasCamera = true
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

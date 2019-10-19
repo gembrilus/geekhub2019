@@ -7,14 +7,12 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.*
-import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentActivity
 import com.crashlytics.android.Crashlytics
 import iv.nakonechnyi.aboutme.data.Me
 import iv.nakonechnyi.aboutme.util.*
-import kotlinx.android.synthetic.main.fragment_info_short.*
 import kotlinx.android.synthetic.main.fragment_info_short.view.*
 import java.io.File
 import java.io.IOException
@@ -24,7 +22,6 @@ import java.util.*
 class ShortInfoFragment : MainFragment() {
 
     private lateinit var vShortInfo: View
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,31 +34,7 @@ class ShortInfoFragment : MainFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        vShortInfo = inflater.inflate(R.layout.fragment_info_short, container, false)
-            .apply {
-                with(iv_photo) {
-                    if (me.photos.isEmpty()) {
-                        setImageDrawable(
-                            resources.getDrawable(
-                                R.drawable.anonim_photo,
-                                resources.newTheme()
-                            )
-                        )
-                    } else {
-                        setImageURI(Uri.parse(me.photos))
-                    }
-                    adjustViewBounds = true
-                    scaleType = ImageView.ScaleType.FIT_CENTER
-                    maxHeight =
-                        if(getDisplaySize(activity as FragmentActivity) < 500)
-                            (getDisplaySize(activity as FragmentActivity) - 100)
-                        else 500
-                    maxWidth =
-                        if(getDisplaySize(activity as FragmentActivity) < 500)
-                            (getDisplaySize(activity as FragmentActivity) - 100)
-                        else 500
-                }
-
+        vShortInfo = inflater.inflate(R.layout.fragment_info_short, container, false).apply {
                 b_info_text.setOnClickListener {
                     startActivity(Intent(activity, AdditionalInfoActivity::class.java))
                 }
@@ -87,27 +60,21 @@ class ShortInfoFragment : MainFragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data == null) return
+//        if (data == null) return
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_STORAGE -> {
-                    val uri = data.data
-                    iv_photo.setImageURI(uri)
+                    val uri = data?.data ?: return
+                    vShortInfo.iv_photo.setImageURI(uri)
                     me.photos = uri.toString()
-//                    save(
-//                        activity as FragmentActivity,
-//                        store_file,
-//                        me
-//                    )
                 }
                 REQUEST_CODE_CAMERA -> {
-                    iv_photo.setImageURI(photoURI)
-                    me.photos = photoURI.toString()
-//                    save(
-//                        activity as FragmentActivity,
-//                        store_file,
-//                        me
-//                    )
+                    resizeImage(
+                        photoPath,
+                        getDisplaySize(activity as FragmentActivity).y,
+                        getDisplaySize(activity as FragmentActivity).x)
+                    vShortInfo.iv_photo.setImageURI(Uri.parse(photoPath))
+                    me.photos = photoPath
                 }
             }
         } else {
@@ -181,7 +148,7 @@ class ShortInfoFragment : MainFragment() {
     private fun createImageFile(): File {
         val imageFileName = "JPEG_" + Date().time
         val storageDir =
-            (activity as FragmentActivity).getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+            activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val image = File.createTempFile(
             imageFileName,
             ".jpg",
@@ -206,10 +173,16 @@ class ShortInfoFragment : MainFragment() {
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(
                     activity as FragmentActivity,
-                    "iv.nakonechnyi.fileprovider",
+                    getString(R.string.fileprovider_authority),
                     photoFile
                 )
                 picIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                activity?.grantUriPermission(
+                    it.packageName,
+                    photoURI,
+                    (Intent.FLAG_GRANT_WRITE_URI_PERMISSION) ) ?: showErrorPopup(activity!!, getString(
+                                        R.string.no_suitable_app))
+
                 startActivityForResult(picIntent, REQUEST_CODE_CAMERA)
             }
         }
@@ -222,10 +195,24 @@ class ShortInfoFragment : MainFragment() {
             in 2..4 -> getString(R.string.years)
             else -> getString(R.string.years2)
         }
+        updateImage()
         vShortInfo.tw_invitation.text =
             getString(R.string.welcome_message, obj.name, obj.surname, age, s)
         val date = obj.birthday
         val localDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
         vShortInfo.birthday.text = getString(R.string.was_born, localDate)
+    }
+
+    private fun updateImage(){
+        with(vShortInfo.iv_photo) {
+            if (me.photos.isEmpty()) {
+                setImageDrawable(
+                    resources.getDrawable(
+                        R.drawable.anonim_photo,
+                        resources.newTheme()
+                    )
+                )
+            } else setImageURI(Uri.parse(me.photos))
+        }
     }
 }

@@ -1,6 +1,8 @@
 package iv.nakonechnyi.aboutme.util
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.view.WindowManager
 import android.widget.Toast
@@ -9,7 +11,6 @@ import iv.nakonechnyi.aboutme.data.Me
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.min
 
 fun load(file: File): Me {
     var input: ObjectInputStream? = null
@@ -33,7 +34,6 @@ fun save(context: Context, file: File, obj: Me) {
             context,
             context.getString(R.string.can_not_save_data)
         )
-        e.printStackTrace()
     } finally {
         output?.close()
     }
@@ -67,10 +67,26 @@ fun dateToString(d: Long): String =
     SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date(d))
 
 
-fun getDisplaySize(context: Context): Int {
-    val point = Point().also {
+fun getDisplaySize(context: Context) = Point().also {
         (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
             .defaultDisplay.getSize(it)
     }
-    return min(point.x, point.y)
+
+fun resizeImage(image: String, devWidth: Int, devHeight: Int): Bitmap {
+    var inSampleSize = 1;
+    var options = BitmapFactory.Options().apply {
+        inJustDecodeBounds = true
+    }
+    BitmapFactory.decodeFile(image, options)
+    val srcWidth = options.outWidth
+    val srcHeight = options.outHeight;
+
+    if (srcHeight > devHeight || srcWidth > devWidth) {
+        val heightScale = 1f * srcHeight / devHeight;
+        val widthScale = 1f * srcWidth / devWidth;
+        inSampleSize = Math.round(if(heightScale > widthScale) heightScale else widthScale)
+    }
+    options = BitmapFactory.Options()
+    options.inSampleSize = inSampleSize;
+    return BitmapFactory.decodeFile(image, options)
 }
