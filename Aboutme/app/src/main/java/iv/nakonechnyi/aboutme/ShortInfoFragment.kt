@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.*
+import android.widget.FrameLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -31,6 +32,7 @@ class ShortInfoFragment : Fragment() {
     private val FROM_STORAGE_CODE = 1
     private val FROM_CAMERA_CODE = 2
     private var hasCamera = false
+    private var mDualPane = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +64,20 @@ class ShortInfoFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         save( activity as FragmentActivity, store_file, me )
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mDualPane = activity?.findViewById<FrameLayout>(R.id.activity_main2).run {
+            this != null && visibility == View.VISIBLE
+        }
+
+        if (mDualPane) {
+            vShortInfo.b_info_text.visibility = View.GONE
+            showAddInfo()
+        }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -218,5 +234,14 @@ class ShortInfoFragment : Fragment() {
                 )
             } else setImageURI(Uri.parse(me.photos))
         }
+    }
+
+    private fun showAddInfo(){
+        fragmentManager?.findFragmentById(R.id.activity_main2).also {
+            it ?: fragmentManager!!.beginTransaction()
+                .add(R.id.activity_main2, AdditionalInfoFragment())
+                .commit()
+        }
+
     }
 }
