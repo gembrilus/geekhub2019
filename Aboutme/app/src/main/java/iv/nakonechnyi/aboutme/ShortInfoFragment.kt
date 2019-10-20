@@ -2,6 +2,7 @@ package iv.nakonechnyi.aboutme
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -9,6 +10,7 @@ import android.provider.MediaStore
 import android.view.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.crashlytics.android.Crashlytics
 import iv.nakonechnyi.aboutme.data.Me
@@ -19,9 +21,16 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ShortInfoFragment : MainFragment() {
+class ShortInfoFragment : Fragment() {
 
     private lateinit var vShortInfo: View
+    private lateinit var photoPath: String
+    private lateinit var photoURI: Uri
+    private val REQUEST_CODE_CAMERA = 20
+    private val REQUEST_CODE_STORAGE = 30
+    private val FROM_STORAGE_CODE = 1
+    private val FROM_CAMERA_CODE = 2
+    private var hasCamera = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +48,9 @@ class ShortInfoFragment : MainFragment() {
                     startActivity(Intent(activity, AdditionalInfoActivity::class.java))
                 }
             }
+        setMainInfo(me)
+        registerForContextMenu(vShortInfo)
+        hasCamera = (activity as FragmentActivity).packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
         return vShortInfo
     }
 
@@ -52,15 +64,8 @@ class ShortInfoFragment : MainFragment() {
         save( activity as FragmentActivity, store_file, me )
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        setMainInfo(me)
-        registerForContextMenu(vShortInfo)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (data == null) return
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_STORAGE -> {
@@ -75,13 +80,12 @@ class ShortInfoFragment : MainFragment() {
                         getDisplaySize(activity as FragmentActivity).x)
                     vShortInfo.iv_photo.setImageURI(Uri.parse(photoPath))
                     me.photos = photoPath
+                    activity?.revokeUriPermission(
+                        photoURI,
+                        (Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    )
                 }
             }
-        } else {
-            showErrorPopup(
-                activity as FragmentActivity,
-                getString(R.string.no_activity_result)
-            )
         }
     }
 
@@ -180,7 +184,7 @@ class ShortInfoFragment : MainFragment() {
                 activity?.grantUriPermission(
                     it.packageName,
                     photoURI,
-                    (Intent.FLAG_GRANT_WRITE_URI_PERMISSION) ) ?: showErrorPopup(activity!!, getString(
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION ) ?: showErrorPopup(activity!!, getString(
                                         R.string.no_suitable_app))
 
                 startActivityForResult(picIntent, REQUEST_CODE_CAMERA)

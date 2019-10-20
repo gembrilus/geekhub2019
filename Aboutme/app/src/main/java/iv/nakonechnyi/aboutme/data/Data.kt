@@ -17,7 +17,7 @@ data class Me(
     var lovingMovies: String = "Звездные врата",
     var lovingMusic: String = "под настроение",
     var lovingBooks: String = "комиксы",
-    var phoneNumber: String = "+102 103 104",
+    var phoneNumber: String = "+102103104",
     var email: String = "tuneyadec@uh.ty",
     var social: Map<String, String> = mapOf(
         "facebook" to "http://www.facebook.com",

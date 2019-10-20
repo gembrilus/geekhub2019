@@ -11,83 +11,61 @@
     <ImageButton
         android:id="@+id/facebook"
         android:tag="facebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Aboutme_icon_style"
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
-        android:adjustViewBounds="true"
         android:elevation="@dimen/elevation"
-        android:maxHeight="@dimen/icon_size"
-        android:maxWidth="@dimen/icon_size"
         android:src="@drawable/facebook"/>
 
     <ImageButton
         android:id="@+id/google"
         android:tag="google"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Aboutme_icon_style"
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
         android:adjustViewBounds="true"
         android:elevation="@dimen/elevation"
-        android:maxHeight="@dimen/icon_size"
-        android:maxWidth="@dimen/icon_size"
         android:src="@drawable/google"/>
 
     <ImageButton
         android:id="@+id/instagram"
         android:tag="instagram"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Aboutme_icon_style"
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
-        android:adjustViewBounds="true"
         android:elevation="@dimen/elevation"
-        android:maxHeight="@dimen/icon_size"
-        android:maxWidth="@dimen/icon_size"
         android:src="@drawable/instagram"/>
 
     <ImageButton
         android:id="@+id/whatsapp"
         android:tag="whatsapp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Aboutme_icon_style"
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
-        android:adjustViewBounds="true"
         android:elevation="@dimen/elevation"
-        android:maxHeight="@dimen/icon_size"
-        android:maxWidth="@dimen/icon_size"
         android:src="@drawable/whatsapp"/>
 
     <ImageButton
         android:id="@+id/twitter"
         android:tag="twitter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/Aboutme_icon_style"
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
-        android:adjustViewBounds="true"
         android:elevation="@dimen/elevation"
-        android:maxHeight="@dimen/icon_size"
-        android:maxWidth="@dimen/icon_size"
         android:src="@drawable/twitter"/>
 
     <ImageButton
         android:id="@+id/youtube"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:tag="youtube"
+        style="@style/Aboutme_icon_style"
         android:layout_marginTop="@dimen/margin"
         android:layout_marginBottom="@dimen/margin"
-        android:adjustViewBounds="true"
         android:elevation="@dimen/elevation"
-        android:maxHeight="@dimen/icon_size"
-        android:maxWidth="@dimen/icon_size"
         android:src="@drawable/youtube"/>
 
 </LinearLayout>
