@@ -11,6 +11,16 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/hided_group0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_sliders"
+            android:text="Фото"
+            android:textAlignment="center" />
+
+        <include layout="@layout/part_photo_picker"/>
+
+        <Button
             android:id="@+id/hided_group1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

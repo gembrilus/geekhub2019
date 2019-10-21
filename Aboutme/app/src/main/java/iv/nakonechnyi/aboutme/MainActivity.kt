@@ -37,17 +37,6 @@ abstract class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        grantResults.forEachIndexed { index, i ->
-            perms[permissions[index]] =
-                i == PackageManager.PERMISSION_GRANTED
-        }
-    }
-
     private fun checkPerms(permission: String) =
         ContextCompat.checkSelfPermission(this, permission ) == PackageManager.PERMISSION_GRANTED
 }

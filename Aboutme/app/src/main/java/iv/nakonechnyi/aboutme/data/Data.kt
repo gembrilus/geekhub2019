@@ -7,7 +7,7 @@ import java.io.Serializable
 data class Me(
     var name: String = "Шайтан",
     var surname: String = "Македонский",
-    var photos: String = "",
+    var photos: MutableList<String> = mutableListOf(),
     var sex: Int = 0,
     var birthday: Long = 1000000000000L,
     var address: Address = Address(),

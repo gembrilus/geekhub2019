@@ -9,8 +9,5 @@ class ShortInfoActivity : MainActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = getString(R.string.app_name)
-
-
-
     }
 }
