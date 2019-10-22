@@ -12,7 +12,7 @@
     <string name="man">Мужчина</string>
     <string name="woman">Женщина</string>
     <string name="birthday">Дата рождения</string>
-    <string name="was_born">Родился %1$s</string>
+    <string name="was_born">родился %1$s</string>
     <string name="age">Возраст</string>
     <string name="country">Страна проживания</string>
     <string name="city">Город проживания</string>
@@ -49,7 +49,18 @@
     <string name="work">Работа</string>
     <string name="university">Учебные заведения</string>
     <string name="loving_hobbis">Любимы занятия, хобби</string>
-    <string name="welcome_message">%1$s %2$s, %3$d %4$s</string>
+    <string name="welcome_message" translatable="false">%1$s %2$s, %3$d %4$s</string>
     <string name="title_add_info">Дополнительные сведения</string>
     <string name="title_settings">Изменение сведений</string>
+    <string name="crash_app">Крешнуть приложение</string>
+    <string name="personal_photo">Личное фото</string>
+    <string name="no_suitable_app">Не найдено подходящее приложение</string>
+    <string name="fileprovider_authority" translatable="false">iv.nakonechnyi.aboutme.fileprovider</string>
+    <string name="choose_source">Выберите источник</string>
+    <string name="personal_photos">Личные фото</string>
+
+    <string-array name="dialog_items">
+        <item>@string/load_from_storage</item>
+        <item>@string/get_from_camera</item>
+    </string-array>
 </resources>

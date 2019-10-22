@@ -3,12 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Settings">
+    tools:context="iv.nakonechnyi.aboutme.SettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <Button
+            android:id="@+id/hided_group0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_sliders"
+            android:text="@string/personal_photos"
+            android:textAlignment="center" />
+
+        <include layout="@layout/part_photo_picker"/>
 
         <Button
             android:id="@+id/hided_group1"

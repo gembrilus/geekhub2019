@@ -6,4 +6,6 @@
     <dimen name="icon_size">48dp</dimen>
     <dimen name="icon_size32dp">32dp</dimen>
     <dimen name="padding16dp">16dp</dimen>
+    <dimen name="elevation">8dp</dimen>
+    <dimen name="margin8dp">8dp</dimen>
 </resources>
