@@ -1,5 +1,6 @@
-package iv.nakonechnyi.aboutme
+package iv.nakonechnyi.aboutme.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.crashlytics.android.Crashlytics
+import iv.nakonechnyi.aboutme.*
 import iv.nakonechnyi.aboutme.data.Me
 import iv.nakonechnyi.aboutme.util.getAge
 import iv.nakonechnyi.aboutme.util.load
@@ -19,8 +21,8 @@ import java.util.*
 
 class ShortInfoFragment : Fragment() {
 
+    private val REQUEST_CODE_PHOTOSHOW = 40
     private lateinit var vShortInfo: View
-
     private var mDualPane = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,10 +37,16 @@ class ShortInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         vShortInfo = inflater.inflate(R.layout.fragment_info_short, container, false).apply {
-                b_info_text.setOnClickListener {
-                    startActivity(Intent(activity, AdditionalInfoActivity::class.java))
-                }
+            b_info_text.setOnClickListener {
+                startActivity(Intent(activity, AdditionalInfoActivity::class.java))
             }
+            iv_photo.setOnClickListener {
+                startActivityForResult(
+                    Intent(activity, PhotoShowActivity::class.java),
+                    REQUEST_CODE_PHOTOSHOW
+                )
+            }
+        }
         setMainInfo(me)
         return vShortInfo
     }
@@ -50,7 +58,10 @@ class ShortInfoFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        save( activity as FragmentActivity, store_file, me )
+        save(activity as FragmentActivity,
+            store_file,
+            me
+        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -80,6 +91,20 @@ class ShortInfoFragment : Fragment() {
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                REQUEST_CODE_PHOTOSHOW -> {
+                    val s = data?.extras?.getString("STRING1") ?: return
+                    me.photos.remove(s)
+                    me.photos.add(1, s)
+                    updateImage()
+                }
+            }
+        }
+    }
+
     private fun setMainInfo(obj: Me) {
         val age = getAge(obj.birthday)
         val s = when (age % 10) {
@@ -95,10 +120,12 @@ class ShortInfoFragment : Fragment() {
         vShortInfo.birthday.text = getString(R.string.was_born, localDate)
     }
 
-    private fun updateImage(){
+    private fun updateImage() {
         with(vShortInfo.iv_photo) {
-            val s = resourceToUri(activity as FragmentActivity, R.drawable.add).toString()
-            if(!me.photos.contains(s)) me.photos.add(0, s)
+            val s = resourceToUri(activity as FragmentActivity,
+                R.drawable.add
+            ).toString()
+            if (!me.photos.contains(s)) me.photos.add(0, s)
             if (me.photos.size <= 1) {
                 setImageResource(R.drawable.anonim_photo)
             } else {
@@ -107,10 +134,13 @@ class ShortInfoFragment : Fragment() {
         }
     }
 
-    private fun showAddInfo(){
+    private fun showAddInfo() {
         fragmentManager?.findFragmentById(R.id.activity_main2).also {
             it ?: fragmentManager!!.beginTransaction()
-                .add(R.id.activity_main2, AdditionalInfoFragment())
+                .add(
+                    R.id.activity_main2,
+                    AdditionalInfoFragment()
+                )
                 .commit()
         }
 

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_sliders"
-            android:text="Фото"
+            android:text="@string/personal_photos"
             android:textAlignment="center" />
 
         <include layout="@layout/part_photo_picker"/>

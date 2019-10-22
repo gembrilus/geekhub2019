@@ -3,5 +3,7 @@
     android:id="@+id/item_image"
     android:layout_width="72dp"
     android:layout_height="72dp"
+    android:layout_margin="@dimen/margin8dp"
+    android:background="@drawable/image_border"
     android:adjustViewBounds="true"
     android:scaleType="fitCenter" />

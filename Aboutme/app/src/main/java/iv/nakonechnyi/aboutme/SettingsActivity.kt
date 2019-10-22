@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iv.nakonechnyi.aboutme.data.Address
 import iv.nakonechnyi.aboutme.data.Me
+import iv.nakonechnyi.aboutme.fragments.DatePickerFragment
 import iv.nakonechnyi.aboutme.util.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.part_address_info.*
@@ -124,7 +125,7 @@ class SettingsActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CODE_STORAGE -> {
-                    val uri = data?.data
+                    val uri = data?.data ?: return
                     me.photos.add(uri.toString())
                 }
                 REQUEST_CODE_CAMERA -> {
@@ -133,7 +134,6 @@ class SettingsActivity : AppCompatActivity() {
                         getDisplaySize(this).y,
                         getDisplaySize(this).x)
                     me.photos.add(photoPath)
-                    recyclerView.adapter?.notifyDataSetChanged()
                     revokeUriPermission(
                         photoURI,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION
@@ -141,6 +141,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             }
         }
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onRequestPermissionsResult(

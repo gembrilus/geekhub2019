@@ -1,4 +1,4 @@
-package iv.nakonechnyi.aboutme
+package iv.nakonechnyi.aboutme.fragments
 
 import android.app.DatePickerDialog
 import android.app.Dialog
@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import iv.nakonechnyi.aboutme.R
 import kotlinx.android.synthetic.main.part_main_info.*
 import java.text.SimpleDateFormat
 import java.util.*

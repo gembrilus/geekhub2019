@@ -20,16 +20,14 @@ class MyRecycleAdapter(private val mPhotos: List<String>):
     override fun getItemCount() = mPhotos.size
 
     override fun onBindViewHolder(holder: ImageHolder, position: Int) {
-        holder.imageView.setImageURI(Uri.parse(mPhotos[position]))
+        (holder.itemView as ImageView).setImageURI(Uri.parse(mPhotos[position]))
     }
 
-    inner class ImageHolder(var imageView: ImageView): RecyclerView.ViewHolder(imageView), View.OnClickListener{
-
+    inner class ImageHolder(imageView: ImageView): RecyclerView.ViewHolder(imageView), View.OnClickListener{
         init {itemView.setOnClickListener(this)}
-
-        override fun onClick(p0: View?) {
+        override fun onClick(view: View?) {
             if(adapterPosition != 0) return
-            p0?.let { clickListener.onItemClick(adapterPosition, it) }
+            view?.let { clickListener.onItemClick(adapterPosition, it) }
         }
     }
 }

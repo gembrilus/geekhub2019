@@ -1,6 +1,7 @@
 package iv.nakonechnyi.aboutme
 
 import android.os.Bundle
+import iv.nakonechnyi.aboutme.fragments.AdditionalInfoFragment
 
 class AdditionalInfoActivity : MainActivity() {
 

@@ -25,6 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PhotoShowActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="iv.nakonechnyi.aboutme.fileprovider"

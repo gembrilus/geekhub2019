@@ -55,4 +55,6 @@
     <string name="crash_app">Crash app</string>
     <string name="personal_photo">Personal photo</string>
     <string name="no_suitable_app">No suitable application found</string>
+    <string name="choose_source">Choose source</string>
+    <string name="personal_photos">Personal photos</string>
 </resources>

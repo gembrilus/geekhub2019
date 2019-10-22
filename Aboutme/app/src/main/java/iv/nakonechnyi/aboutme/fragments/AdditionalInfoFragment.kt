@@ -1,4 +1,4 @@
-package iv.nakonechnyi.aboutme
+package iv.nakonechnyi.aboutme.fragments
 
 import android.content.Intent
 import android.net.Uri
@@ -10,7 +10,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import iv.nakonechnyi.aboutme.R
 import iv.nakonechnyi.aboutme.data.map
+import iv.nakonechnyi.aboutme.me
 import kotlinx.android.synthetic.main.activity_additional_info.view.*
 import kotlinx.android.synthetic.main.part_social.view.*
 

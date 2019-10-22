@@ -56,7 +56,8 @@
     <string name="personal_photo">Личное фото</string>
     <string name="no_suitable_app">Не найдено подходящее приложение</string>
     <string name="fileprovider_authority" translatable="false">iv.nakonechnyi.aboutme.fileprovider</string>
-    <string name="choose_source">Выберите источник:</string>
+    <string name="choose_source">Выберите источник</string>
+    <string name="personal_photos">Личные фото</string>
 
     <string-array name="dialog_items">
         <item>@string/load_from_storage</item>
