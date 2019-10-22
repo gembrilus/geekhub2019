@@ -33,7 +33,7 @@ class AdditionalInfoFragment : Fragment() {
                     startActivity(Intent(Intent.ACTION_SEND).apply {
                         putExtra(Intent.EXTRA_EMAIL, arrayOf(tw_email_info.text.toString()))
                         putExtra(Intent.EXTRA_SUBJECT, "")
-                        putExtra(Intent.EXTRA_TEXT, "Привет, амиго!")
+                        putExtra(Intent.EXTRA_TEXT, context.getString(R.string.hello_amigo))
                         type = "message/rfc822"
                     })
                 }
