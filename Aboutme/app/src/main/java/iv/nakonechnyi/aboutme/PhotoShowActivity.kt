@@ -30,6 +30,6 @@ class PhotoShowActivity : AppCompatActivity() {
     private inner class PagerAdapter(fm: FragmentManager) :
         FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         override fun getCount() = NUM_PAGES
-        override fun getItem(position: Int) = PagerFragment(position)
+        override fun getItem(position: Int) = PagerFragment.newInstance(position)
     }
 }
