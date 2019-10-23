@@ -26,6 +26,9 @@ import kotlinx.android.synthetic.main.part_job_and_study.*
 import kotlinx.android.synthetic.main.part_main_info.*
 import kotlinx.android.synthetic.main.part_photo_picker.*
 import kotlinx.android.synthetic.main.part_social_settings.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -114,8 +117,10 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         b_save.setOnClickListener {
-            me = fillMe()
-            save(this, store_file, me)
+            GlobalScope.launch {
+                me = fillMe()
+                save(this@SettingsActivity, store_file, me)
+            }
             finish()
         }
     }
@@ -218,24 +223,38 @@ class SettingsActivity : AppCompatActivity() {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             ).apply { type = "image/*" }
             startActivityForResult(intent, REQUEST_CODE_STORAGE)
-        } else ActivityCompat.requestPermissions(
-            this,
-            arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-            FROM_STORAGE_CODE
-        )
+        } else {
+            GlobalScope.launch {
+                runBlocking {
+                    ActivityCompat.requestPermissions(
+                        this@SettingsActivity,
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        FROM_STORAGE_CODE
+                    )
+                }
+                getFromStorage()
+            }
+        }
     }
 
     private fun getFromCamera() {
         if (perms.values.all { it }) {
             getPictureIntent()
-        } else ActivityCompat.requestPermissions(
-            this,
-            arrayOf(
-                android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ),
-            FROM_CAMERA_CODE
-        )
+        } else {
+            GlobalScope.launch {
+                runBlocking {
+                    ActivityCompat.requestPermissions(
+                        this@SettingsActivity,
+                        arrayOf(
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        ),
+                        FROM_CAMERA_CODE
+                    )
+                }
+                getFromCamera()
+            }
+        }
     }
 
     private fun createImageFile(): File {

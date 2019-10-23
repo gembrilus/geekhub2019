@@ -5,3 +5,7 @@ import android.view.View
 interface ClickListener {
     fun onItemClick(position: Int, v: View)
 }
+
+interface LongClickListener {
+    fun onItemLongClick(position: Int, v: View)
+}
