@@ -1,6 +1,7 @@
 <h1 align="center">Course GeekHub 2019</h1>
 </hr>
 <h2>AboutMe</h2>
+<span>
 An app is like a visit card about someone.
 Features:
  - editing and display a personal information;
@@ -12,7 +13,7 @@ Features:
   - can't remove added images from a list;
   - many images can to hang an app.
 
-
+</span>
 <div align="center">
 <img src="Aboutme/qr-code.gif" alt="QR Code">
 </div>
