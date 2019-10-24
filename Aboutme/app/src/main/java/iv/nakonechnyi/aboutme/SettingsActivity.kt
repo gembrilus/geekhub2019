@@ -134,10 +134,13 @@ class SettingsActivity : AppCompatActivity() {
                     me.photos.add(uri.toString())
                 }
                 REQUEST_CODE_CAMERA -> {
-                    resizeImage(
-                        photoPath,
-                        getDisplaySize(this).y,
-                        getDisplaySize(this).x)
+                    GlobalScope.launch {
+                        resizeImage(
+                            photoPath,
+                            getDisplaySize(this@SettingsActivity).y,
+                            getDisplaySize(this@SettingsActivity).x
+                        )
+                    }
                     me.photos.add(photoPath)
                     revokeUriPermission(
                         photoURI,
