@@ -23,8 +23,10 @@ class MyRecycleAdapter(private val mPhotos: List<String>):
         (holder.itemView as ImageView).setImageURI(Uri.parse(mPhotos[position]))
     }
 
-    inner class ImageHolder(imageView: ImageView): RecyclerView.ViewHolder(imageView), View.OnClickListener{
-        init {itemView.setOnClickListener(this)}
+    inner class ImageHolder(imageView: ImageView):
+        RecyclerView.ViewHolder(imageView), View.OnClickListener {
+
+        init { itemView.setOnClickListener(this) }
         override fun onClick(view: View?) {
             if(adapterPosition != 0) return
             view?.let { clickListener.onItemClick(adapterPosition, it) }

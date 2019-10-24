@@ -84,9 +84,7 @@ class ShortInfoFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_settings -> startActivity(Intent(activity, SettingsActivity::class.java))
-            R.id.crash_menu_item -> {
-                Crashlytics.getInstance().crash()
-            }
+            R.id.crash_menu_item -> Crashlytics.getInstance().crash()
         }
         return true
     }
