@@ -35,9 +35,8 @@ class PagerFragment : Fragment(){
             val position = arguments?.getInt("pos") ?: 0
             setImageURI(Uri.parse(me.photos[position + 1]))
             setOnClickListener {
-                val s = me.photos[position + 1]
                 activity?.setResult(Activity.RESULT_OK, Intent().apply {
-                    putExtra("STRING1", s)
+                    putExtra("STRING1", me.photos[position + 1])
                 })
                 activity?.finish()
             }

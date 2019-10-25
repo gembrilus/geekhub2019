@@ -48,6 +48,7 @@
     <string name="age">Age</string>
     <string name="loving_hobbis">Hobbies and interests</string>
     <string name="was_born">was born %1$s</string>
+    <string name="was_born2">was born %1$s</string>
     <string name="university">Educational establishments</string>
     <string name="work">Work</string>
     <string name="title_add_info">Detailed info</string>
@@ -60,6 +61,8 @@
     <string name="hello_amigo">Hello, amigo!</string>
     <string name="fileprovider_authority" translatable="false">iv.nakonechnyi.aboutme.fileprovider</string>
     <string name="welcome_message" translatable="false">%1$s %2$s, %3$d %4$s</string>
+    <string name="explanation_for_perms_read_storage">An app needs permissions for reading an image from a storage.</string>
+    <string name="explanation_for_perms_camera">An app needs permissions for reading and writing fotos from/to a storage.</string>
 
     <string-array name="dialog_items">
         <item>@string/load_from_storage</item>

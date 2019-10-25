@@ -12,7 +12,6 @@ import com.crashlytics.android.Crashlytics
 import iv.nakonechnyi.aboutme.*
 import iv.nakonechnyi.aboutme.data.Me
 import iv.nakonechnyi.aboutme.util.getAge
-import iv.nakonechnyi.aboutme.util.load
 import iv.nakonechnyi.aboutme.util.resourceToUri
 import iv.nakonechnyi.aboutme.util.save
 import kotlinx.android.synthetic.main.fragment_info_short.view.*
@@ -27,7 +26,6 @@ class ShortInfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        me = load(store_file)
         setHasOptionsMenu(true);
     }
 
@@ -47,21 +45,7 @@ class ShortInfoFragment : Fragment() {
                 )
             }
         }
-        setMainInfo(me)
         return vShortInfo
-    }
-
-    override fun onResume() {
-        super.onResume()
-        setMainInfo(me)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        save(activity as FragmentActivity,
-            store_file,
-            me
-        )
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -72,8 +56,19 @@ class ShortInfoFragment : Fragment() {
 
         if (mDualPane) {
             vShortInfo.b_info_text.visibility = View.GONE
-            showAddInfo()
+            showAdditionalInfoFragment()
         }
+        setMainInfo(me)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setMainInfo(me)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        save(activity as FragmentActivity, me)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -93,12 +88,12 @@ class ShortInfoFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
-            when(requestCode){
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
                 REQUEST_CODE_PHOTOSHOW -> {
-                    val s = data?.extras?.getString("STRING1") ?: return
-                    me.photos.remove(s)
-                    me.photos.add(1, s)
+                    val uri = data?.extras?.getString("STRING1") ?: return
+                    me.photos.remove(uri)
+                    me.photos.add(1, uri)
                     updateImage()
                 }
             }
@@ -112,20 +107,25 @@ class ShortInfoFragment : Fragment() {
             in 2..4 -> getString(R.string.years)
             else -> getString(R.string.years2)
         }
+        val localDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(obj.birthday)
         updateImage()
-        vShortInfo.tw_invitation.text =
-            getString(R.string.welcome_message, obj.name, obj.surname, age, s)
-        val date = obj.birthday
-        val localDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(date)
-        vShortInfo.birthday.text = getString(R.string.was_born, localDate)
+        with(vShortInfo) {
+            tw_invitation.text =
+                getString(R.string.welcome_message, obj.name, obj.surname, age, s)
+            birthday.text = if (me.sex == 0) getString(
+                R.string.was_born,
+                localDate
+            ) else getString(R.string.was_born2, localDate)
+        }
     }
 
     private fun updateImage() {
         with(vShortInfo.iv_photo) {
-            val s = resourceToUri(activity as FragmentActivity,
+            val uri = resourceToUri(
+                activity as FragmentActivity,
                 R.drawable.add
             ).toString()
-            if (!me.photos.contains(s)) me.photos.add(0, s)
+            if (!me.photos.contains(uri)) me.photos.add(0, uri)
             if (me.photos.size <= 1) {
                 setImageResource(R.drawable.anonim_photo)
             } else {
@@ -134,15 +134,11 @@ class ShortInfoFragment : Fragment() {
         }
     }
 
-    private fun showAddInfo() {
+    private fun showAdditionalInfoFragment() {
         fragmentManager?.findFragmentById(R.id.activity_main2).also {
             it ?: fragmentManager!!.beginTransaction()
-                .add(
-                    R.id.activity_main2,
-                    AdditionalInfoFragment()
-                )
+                .add(R.id.activity_main2, AdditionalInfoFragment())
                 .commit()
         }
-
     }
 }

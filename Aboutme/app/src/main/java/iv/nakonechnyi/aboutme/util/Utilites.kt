@@ -6,18 +6,22 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Point
 import android.net.Uri
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.view.isVisible
 import iv.nakonechnyi.aboutme.data.Me
+import iv.nakonechnyi.aboutme.fileName
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-fun load(file: File): Me {
+fun load(context: Context): Me {
     var input: ObjectInputStream? = null
     return try {
-        input = ObjectInputStream(FileInputStream(file))
+        input = ObjectInputStream(FileInputStream(File(context.filesDir, fileName)))
         input.readObject() as Me
     } catch (e: IOException) {
         Me()
@@ -26,10 +30,10 @@ fun load(file: File): Me {
     }
 }
 
-fun save(context: Context, file: File, obj: Me) {
+fun save(context: Context, obj: Me) {
     var output: ObjectOutputStream? = null
     try {
-        output = ObjectOutputStream(FileOutputStream(file))
+        output = ObjectOutputStream(FileOutputStream(File(context.filesDir, fileName)))
         output.writeObject(obj)
     } catch (e: IOException) {
         showErrorPopup(
@@ -39,6 +43,11 @@ fun save(context: Context, file: File, obj: Me) {
     } finally {
         output?.close()
     }
+}
+
+fun changeGroupVisible(viewGroup: ViewGroup){
+    if (viewGroup.isVisible) viewGroup.visibility = View.GONE
+    else viewGroup.visibility = View.VISIBLE
 }
 
 fun showErrorPopup(context: Context, s: String) =
