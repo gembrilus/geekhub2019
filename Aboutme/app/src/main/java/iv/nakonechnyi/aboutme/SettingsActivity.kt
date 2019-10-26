@@ -55,7 +55,7 @@ class SettingsActivity : AppCompatActivity() {
         hasCamera = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 
         val dialog = AlertDialog.Builder(this@SettingsActivity).apply {
-            title = getString(R.string.choose_source)
+            setTitle(getString(R.string.choose_source))
             setItems(R.array.dialog_items) { _, pos ->
                 when (pos) {
                     0 -> PermissionsHelper.requestPermissionsAndRun(

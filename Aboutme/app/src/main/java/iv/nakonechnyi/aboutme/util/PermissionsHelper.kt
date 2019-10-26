@@ -32,7 +32,7 @@ class PermissionsHelper {
                     .filterNot { checkPerms(context, it) }
                     .toTypedArray()
 
-                if (deniedPermissions.all {
+                if (deniedPermissions.none {
                         ActivityCompat.shouldShowRequestPermissionRationale(context, it)
                     }) {
                     snackbar.show()
