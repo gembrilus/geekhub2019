@@ -10,11 +10,10 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import iv.nakonechnyi.aboutme.data.Address
 import iv.nakonechnyi.aboutme.data.Me
 import iv.nakonechnyi.aboutme.fragments.DatePickerFragment
@@ -28,7 +27,6 @@ import kotlinx.android.synthetic.main.part_photo_picker.*
 import kotlinx.android.synthetic.main.part_social_settings.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -43,8 +41,8 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var photoURI: Uri
     private val REQUEST_CODE_CAMERA = 20
     private val REQUEST_CODE_STORAGE = 30
-    private val FROM_STORAGE_CODE = 1
-    private val FROM_CAMERA_CODE = 2
+    private val PERM_CODE_STORAGE = 1
+    private val PERM_CODE_CAMERA = 2
     private var hasCamera = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,22 +54,45 @@ class SettingsActivity : AppCompatActivity() {
 
         hasCamera = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 
-        viewManager = GridLayoutManager(this, 2, RecyclerView.HORIZONTAL, false)
-        viewAdapter = MyRecycleAdapter(me.photos).apply {
-            clickListener = object : ClickListener{
-                override fun onItemClick(position: Int, v: View) {
-                    AlertDialog.Builder(this@SettingsActivity).apply {
-                        title = getString(R.string.choose_source)
-                        setItems(R.array.dialog_items
-                        ) { _, pos ->
-                            when(pos){
-                                0 -> getFromStorage()
-                                1 -> getFromCamera()
-                            }
-                        }
-                        create()
-                        show()
+        val dialog = AlertDialog.Builder(this@SettingsActivity).apply {
+            setTitle(getString(R.string.choose_source))
+            setItems(R.array.dialog_items) { _, pos ->
+                when (pos) {
+                    0 -> PermissionsHelper.requestPermissionsAndRun(
+                        context = this@SettingsActivity,
+                        permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        requestCode = PERM_CODE_STORAGE,
+                        snackbar = Snackbar.make(
+                            root_settings,
+                            getString(R.string.explanation_for_perms_read_storage),
+                            Snackbar.LENGTH_LONG),
+                        block = { getFromStorage() }
+                    )
+                    1 -> if(hasCamera) {
+                        PermissionsHelper.requestPermissionsAndRun(
+                            context = this@SettingsActivity,
+                            permissions = arrayOf(
+                                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                            requestCode = PERM_CODE_STORAGE,
+                            snackbar = Snackbar.make(
+                                root_settings,
+                                getString(R.string.explanation_for_perms_camera),
+                                Snackbar.LENGTH_LONG),
+                            block = { getPictureIntent() }
+                        )
                     }
+                }
+            }
+            create()
+        }
+
+        viewManager = GridLayoutManager(this, 2, RecyclerView.HORIZONTAL, false)
+
+        viewAdapter = MyRecycleAdapter(me.photos).apply {
+            clickListener = object : ClickListener {
+                override fun onItemClick(position: Int, v: View) {
+                    dialog.show()
                 }
             }
         }
@@ -81,35 +102,12 @@ class SettingsActivity : AppCompatActivity() {
             adapter = viewAdapter
         }
 
-        hided_group0.setOnClickListener {
-            if (ll_group0.isVisible) ll_group0.visibility = View.GONE
-            else ll_group0.visibility = View.VISIBLE
-        }
-
-        hided_group1.setOnClickListener {
-            if (ll_group1.isVisible) ll_group1.visibility = View.GONE
-            else ll_group1.visibility = View.VISIBLE
-        }
-
-        hided_group2.setOnClickListener {
-            if (ll_group2.isVisible) ll_group2.visibility = View.GONE
-            else ll_group2.visibility = View.VISIBLE
-        }
-
-        hided_group3.setOnClickListener {
-            if (ll_group3.isVisible) ll_group3.visibility = View.GONE
-            else ll_group3.visibility = View.VISIBLE
-        }
-
-        hided_group4.setOnClickListener {
-            if (ll_group4.isVisible) ll_group4.visibility = View.GONE
-            else ll_group4.visibility = View.VISIBLE
-        }
-
-        hided_group5.setOnClickListener {
-            if (ll_group5.isVisible) ll_group5.visibility = View.GONE
-            else ll_group5.visibility = View.VISIBLE
-        }
+        hided_group0.setOnClickListener { changeGroupVisible(ll_group0) }
+        hided_group1.setOnClickListener { changeGroupVisible(ll_group1) }
+        hided_group2.setOnClickListener { changeGroupVisible(ll_group2) }
+        hided_group3.setOnClickListener { changeGroupVisible(ll_group3) }
+        hided_group4.setOnClickListener { changeGroupVisible(ll_group4) }
+        hided_group5.setOnClickListener { changeGroupVisible(ll_group5) }
 
         ib_date.setOnClickListener {
             DatePickerFragment()
@@ -119,7 +117,7 @@ class SettingsActivity : AppCompatActivity() {
         b_save.setOnClickListener {
             GlobalScope.launch {
                 me = fillMe()
-                save(this@SettingsActivity, store_file, me)
+                save(this@SettingsActivity, me)
             }
             finish()
         }
@@ -134,13 +132,11 @@ class SettingsActivity : AppCompatActivity() {
                     me.photos.add(uri.toString())
                 }
                 REQUEST_CODE_CAMERA -> {
-                    GlobalScope.launch {
-                        resizeImage(
-                            photoPath,
-                            getDisplaySize(this@SettingsActivity).y,
-                            getDisplaySize(this@SettingsActivity).x
-                        )
-                    }
+                    resizeImage(
+                        photoPath,
+                        getDisplaySize(this).y,
+                        getDisplaySize(this).x
+                    )
                     me.photos.add(photoPath)
                     revokeUriPermission(
                         photoURI,
@@ -157,9 +153,21 @@ class SettingsActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        grantResults.forEachIndexed { index, i ->
-            perms[permissions[index]] =
-                i == PackageManager.PERMISSION_GRANTED
+        when (requestCode) {
+            PERM_CODE_STORAGE -> {
+                if (grantResults.isNotEmpty() && grantResults.all {
+                        it == PackageManager.PERMISSION_GRANTED
+                    }) {
+                    getFromStorage()
+                }
+            }
+            PERM_CODE_CAMERA -> {
+                if (grantResults.isNotEmpty() && grantResults.all {
+                        it == PackageManager.PERMISSION_GRANTED
+                    }) {
+                    getPictureIntent()
+                }
+            }
         }
     }
 
@@ -194,8 +202,8 @@ class SettingsActivity : AppCompatActivity() {
         )
 
     private fun fillFields() =
-        with(me){
-            if(sex == 0) is_a_man.isChecked = true
+        with(me) {
+            if (sex == 0) is_a_man.isChecked = true
             else is_a_woman.isChecked = true
             et_name.setText(name)
             et_surname.setText(surname)
@@ -220,44 +228,11 @@ class SettingsActivity : AppCompatActivity() {
         }
 
     private fun getFromStorage() {
-        if (perms[android.Manifest.permission.READ_EXTERNAL_STORAGE] == true) {
-            val intent = Intent(
-                Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            ).apply { type = "image/*" }
-            startActivityForResult(intent, REQUEST_CODE_STORAGE)
-        } else {
-            GlobalScope.launch {
-                runBlocking {
-                    ActivityCompat.requestPermissions(
-                        this@SettingsActivity,
-                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                        FROM_STORAGE_CODE
-                    )
-                }
-                getFromStorage()
-            }
-        }
-    }
-
-    private fun getFromCamera() {
-        if (perms.values.all { it }) {
-            getPictureIntent()
-        } else {
-            GlobalScope.launch {
-                runBlocking {
-                    ActivityCompat.requestPermissions(
-                        this@SettingsActivity,
-                        arrayOf(
-                            android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        ),
-                        FROM_CAMERA_CODE
-                    )
-                }
-                getFromCamera()
-            }
-        }
+        val intent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        ).apply { type = "image/*" }
+        startActivityForResult(intent, REQUEST_CODE_STORAGE)
     }
 
     private fun createImageFile(): File {
@@ -294,8 +269,8 @@ class SettingsActivity : AppCompatActivity() {
                 grantUriPermission(
                     it.packageName,
                     photoURI,
-                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION )
-
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
                 startActivityForResult(picIntent, REQUEST_CODE_CAMERA)
             }
         }

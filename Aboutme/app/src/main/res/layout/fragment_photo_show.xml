@@ -5,7 +5,8 @@
 
     <ImageView
         android:id="@+id/pager_item"
-        android:scaleType="centerCrop"
+        android:background="#000000"
+        android:scaleType="fitCenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
