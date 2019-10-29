@@ -61,8 +61,8 @@
     <string name="hello_amigo">Hello, amigo!</string>
     <string name="fileprovider_authority" translatable="false">iv.nakonechnyi.aboutme.fileprovider</string>
     <string name="welcome_message" translatable="false">%1$s %2$s, %3$d %4$s</string>
-    <string name="explanation_for_perms_read_storage">An app needs permissions for reading an image from a storage.</string>
-    <string name="explanation_for_perms_camera">An app needs permissions for reading and writing fotos from/to a storage.</string>
+    <string name="permissions_denied">Permissions denied! See Settings</string>
+    <string name="explanation_for_rw_permissions">An app needs permissions for reading and writing fotos from/to a storage.</string>
 
     <string-array name="dialog_items">
         <item>@string/load_from_storage</item>

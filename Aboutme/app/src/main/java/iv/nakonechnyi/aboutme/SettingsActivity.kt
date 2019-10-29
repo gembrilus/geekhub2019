@@ -10,10 +10,10 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import iv.nakonechnyi.aboutme.data.Address
 import iv.nakonechnyi.aboutme.data.Me
 import iv.nakonechnyi.aboutme.fragments.DatePickerFragment
@@ -37,13 +37,18 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var recyclerView: RecyclerView
+    private lateinit var dialog: AlertDialog
     private lateinit var photoPath: String
     private lateinit var photoURI: Uri
     private val REQUEST_CODE_CAMERA = 20
     private val REQUEST_CODE_STORAGE = 30
     private val PERM_CODE_STORAGE = 1
-    private val PERM_CODE_CAMERA = 2
     private var hasCamera = false
+
+    private val neededPermissions = arrayOf(
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,46 +59,45 @@ class SettingsActivity : AppCompatActivity() {
 
         hasCamera = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 
-        val dialog = AlertDialog.Builder(this@SettingsActivity).apply {
+        dialog = AlertDialog.Builder(this@SettingsActivity).apply {
             setTitle(getString(R.string.choose_source))
             setItems(R.array.dialog_items) { _, pos ->
                 when (pos) {
-                    0 -> PermissionsHelper.requestPermissionsAndRun(
-                        context = this@SettingsActivity,
-                        permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                        requestCode = PERM_CODE_STORAGE,
-                        snackbar = Snackbar.make(
-                            root_settings,
-                            getString(R.string.explanation_for_perms_read_storage),
-                            Snackbar.LENGTH_LONG),
-                        block = { getFromStorage() }
-                    )
-                    1 -> if(hasCamera) {
-                        PermissionsHelper.requestPermissionsAndRun(
-                            context = this@SettingsActivity,
-                            permissions = arrayOf(
-                                android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                            requestCode = PERM_CODE_STORAGE,
-                            snackbar = Snackbar.make(
-                                root_settings,
-                                getString(R.string.explanation_for_perms_camera),
-                                Snackbar.LENGTH_LONG),
-                            block = { getPictureIntent() }
-                        )
-                    }
+                    0 -> getFromStorage()
+                    1 -> if (hasCamera) getPictureIntent()
                 }
             }
-            create()
-        }
+        }.create()
 
         viewManager = GridLayoutManager(this, 2, RecyclerView.HORIZONTAL, false)
 
         viewAdapter = MyRecycleAdapter(me.photos).apply {
             clickListener = object : ClickListener {
-                override fun onItemClick(position: Int, v: View) {
-                    dialog.show()
-                }
+                override fun onItemClick(position: Int, v: View) =
+                    PermissionsHelper.checkPermissionsAndRun(
+                        context = this@SettingsActivity,
+                        permissions = neededPermissions,
+                        listener = object : PermissionAskListener {
+
+                            override fun onPermissionAsk() = ActivityCompat.requestPermissions(
+                                this@SettingsActivity,
+                                neededPermissions,
+                                PERM_CODE_STORAGE
+                            )
+
+                            override fun onPermissionPreviouslyDenied() = showMessageWithActions(
+                                viewGroup = root_settings,
+                                text = getString(R.string.explanation_for_rw_permissions),
+                                actionOk = { onPermissionAsk() })
+
+                            override fun onPermissionDisabled() = showMessageWithActions(
+                                viewGroup = root_settings,
+                                text = getString(R.string.permissions_denied)
+                            )
+
+                            override fun onPermissionGranted() = dialog.show()
+
+                        })
             }
         }
         recyclerView = findViewById<RecyclerView>(R.id.recycler_photo).apply {
@@ -158,14 +162,7 @@ class SettingsActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() && grantResults.all {
                         it == PackageManager.PERMISSION_GRANTED
                     }) {
-                    getFromStorage()
-                }
-            }
-            PERM_CODE_CAMERA -> {
-                if (grantResults.isNotEmpty() && grantResults.all {
-                        it == PackageManager.PERMISSION_GRANTED
-                    }) {
-                    getPictureIntent()
+                    dialog.show()
                 }
             }
         }
@@ -254,10 +251,7 @@ class SettingsActivity : AppCompatActivity() {
             try {
                 photoFile = createImageFile()
             } catch (ex: IOException) {
-                showErrorPopup(
-                    this,
-                    getString(R.string.cant_create_file_image)
-                )
+                showMessageWithActions(root_settings, getString(R.string.cant_create_file_image))
             }
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(

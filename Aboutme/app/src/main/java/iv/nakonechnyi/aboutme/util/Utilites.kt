@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.view.isVisible
+import com.google.android.material.snackbar.Snackbar
 import iv.nakonechnyi.aboutme.data.Me
 import iv.nakonechnyi.aboutme.fileName
 import java.io.*
@@ -52,6 +53,23 @@ fun changeGroupVisible(viewGroup: ViewGroup){
 
 fun showErrorPopup(context: Context, s: String) =
     Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
+
+fun showMessageWithActions(viewGroup: ViewGroup, text: String, actionOk: (() -> Unit)? = null, actionCancel: (() -> Unit)? = null){
+    Snackbar.make(viewGroup, text, Snackbar.LENGTH_INDEFINITE).apply {
+        actionOk?.let { f ->
+            setAction(android.R.string.ok) {
+                f.invoke()
+            }
+        }
+        actionCancel?.let { f ->
+            setAction(android.R.string.cancel) {
+                f.invoke()
+            }
+        }
+        show()
+    }
+}
+
 
 fun getAge(d: Long): Int {
     val date = Date(d)

@@ -3,46 +3,49 @@ package iv.nakonechnyi.aboutme.util
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
 
 class PermissionsHelper {
 
     companion object {
 
-        private fun checkPerms(context: Context, permission: String) =
-            ContextCompat.checkSelfPermission(
-                context,
-                permission
-            ) == PackageManager.PERMISSION_GRANTED
+        private var isFirstAskPermission = true
 
-        fun requestPermissionsAndRun(
+        fun isGranted(context: Context, permission: String) =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                    ContextCompat.checkSelfPermission(
+                        context,
+                        permission
+                    ) == PackageManager.PERMISSION_GRANTED
+
+        fun checkPermissionsAndRun(
             context: Activity,
             permissions: Array<String>,
-            requestCode: Int,
-            snackbar: Snackbar,
-            block: () -> Unit
+            listener: PermissionAskListener
         ) {
-
-            if (permissions.all { checkPerms(context, it) }) {
-                block()
-            } else {
-                val deniedPermissions = permissions
-                    .filterNot { checkPerms(context, it) }
-                    .toTypedArray()
-
-                if (deniedPermissions.none {
-                        ActivityCompat.shouldShowRequestPermissionRationale(context, it)
-                    }) {
-                    snackbar.show()
-                } else ActivityCompat.requestPermissions(context, permissions, requestCode)
+            when {
+                permissions.all { isGranted(context, it) } -> listener.onPermissionGranted()
+                permissions.all {
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        context,
+                        it
+                    )
+                } -> listener.onPermissionPreviouslyDenied()
+                isFirstAskPermission -> {
+                    isFirstAskPermission = false
+                    listener.onPermissionAsk()
+                }
+                else -> listener.onPermissionDisabled()
             }
         }
-
-
-
-
-
     }
+}
+
+interface PermissionAskListener {
+    fun onPermissionAsk()
+    fun onPermissionPreviouslyDenied()
+    fun onPermissionDisabled()
+    fun onPermissionGranted()
 }

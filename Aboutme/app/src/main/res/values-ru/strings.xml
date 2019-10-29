@@ -58,6 +58,6 @@
     <string name="personal_photos">Личные фото</string>
     <string name="hello_amigo">Привет, амиго!</string>
     <string name="was_born2">родилась %1$s</string>
-    <string name="explanation_for_perms_camera">Приложению требуются разрешения на чтение и запись фотографий с/на диск</string>
-    <string name="explanation_for_perms_read_storage">Приложению требуется разрешение на чтение с фотографий с диска</string>
+    <string name="permissions_denied">Доступ запрещен. Смотрите Настройки.</string>
+    <string name="explanation_for_rw_permissions">Приложению требуются разрешения на чтение и запись фотографий с/на диск</string>
 </resources>
