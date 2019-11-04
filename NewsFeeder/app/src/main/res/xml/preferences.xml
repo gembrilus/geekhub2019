@@ -1,0 +1,56 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <DropDownPreference
+        android:defaultValue="@string/type_of_news_defaultValue"
+        android:entries="@array/top_or_everything"
+        android:entryValues="@array/top_or_everything_values"
+        android:key="@string/type_of_news_key"
+        android:title="@string/type_of_news_title" />
+
+    <DropDownPreference
+        android:defaultValue="@string/countries_defaultValue"
+        android:entries="@array/countries"
+        android:entryValues="@array/countries"
+        android:key="@string/countries_key"
+        android:title="@string/countries_title" />
+
+    <DropDownPreference
+        android:defaultValue="@string/categories_defaultValue"
+        android:entries="@array/categories"
+        android:entryValues="@array/categories_values"
+        android:key="@string/categories_key"
+        android:title="@string/categories_title" />
+
+    <EditTextPreference
+        android:key="@string/keywords_key"
+        android:negativeButtonText="@android:string/cancel"
+        android:positiveButtonText="@android:string/ok"
+        android:title="@string/keywords_title" />
+
+    <iv.nakonechnyi.newsfeeder.DatePreference
+        android:key="date_from"
+        android:negativeButtonText="@android:string/cancel"
+        android:positiveButtonText="@android:string/ok"
+        android:title="From date" />
+
+    <iv.nakonechnyi.newsfeeder.DatePreference
+        android:key="date_to"
+        android:negativeButtonText="@android:string/cancel"
+        android:positiveButtonText="@android:string/ok"
+        android:title="To date" />
+
+    <DropDownPreference
+        android:defaultValue="@string/sortBy_defaultValue"
+        android:entries="@array/sortBy"
+        android:entryValues="@array/sortBy"
+        android:key="@string/sortBy_key"
+        android:title="@string/sortBy_title" />
+
+    <EditTextPreference
+        android:key="count_news"
+        android:negativeButtonText="@android:string/cancel"
+        android:positiveButtonText="@android:string/ok"
+        android:title="Count news"
+        android:defaultValue="20"/>
+
+</PreferenceScreen>

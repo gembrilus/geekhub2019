@@ -1,0 +1,45 @@
+<resources>
+
+    <string-array name="top_or_everything">
+        <item>@string/type_of_news_defaultValue</item>
+        <item>All news</item>
+    </string-array>
+
+    <string-array name="top_or_everything_values">
+        <item>top</item>
+        <item>all</item>
+    </string-array>
+
+    <string-array name="countries">
+        <item>ru</item>
+        <item>ua</item>
+        <item>us</item>
+    </string-array>
+
+    <string-array name="categories">
+        <item>Business</item>
+        <item>Entertainment</item>
+        <item>General</item>
+        <item>Health</item>
+        <item>Science</item>
+        <item>Sports</item>
+        <item>Technology</item>
+    </string-array>
+
+    <string-array name="categories_values">
+        <item>business</item>
+        <item>entertainment</item>
+        <item>general</item>
+        <item>health</item>
+        <item>science</item>
+        <item>sports</item>
+        <item>technology</item>
+    </string-array>
+
+    <string-array name="sortBy">
+        <item>relevancy</item>
+        <item>popularity</item>
+        <item>publishedAt</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="web_page_scale">90</integer>
+    <bool name="recycler_orientation">false</bool>
+    <bool name="dual_pane">true</bool>
+
+</resources>

@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name" translatable="false">News Feeder</string>
+    <string name="menu_item_settings">Settings</string>
+    <string name="title_activity_settings" translatable="false">@string/menu_item_settings</string>
+
+    <string name="type_of_news_key" translatable="false">type_of_news</string>
+    <string name="type_of_news_title">Type of news</string>
+    <string name="type_of_news_defaultValue">Top news</string>
+
+    <string name="countries_key" translatable="false">countries</string>
+    <string name="countries_title">Country of news</string>
+    <string name="countries_defaultValue">ua</string>
+
+    <string name="categories_key" translatable="false">categories</string>
+    <string name="categories_title">Category of news</string>
+    <string name="categories_defaultValue">general</string>
+
+    <string name="keywords_key" translatable="false">q</string>
+    <string name="keywords_title">Keywords for searching</string>
+
+    <string name="sortBy_key" translatable="false">sort_by</string>
+    <string name="sortBy_title">Sort by</string>
+    <string name="sortBy_defaultValue">publishedAt</string>
+
+</resources>
