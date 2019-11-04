@@ -9,23 +9,11 @@ import java.util.*
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.preference.DialogPreference
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 
 class DatePreference(context: Context, attrs: AttributeSet) : DialogPreference(context, attrs) {
 
-/*    init {
-        dialogTitle = "Pick a date"
-        dialogIcon = null
-        setViewId(R.layout.date_picker_layout)
-        positiveButtonText = "OK"
-        negativeButtonText = "CANCEL"
-    }*/
-
-
     private val DEFAULT_VALUE get() = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-    private var date = DEFAULT_VALUE
+    var date = DEFAULT_VALUE
     private val mListener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
         if(getKey() == key){
             date = prefs.getString(key, date)
@@ -47,7 +35,7 @@ class DatePreference(context: Context, attrs: AttributeSet) : DialogPreference(c
             persistString(date)
         }
 
-    override fun onGetDefaultValue(a: TypedArray?, index: Int) = a?.getString(index) ?: DEFAULT_VALUE
+    override fun onGetDefaultValue(a: TypedArray?, index: Int) = a?.getString(index)
 
     override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()

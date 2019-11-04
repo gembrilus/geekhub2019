@@ -2,10 +2,11 @@ package iv.nakonechnyi.newsfeeder
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat
+import androidx.fragment.app.DialogFragment
+import androidx.preference.*
 
-class SettingsActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback {
+class SettingsActivity : AppCompatActivity(),
+    PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +23,15 @@ class SettingsActivity : AppCompatActivity(), PreferenceFragmentCompat.OnPrefere
         caller: PreferenceFragmentCompat,
         pref: Preference?
     ): Boolean {
-
+        var f: DialogFragment? = null
+        if (pref is DatePreference) {
+            f = DatePreferenceDialogFragmentCompat(pref.key)
+        } else {
+            caller.onDisplayPreferenceDialog(pref)
+        }
+        f?.setTargetFragment(caller, 0)
+        f?.show(supportFragmentManager, "FRAGMENT")
+        return true
     }
 
     class HeaderFragment : PreferenceFragmentCompat() {

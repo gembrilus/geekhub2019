@@ -134,9 +134,9 @@ class ShortInfoFragment : Fragment() {
 
     private fun showAdditionalInfoFragment() {
         fragmentManager?.findFragmentById(R.id.activity_main2).also {
-            it ?: fragmentManager!!.beginTransaction()
-                .add(R.id.activity_main2, AdditionalInfoFragment())
-                .commit()
+            it ?: activity?.supportFragmentManager?.beginTransaction()
+                ?.add(R.id.activity_main2, AdditionalInfoFragment())
+                ?.commit()
         }
     }
 }
