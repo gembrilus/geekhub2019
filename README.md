@@ -18,3 +18,24 @@
 <div style="width=100%; margin:auto">
 <img src="Aboutme/qr-code.gif" alt="QR Code"/>
 </div>
+
+<hr>
+
+<div style="width=100%;">
+<h2>Nwes Feeder</h2>
+<p>An app for reading news</p>
+<b>Features:</b>
+ <ul>
+<li>It loads a content from internet;
+<li>It contains settings for searching different news: by keywords, countries, categories and other;
+<li>Works correctly on different screens.
+ </ul>
+<b>Bags:</b>
+ <ul>
+<li>Do not update correctly settings when their visibility is changed;
+<li>Do not load pictures for list of news.
+</ul>
+</div>
+<div style="width=100%; margin:auto">
+<img src="NewsFeeder/qr-code.gif" alt="QR Code"/>
+</div>
