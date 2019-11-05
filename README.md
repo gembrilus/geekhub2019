@@ -1,5 +1,5 @@
 <h1 align="center">Course GeekHub 2019</h1>
-<div style="width=100%;">
+
 <h2>AboutMe</h2>
 <p>An app is like a visit card about someone.</p>
 <b>Features:</b>
@@ -19,9 +19,10 @@
 <img src="Aboutme/qr-code.gif" alt="QR Code"/>
 </div>
 
-<hr>
 
-<div style="width=100%;">
+
+
+
 <h2>News Feeder</h2>
 <p>An app for reading news</p>
 <b>Features:</b>
