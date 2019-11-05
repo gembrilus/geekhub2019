@@ -1,13 +1,13 @@
 <resources>
 
     <string-array name="top_or_everything">
-        <item>@string/type_of_news_defaultValue</item>
+        <item>Top news</item>
         <item>All news</item>
     </string-array>
 
     <string-array name="top_or_everything_values">
-        <item>top</item>
-        <item>all</item>
+        <item>top-headlines</item>
+        <item>everything</item>
     </string-array>
 
     <string-array name="countries">

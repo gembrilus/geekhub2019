@@ -5,7 +5,7 @@
 
     <string name="type_of_news_key" translatable="false">type_of_news</string>
     <string name="type_of_news_title">Type of news</string>
-    <string name="type_of_news_defaultValue">Top news</string>
+    <string name="type_of_news_defaultValue">top-headlines</string>
 
     <string name="countries_key" translatable="false">countries</string>
     <string name="countries_title">Country of news</string>
@@ -21,5 +21,17 @@
     <string name="sortBy_key" translatable="false">sort_by</string>
     <string name="sortBy_title">Sort by</string>
     <string name="sortBy_defaultValue">publishedAt</string>
+
+    <string name="date_from_key" translatable="false">date_from</string>
+    <string name="date_from_title">From date</string>
+
+    <string name="date_to_key" translatable="false">date_to</string>
+    <string name="date_to_title">To date</string>
+
+    <string name="count_key">count_key</string>
+    <string name="count_title">Count news</string>
+    <string name="count_defaultValue">20</string>
+    <string name="not_set">Not set</string>
+
 
 </resources>

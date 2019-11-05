@@ -1,5 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/settings"
-    android:layout_margin="16dp"
+    android:padding="16dp"
+    android:background="@color/newsfeeder_bg_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

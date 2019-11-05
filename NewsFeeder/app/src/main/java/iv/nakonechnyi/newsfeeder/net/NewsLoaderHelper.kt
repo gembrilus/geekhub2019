@@ -1,8 +1,5 @@
 package iv.nakonechnyi.newsfeeder.net
 
-import android.content.Context
-import android.util.Log
-import iv.nakonechnyi.newsfeeder.displayErrorMessage
 import iv.nakonechnyi.newsfeeder.model.Article
 import iv.nakonechnyi.newsfeeder.stringToLongDate
 import org.json.JSONException
@@ -18,7 +15,6 @@ import java.nio.charset.Charset
 
 
 class NewsLoaderHelper(
-    private val context: Context,
     private val stringUrl: String
 ) {
 
@@ -31,7 +27,6 @@ class NewsLoaderHelper(
             jsonResponse = makeHTTPRequest(url)
         } catch (e: IOException) {
             e.printStackTrace()
-//            displayErrorMessage(context, "Failed to close the connection.")
         }
         return extractArticlesFromJson(jsonResponse)
     }
@@ -59,11 +54,9 @@ class NewsLoaderHelper(
                     list += article
                 }
             }
-            Log.d("ARTICLES", list.toString())
             return list
         } catch (e: JSONException){
             e.printStackTrace()
-//            displayErrorMessage(context, "Error of reading a response from server")
         }
 
         return emptyList()
@@ -87,7 +80,6 @@ class NewsLoaderHelper(
             jsonResponse = readFromStream(inputStream)
         } catch (e: IOException) {
             e.printStackTrace()
-//            displayErrorMessage(context, "Connection or reading from URL is failed.")
         } finally {
                 urlConnection?.disconnect()
                 inputStream?.close()
@@ -117,7 +109,6 @@ class NewsLoaderHelper(
             url = URL(stringUrl)
         } catch (e: MalformedURLException) {
             e.printStackTrace()
-//            displayErrorMessage(context, "Url has incorrect format.")
         }
         return url
     }

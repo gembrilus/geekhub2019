@@ -27,17 +27,17 @@
         android:positiveButtonText="@android:string/ok"
         android:title="@string/keywords_title" />
 
-    <iv.nakonechnyi.newsfeeder.DatePreference
-        android:key="date_from"
+    <iv.nakonechnyi.newsfeeder.preferences.DatePreference
+        android:key="@string/date_from_key"
         android:negativeButtonText="@android:string/cancel"
         android:positiveButtonText="@android:string/ok"
-        android:title="From date" />
+        android:title="@string/date_from_title" />
 
-    <iv.nakonechnyi.newsfeeder.DatePreference
-        android:key="date_to"
+    <iv.nakonechnyi.newsfeeder.preferences.DatePreference
+        android:key="@string/date_to_key"
         android:negativeButtonText="@android:string/cancel"
         android:positiveButtonText="@android:string/ok"
-        android:title="To date" />
+        android:title="@string/date_to_title" />
 
     <DropDownPreference
         android:defaultValue="@string/sortBy_defaultValue"
@@ -47,10 +47,10 @@
         android:title="@string/sortBy_title" />
 
     <EditTextPreference
-        android:key="count_news"
+        android:key="@string/count_key"
         android:negativeButtonText="@android:string/cancel"
         android:positiveButtonText="@android:string/ok"
-        android:title="Count news"
-        android:defaultValue="20"/>
+        android:title="@string/count_title"
+        android:defaultValue="@string/count_defaultValue"/>
 
 </PreferenceScreen>

@@ -6,5 +6,5 @@ import iv.nakonechnyi.newsfeeder.model.Article
 
 class NewsLoader(context: Context, private val url: String) : AsyncTaskLoader<List<Article>>(context) {
     override fun onStartLoading() = forceLoad()
-    override fun loadInBackground(): List<Article>? = NewsLoaderHelper(context, url).fetchNews()
+    override fun loadInBackground(): List<Article>? = NewsLoaderHelper(url).fetchNews()
 }
