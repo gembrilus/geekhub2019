@@ -22,7 +22,7 @@
 <hr>
 
 <div style="width=100%;">
-<h2>Nwes Feeder</h2>
+<h2>News Feeder</h2>
 <p>An app for reading news</p>
 <b>Features:</b>
  <ul>
