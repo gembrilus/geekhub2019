@@ -7,6 +7,8 @@ import androidx.preference.PreferenceManager
 
 class MainActivity : AppCompatActivity(), Callbacks {
 
+    private val URL_KEY = "URL"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
@@ -23,12 +25,12 @@ class MainActivity : AppCompatActivity(), Callbacks {
     override fun onArticleSelected(url: String) {
         if (!resources.getBoolean(R.bool.dual_pane)) {
             startActivity(Intent(this, NewsActivity::class.java).apply {
-                putExtra("URL", url)
+                putExtra(URL_KEY, url)
             })
         } else {
             val fragment = NewsFragment.getInstance().also {
                 it.arguments = Bundle().apply {
-                    putString("URL", url)
+                    putString(URL_KEY, url)
                 }
             }
             supportFragmentManager.beginTransaction()

@@ -1,26 +1,50 @@
 <resources>
+
     <string name="app_name" translatable="false">News Feeder</string>
     <string name="menu_item_settings">Settings</string>
     <string name="title_activity_settings" translatable="false">@string/menu_item_settings</string>
 
+    <!--Preferences-->
+
     <string name="type_of_news_key" translatable="false">type_of_news</string>
     <string name="type_of_news_title">Type of news</string>
-    <string name="type_of_news_defaultValue">top-headlines</string>
+    <string name="type_of_news_defaultValue" translatable="false">top-headlines</string>
+    <string name="top_news_item_name">Top news</string>
+    <string name="all_news_item_name">All news</string>
 
     <string name="countries_key" translatable="false">countries</string>
     <string name="countries_title">Country of news</string>
-    <string name="countries_defaultValue">ua</string>
+    <string name="countries_defaultValue" translatable="false">ua</string>
+    <string name="all_country_item_name">Any</string>
+    <string name="austalia_country_item_name">Australia</string>
+    <string name="belgium_country_item_name">Belgium</string>
+    <string name="bulgaria_country_item_name">Bulgaria</string>
+    <string name="canada_item_name">Canada</string>
+    <string name="czech_country_item_name">Czech</string>
+    <string name="germany_country_item_name">Germany</string>
+    <string name="italy_country_item_name">Italy</string>
+    <string name="russia_country_item_name">Russia</string>
+    <string name="ukraine_item_name">Ukraine</string>
+    <string name="usa_country_item_name">USA</string>
+
 
     <string name="categories_key" translatable="false">categories</string>
     <string name="categories_title">Category of news</string>
-    <string name="categories_defaultValue">general</string>
+    <string name="categories_defaultValue" translatable="false">general</string>
+    <string name="business_item_name">Business</string>
+    <string name="entertainment_item_name">Entertainment</string>
+    <string name="general_item_name">General</string>
+    <string name="health_item_name">Health</string>
+    <string name="science_item_name">Science</string>
+    <string name="sports_item_name">Sports</string>
+    <string name="technology_item_name">Technology</string>
 
     <string name="keywords_key" translatable="false">q</string>
     <string name="keywords_title">Keywords for searching</string>
 
     <string name="sortBy_key" translatable="false">sort_by</string>
     <string name="sortBy_title">Sort by</string>
-    <string name="sortBy_defaultValue">publishedAt</string>
+    <string name="sortBy_defaultValue" translatable="false">publishedAt</string>
 
     <string name="date_from_key" translatable="false">date_from</string>
     <string name="date_from_title">From date</string>
@@ -28,12 +52,26 @@
     <string name="date_to_key" translatable="false">date_to</string>
     <string name="date_to_title">To date</string>
 
-    <string name="count_key">count_key</string>
-    <string name="count_title">Count news</string>
-    <string name="count_defaultValue">20</string>
     <string name="date_not_set">Not set</string>
-    <string name="news_apiKey">40f5a3b9ae834b2395af75738ccaca3b</string>
-    <string name="news_api_baseUrl">https://newsapi.org/v2/</string>
+
+    <string name="languages_title">Languages</string>
+    <string name="languages_key">languages</string>
+    <string name="languages_defaultValue">all</string>
+    <string name="all_lang_item_name">Any</string>
+    <string name="german_lang_item_name">German</string>
+    <string name="en_lang_item_name">English</string>
+    <string name="italian_lang_item_name">Italian</string>
+    <string name="rus_lang_item_name">Russian</string>
+
+
+    <string name="count_key" translatable="false">count_key</string>
+    <string name="count_title">Count news</string>
+    <string name="count_defaultValue" translatable="false">20</string>
+
+    <!--Preferences-->
+
+    <string name="news_apiKey" translatable="false">40f5a3b9ae834b2395af75738ccaca3b</string>
+    <string name="news_api_baseUrl" translatable="false">https://newsapi.org/v2/</string>
 
 
 </resources>

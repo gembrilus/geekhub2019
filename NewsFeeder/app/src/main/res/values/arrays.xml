@@ -1,8 +1,8 @@
 <resources>
 
     <string-array name="top_or_everything">
-        <item>Top news</item>
-        <item>All news</item>
+        <item>@string/top_news_item_name</item>
+        <item>@string/all_news_item_name</item>
     </string-array>
 
     <string-array name="top_or_everything_values">
@@ -11,20 +11,41 @@
     </string-array>
 
     <string-array name="countries">
-        <item></item>
+        <item>@string/all_country_item_name</item>
+        <item>@string/austalia_country_item_name</item>
+        <item>@string/belgium_country_item_name</item>
+        <item>@string/bulgaria_country_item_name</item>
+        <item>@string/canada_item_name</item>
+        <item>@string/czech_country_item_name</item>
+        <item>@string/germany_country_item_name</item>
+        <item>@string/italy_country_item_name</item>
+        <item>@string/russia_country_item_name</item>
+        <item>@string/ukraine_item_name</item>
+        <item>@string/usa_country_item_name</item>
+    </string-array>
+
+    <string-array name="countries_values">
+        <item>all</item>
+        <item>au</item>
+        <item>be</item>
+        <item>bg</item>
+        <item>ca</item>
+        <item>cz</item>
+        <item>de</item>
+        <item>it</item>
         <item>ru</item>
         <item>ua</item>
         <item>us</item>
     </string-array>
 
     <string-array name="categories">
-        <item>Business</item>
-        <item>Entertainment</item>
-        <item>General</item>
-        <item>Health</item>
-        <item>Science</item>
-        <item>Sports</item>
-        <item>Technology</item>
+        <item>@string/business_item_name</item>
+        <item>@string/entertainment_item_name</item>
+        <item>@string/general_item_name</item>
+        <item>@string/health_item_name</item>
+        <item>@string/science_item_name</item>
+        <item>@string/sports_item_name</item>
+        <item>@string/technology_item_name</item>
     </string-array>
 
     <string-array name="categories_values">
@@ -35,6 +56,22 @@
         <item>science</item>
         <item>sports</item>
         <item>technology</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>@string/all_lang_item_name</item>
+        <item>@string/german_lang_item_name</item>
+        <item>@string/en_lang_item_name</item>
+        <item>@string/italian_lang_item_name</item>
+        <item>@string/rus_lang_item_name</item>
+    </string-array>
+
+    <string-array name="languages_value">
+        <item>all</item>
+        <item>de</item>
+        <item>en</item>
+        <item>it</item>
+        <item>ru</item>
     </string-array>
 
     <string-array name="sortBy">

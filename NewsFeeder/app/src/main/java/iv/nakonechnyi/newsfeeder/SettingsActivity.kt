@@ -2,7 +2,6 @@ package iv.nakonechnyi.newsfeeder
 
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.*
 import iv.nakonechnyi.newsfeeder.preferences.DatePreference
@@ -67,7 +66,6 @@ class SettingsActivity : AppCompatActivity(),
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-
             setPreferencesFromResource(R.xml.preferences, rootKey)
             initialize()
             val count = findPreference<EditTextPreference>(getString(R.string.count_key))
@@ -96,13 +94,14 @@ class SettingsActivity : AppCompatActivity(),
             val isForTopNews = typeOfNews?.value == getString(R.string.type_of_news_defaultValue)
 
             val countries = findPreference<DropDownPreference>(getString(R.string.countries_key))
+            val languages = findPreference<DropDownPreference>(getString(R.string.languages_key))
             val categories = findPreference<DropDownPreference>(getString(R.string.categories_key))
             val dateFrom = findPreference<DatePreference>(getString(R.string.date_from_key))
             val dateTo = findPreference<DatePreference>(getString(R.string.date_to_key))
             val sortBy = findPreference<DropDownPreference>(getString(R.string.sortBy_key))
 
-            val title = if(isForTopNews) getString(R.string.countries_title) else "Languages"
-            countries?.title = title
+            countries?.isVisible = isForTopNews
+            languages?.isVisible = !isForTopNews
             categories?.isVisible = isForTopNews
             dateFrom?.isVisible = !isForTopNews
             dateTo?.isVisible = !isForTopNews

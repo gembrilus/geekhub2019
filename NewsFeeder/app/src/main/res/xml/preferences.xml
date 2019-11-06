@@ -10,7 +10,7 @@
     <DropDownPreference
         android:defaultValue="@string/countries_defaultValue"
         android:entries="@array/countries"
-        android:entryValues="@array/countries"
+        android:entryValues="@array/countries_values"
         android:key="@string/countries_key"
         android:title="@string/countries_title" />
 
@@ -20,6 +20,13 @@
         android:entryValues="@array/categories_values"
         android:key="@string/categories_key"
         android:title="@string/categories_title" />
+
+    <DropDownPreference
+        android:defaultValue="@string/languages_defaultValue"
+        android:entries="@array/languages"
+        android:entryValues="@array/languages_value"
+        android:key="@string/languages_key"
+        android:title="@string/languages_title" />
 
     <EditTextPreference
         android:key="@string/keywords_key"

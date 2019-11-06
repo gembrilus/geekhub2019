@@ -13,10 +13,9 @@ import android.webkit.WebResourceRequest
 import android.os.Build
 
 
-
-
-
 class NewsFragment : Fragment() {
+
+    private val URL_KEY = "URL"
 
     companion object {
         fun getInstance() = NewsFragment()
@@ -28,9 +27,9 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val fragmentVew = inflater.inflate(R.layout.fragment_news, container, false)
-        val url = requireActivity().intent.getStringExtra("URL") ?: arguments?.getString("URL")
+        val url = requireActivity().intent.getStringExtra(URL_KEY) ?: arguments?.getString(URL_KEY)
         fragmentVew.web_view.apply {
-            setInitialScale(resources.getInteger(R.integer.web_page_scale))
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 webViewClient = object : WebViewClient() {
                     override fun shouldOverrideUrlLoading(
@@ -49,7 +48,12 @@ class NewsFragment : Fragment() {
                     }
                 }
             }
-            webChromeClient = WebChromeClient()
+
+            //webChromeClient = WebChromeClient()
+
+            setInitialScale(resources.getInteger(R.integer.web_page_scale))
+            settings.builtInZoomControls = true
+            settings.loadWithOverviewMode = true
             settings.javaScriptEnabled = true
             loadUrl(url)
         }

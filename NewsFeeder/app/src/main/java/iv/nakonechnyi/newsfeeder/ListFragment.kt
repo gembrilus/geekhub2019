@@ -28,6 +28,11 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
     private lateinit var fragmentView: View
     private lateinit var recyclerView: RecyclerView
     private var callback: Callbacks? = null
+    private val orientation: Int
+        get() = if (resources.getBoolean(R.bool.recycler_orientation))
+            RecyclerView.VERTICAL
+        else
+            RecyclerView.HORIZONTAL
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,7 +67,7 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
         }
 
         recyclerView = fragmentView.recycle_fragment.apply {
-            layoutManager = LinearLayoutManager(requireContext(), getOrientation(), false)
+            layoutManager = LinearLayoutManager(requireContext(), orientation, false)
             adapter = RecyclerAdapter(this@ListFragment, viewModel.getData()).apply {
                 onClickListener = object : OnItemClickListener {
                     override fun onItemClick(url: String) {
@@ -118,20 +123,21 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
             getString(R.string.type_of_news_key),
             getString(R.string.type_of_news_defaultValue)
         )!!
-        val country = sharedPreferences.getString(getString(R.string.countries_key), "")!!
-        val category = sharedPreferences.getString(getString(R.string.categories_key), "")!!
-        val keywords = sharedPreferences.getString(getString(R.string.keywords_key), "")!!
-        val count = sharedPreferences.getString(getString(R.string.count_key), "")!!
-        val dateFrom = sharedPreferences.getString(getString(R.string.date_from_key), "")!!
-        val dateTo = sharedPreferences.getString(getString(R.string.date_to_key), "")!!
-        val sortBy = sharedPreferences.getString(getString(R.string.sortBy_key), "")!!
+        val country = sharedPreferences.getString(getString(R.string.countries_key), "")
+        val language = sharedPreferences.getString(getString(R.string.languages_key), "")
+        val category = sharedPreferences.getString(getString(R.string.categories_key), "")
+        val keywords = sharedPreferences.getString(getString(R.string.keywords_key), "")
+        val count = sharedPreferences.getString(getString(R.string.count_key), "")
+        val dateFrom = sharedPreferences.getString(getString(R.string.date_from_key), "")
+        val dateTo = sharedPreferences.getString(getString(R.string.date_to_key), "")
+        val sortBy = sharedPreferences.getString(getString(R.string.sortBy_key), "")
 
 
         return buildString {
             if (typeOfNews == getString(R.string.type_of_news_defaultValue)) {
                 require(!(country == "" && category == "" && keywords == "")) { "Вы должны указать фильтр запроса" }
                 append("$baseUrl$typeOfNews?")
-                if (country != "") append("country=$country&")
+                if (country != "" || country != getString(R.string.all_country_item_name)) append("country=$country&")
                 if (category != "") append("category=$category&")
                 if (keywords != "") append("q=$keywords&")
                 if (count != "") append("pageSize=$count&")
@@ -143,18 +149,11 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
                 if (keywords != "") append("q=$keywords&")
                 if (dateFrom != "" || dateFrom != getString(R.string.date_not_set)) append("from=$dateFrom&")
                 if (dateTo != "" || dateTo != getString(R.string.date_not_set)) append("to=$dateTo&")
-                if (country != "") append("language=$country&")
+                if (language != "" || language != getString(R.string.all_lang_item_name)) append("language=$language&")
                 if (sortBy != "") append("sortBy=$sortBy&")
                 if (count != "") append("pageSize=$count&")
                 append("apiKey=$apiKey")
             }
         }
     }
-
-    private fun getOrientation() =
-        if (resources.getBoolean(R.bool.recycler_orientation))
-            RecyclerView.VERTICAL
-        else
-            RecyclerView.HORIZONTAL
-
 }
