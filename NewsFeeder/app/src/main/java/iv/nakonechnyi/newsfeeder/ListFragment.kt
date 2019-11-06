@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import iv.nakonechnyi.newsfeeder.model.Article
 import iv.nakonechnyi.newsfeeder.model.DataViewModel
 import iv.nakonechnyi.newsfeeder.net.NewsLoaderHelper
 import kotlinx.android.synthetic.main.list_fragment.view.*
@@ -24,6 +26,7 @@ class ListFragment : Fragment() {
 
     private lateinit var viewModel: DataViewModel
     private lateinit var fragmentView: View
+    private lateinit var recyclerAdapter: RecyclerAdapter
     private lateinit var recyclerView: RecyclerView
     private var callback: Callbacks? = null
     private val orientation: Int
@@ -47,30 +50,33 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentView = inflater.inflate(R.layout.list_fragment, container, false)
+        viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
+        recyclerAdapter = RecyclerAdapter().apply {
+            onClickListener = object : OnItemClickListener {
+                override fun onItemClick(url: String) {
+                    callback?.onArticleSelected(url)
+                }
+            }
+        }
+
+        recyclerView = fragmentView.recycle_fragment.apply {
+            layoutManager = LinearLayoutManager(requireContext(), orientation, false)
+            adapter = recyclerAdapter
+        }
+
+        viewModel.data.observe(this, Observer {list: List<Article> -> recyclerAdapter.submit(list)})
+
         return fragmentView
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
-
         GlobalScope.launch(Dispatchers.Main) {
             val list = NewsLoaderHelper(getUrlWithArgs(getString(R.string.news_api_baseUrl))).fetchNews()
             viewModel.data.value = list
-            recyclerView.adapter?.notifyDataSetChanged()
         }
 
-        recyclerView = fragmentView.recycle_fragment.apply {
-            layoutManager = LinearLayoutManager(requireContext(), orientation, false)
-            adapter = RecyclerAdapter(this@ListFragment, viewModel.data).apply {
-                onClickListener = object : OnItemClickListener {
-                    override fun onItemClick(url: String) {
-                        callback?.onArticleSelected(url)
-                    }
-                }
-            }
-        }
     }
 
     override fun onDetach() {

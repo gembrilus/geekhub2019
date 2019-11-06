@@ -1,26 +1,28 @@
 package iv.nakonechnyi.newsfeeder
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import iv.nakonechnyi.newsfeeder.model.Article
+import iv.nakonechnyi.newsfeeder.net.NewsLoaderHelper
 import kotlinx.android.synthetic.main.one_list_item_news.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class RecyclerAdapter(owner: LifecycleOwner, liveData: LiveData<List<Article>>) :
+class RecyclerAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var data = listOf<Article>()
+    private val listDiffer: AsyncListDiffer<Article>  = AsyncListDiffer(this, DIFF_CALLBACK)
     lateinit var onClickListener: OnItemClickListener
 
-    init {
-        liveData.observe(owner, Observer {
-            data = it
-        })
+    fun submit(list: List<Article>){
+        listDiffer.submitList(list)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -32,19 +34,40 @@ class RecyclerAdapter(owner: LifecycleOwner, liveData: LiveData<List<Article>>) 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         with(holder as NewsHolder) {
+
+            val currentItem = listDiffer.currentList[position]
+
             itemView.setOnClickListener {
-                onClickListener.onItemClick(data[position].url)
+                onClickListener.onItemClick(currentItem.url)
             }
-            bind(data[position])
+            bind(currentItem)
         }
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun getItemCount(): Int = listDiffer.currentList.size
+
+    companion object{
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Article>() {
+
+            override fun areItemsTheSame(oldArticle: Article, newArticle: Article): Boolean {
+                return oldArticle.title == newArticle.title
+            }
+            override fun areContentsTheSame(oldArticle: Article, newArticle: Article): Boolean {
+                return oldArticle == newArticle
+            }
+        }
+    }
+
 
     private inner class NewsHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(article: Article) {
             itemView.title.text = article.title
-            itemView.article_image.setImageURI(Uri.parse(article.urlToImage))
+            GlobalScope.launch(Dispatchers.IO) {
+                val image = NewsLoaderHelper(article.urlToImage).fetchImage()
+                launch(Dispatchers.Main) {
+                    itemView.article_image.setImageBitmap(image)
+                }
+            }
         }
     }
 

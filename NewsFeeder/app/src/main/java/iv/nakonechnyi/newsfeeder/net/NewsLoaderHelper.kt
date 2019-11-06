@@ -1,17 +1,16 @@
 package iv.nakonechnyi.newsfeeder.net
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import iv.nakonechnyi.newsfeeder.model.Article
 import iv.nakonechnyi.newsfeeder.stringToLongDate
 import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.nio.charset.Charset
 
 
@@ -24,9 +23,18 @@ class NewsLoaderHelper(
         val handler = CoroutineExceptionHandler {_, exception ->
             exception.printStackTrace()
         }
-        val jsonResponse = GlobalScope.async(Dispatchers.IO + handler) { makeHTTPRequest(url) }
+        val jsonResponse = GlobalScope.async(Dispatchers.IO + handler) { makeHTTPRequest(url) {stream -> readFromStream(stream)} }
         val articles = GlobalScope.async(Dispatchers.IO + handler) { extractArticlesFromJson(jsonResponse.await()) }
         return articles.await()
+    }
+
+    suspend fun fetchImage(): Bitmap? {
+        val url = createUrl(stringUrl)
+        val handler = CoroutineExceptionHandler {_, exception ->
+            exception.printStackTrace()
+        }
+        val jsonResponse = GlobalScope.async(Dispatchers.IO + handler) { makeHTTPRequest(url){stream -> readImageFromStream(stream)} }
+        return jsonResponse.await()
     }
 
     private fun extractArticlesFromJson(jsonResponse: String?): List<Article> {
@@ -62,8 +70,8 @@ class NewsLoaderHelper(
     }
 
     @Throws(IOException::class)
-    private fun makeHTTPRequest(url: URL?): String {
-        var jsonResponse = ""
+    private fun <T> makeHTTPRequest(url: URL?, loader: (InputStream?) -> T ): T? {
+        var jsonResponse: T? = null
         var urlConnection: HttpURLConnection? = null
         var inputStream: InputStream? = null
         try {
@@ -76,7 +84,7 @@ class NewsLoaderHelper(
                 }
             }
             inputStream = urlConnection?.inputStream
-            jsonResponse = readFromStream(inputStream)
+            jsonResponse = loader(inputStream)
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
@@ -87,7 +95,7 @@ class NewsLoaderHelper(
     }
 
     @Throws(IOException::class)
-    private fun readFromStream(inputStream: InputStream?): String {
+    private fun readFromStream(inputStream: InputStream?): String? {
         val output = StringBuilder()
         if (inputStream != null) {
             val inputStreamReader = InputStreamReader(inputStream, Charset.forName("UTF-8"))
@@ -100,6 +108,9 @@ class NewsLoaderHelper(
         }
         return output.toString()
     }
+
+    private fun readImageFromStream(inputStream: InputStream?) =
+        BitmapFactory.decodeStream(inputStream)
 
 
     private fun createUrl(stringUrl: String): URL? {

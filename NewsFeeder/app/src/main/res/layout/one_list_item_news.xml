@@ -4,18 +4,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical|center_horizontal"
     android:padding="8dp"
     android:layout_marginBottom="8dp"
     android:background="@drawable/rounded_bg">
 
     <ImageView
         android:id="@+id/article_image"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxHeight="72dp"
+        android:maxWidth="72dp"
+        android:padding="8dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/title"
-        app:layout_constraintTop_toTopOf="@id/title"
-        app:layout_constraintBottom_toBottomOf="@id/title"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/title"
