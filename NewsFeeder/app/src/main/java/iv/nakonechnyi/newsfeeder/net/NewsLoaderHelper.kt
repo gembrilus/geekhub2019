@@ -2,6 +2,7 @@ package iv.nakonechnyi.newsfeeder.net
 
 import iv.nakonechnyi.newsfeeder.model.Article
 import iv.nakonechnyi.newsfeeder.stringToLongDate
+import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -18,20 +19,18 @@ class NewsLoaderHelper(
     private val stringUrl: String
 ) {
 
-    fun fetchNews(): List<Article>? {
+    suspend fun fetchNews(): List<Article> {
         val url = createUrl(stringUrl)
-
-        var jsonResponse = ""
-
-        try {
-            jsonResponse = makeHTTPRequest(url)
-        } catch (e: IOException) {
-            e.printStackTrace()
+        val handler = CoroutineExceptionHandler {_, exception ->
+            exception.printStackTrace()
         }
-        return extractArticlesFromJson(jsonResponse)
+        val jsonResponse = GlobalScope.async(Dispatchers.IO + handler) { makeHTTPRequest(url) }
+        val articles = GlobalScope.async(Dispatchers.IO + handler) { extractArticlesFromJson(jsonResponse.await()) }
+        return articles.await()
     }
 
-    private fun extractArticlesFromJson(jsonResponse: String): List<Article> {
+    private fun extractArticlesFromJson(jsonResponse: String?): List<Article> {
+        if (jsonResponse == null) return emptyList()
 
         val list = mutableListOf<Article>()
 
@@ -112,5 +111,4 @@ class NewsLoaderHelper(
         }
         return url
     }
-
 }

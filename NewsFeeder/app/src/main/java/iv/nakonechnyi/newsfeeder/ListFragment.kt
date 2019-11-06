@@ -2,23 +2,21 @@ package iv.nakonechnyi.newsfeeder
 
 import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.loader.app.LoaderManager
-import androidx.loader.content.Loader
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import iv.nakonechnyi.newsfeeder.model.Article
 import iv.nakonechnyi.newsfeeder.model.DataViewModel
-import iv.nakonechnyi.newsfeeder.net.NewsLoader
+import iv.nakonechnyi.newsfeeder.net.NewsLoaderHelper
 import kotlinx.android.synthetic.main.list_fragment.view.*
-import java.lang.IllegalArgumentException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
+class ListFragment : Fragment() {
 
     companion object {
         fun newInstance() = ListFragment()
@@ -57,24 +55,20 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
 
         viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
 
-        val netManager =
-            requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val netInfo = netManager.activeNetworkInfo
-        if (netInfo != null && netInfo.isConnected) {
-            LoaderManager.getInstance(this).initLoader(0, null, this)
-        } else {
-
+        GlobalScope.launch(Dispatchers.Main) {
+            val list = NewsLoaderHelper(getUrlWithArgs(getString(R.string.news_api_baseUrl))).fetchNews()
+            viewModel.data.value = list
+            recyclerView.adapter?.notifyDataSetChanged()
         }
 
         recyclerView = fragmentView.recycle_fragment.apply {
             layoutManager = LinearLayoutManager(requireContext(), orientation, false)
-            adapter = RecyclerAdapter(this@ListFragment, viewModel.getData()).apply {
+            adapter = RecyclerAdapter(this@ListFragment, viewModel.data).apply {
                 onClickListener = object : OnItemClickListener {
                     override fun onItemClick(url: String) {
                         callback?.onArticleSelected(url)
                     }
                 }
-
             }
         }
     }
@@ -88,7 +82,6 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
         inflater.inflate(R.menu.main_menu, menu)
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_item_settings -> {
@@ -98,23 +91,6 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<Article>> {
-        return NewsLoader(
-            requireContext(),
-            getUrlWithArgs(getString(R.string.news_api_baseUrl))
-        )
-    }
-
-    override fun onLoadFinished(loader: Loader<List<Article>>, news: List<Article>?) {
-        news?.let { viewModel.setData(it) }
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
-
-    override fun onLoaderReset(loader: Loader<List<Article>>) {
-        viewModel.setData(listOf())
-    }
-
-    @Throws(IllegalArgumentException::class)
     private fun getUrlWithArgs(baseUrl: String): String {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
