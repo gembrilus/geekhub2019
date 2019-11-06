@@ -1,0 +1,77 @@
+<resources>
+
+    <string name="app_name" translatable="false">News Feeder</string>
+    <string name="menu_item_settings">Настройки</string>
+    <string name="title_activity_settings" translatable="false">@string/menu_item_settings</string>
+
+    <!--Preferences-->
+
+    <string name="type_of_news_key" translatable="false">type_of_news</string>
+    <string name="type_of_news_title">Тип новостей</string>
+    <string name="type_of_news_defaultValue" translatable="false">top-headlines</string>
+    <string name="top_news_item_name">Топовые новости</string>
+    <string name="all_news_item_name">Все новости</string>
+
+    <string name="countries_key" translatable="false">countries</string>
+    <string name="countries_title">Страна</string>
+    <string name="countries_defaultValue" translatable="false">ua</string>
+    <string name="all_country_item_name">Все страны</string>
+    <string name="austalia_country_item_name">Австралия</string>
+    <string name="belgium_country_item_name">Бельгия</string>
+    <string name="bulgaria_country_item_name">Болгария</string>
+    <string name="canada_item_name">Канада</string>
+    <string name="czech_country_item_name">Чехия</string>
+    <string name="germany_country_item_name">Германия</string>
+    <string name="italy_country_item_name">Италия</string>
+    <string name="russia_country_item_name">Россия</string>
+    <string name="ukraine_item_name">Украина</string>
+    <string name="usa_country_item_name">США</string>
+
+
+    <string name="categories_key" translatable="false">categories</string>
+    <string name="categories_title">Категория новостей</string>
+    <string name="categories_defaultValue" translatable="false">general</string>
+    <string name="business_item_name">Бизнесс</string>
+    <string name="entertainment_item_name">Развлечения</string>
+    <string name="general_item_name">Общие</string>
+    <string name="health_item_name">Здоровье</string>
+    <string name="science_item_name">Наука</string>
+    <string name="sports_item_name">Спорт</string>
+    <string name="technology_item_name">Технологии</string>
+
+    <string name="keywords_key" translatable="false">q</string>
+    <string name="keywords_title">Ключевые слова</string>
+
+    <string name="sortBy_key" translatable="false">sort_by</string>
+    <string name="sortBy_title">Сортировать по</string>
+    <string name="sortBy_defaultValue" translatable="false">publishedAt</string>
+
+    <string name="date_from_key" translatable="false">date_from</string>
+    <string name="date_from_title">Начиная с даты</string>
+
+    <string name="date_to_key" translatable="false">date_to</string>
+    <string name="date_to_title">До даты</string>
+
+    <string name="date_not_set">Не установлено</string>
+
+    <string name="languages_title">Язык новостей</string>
+    <string name="languages_key" translatable="false">languages</string>
+    <string name="languages_defaultValue" translatable="false">all</string>
+    <string name="all_lang_item_name">Любой</string>
+    <string name="german_lang_item_name">Немецкий</string>
+    <string name="en_lang_item_name">Английский</string>
+    <string name="italian_lang_item_name">Итальянский</string>
+    <string name="rus_lang_item_name">Русский</string>
+
+
+    <string name="count_key" translatable="false">count_key</string>
+    <string name="count_title">Количество новостей</string>
+    <string name="count_defaultValue" translatable="false">20</string>
+
+    <!--Preferences-->
+
+    <string name="news_apiKey" translatable="false">40f5a3b9ae834b2395af75738ccaca3b</string>
+    <string name="news_api_baseUrl" translatable="false">https://newsapi.org/v2/</string>
+
+
+</resources>
