@@ -50,7 +50,12 @@ class DatePreferenceDialogFragmentCompat(key: String) :
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
-        dialog = DatePickerDialog(activity as FragmentActivity,this, year, month, day)
+        dialog = DatePickerDialog(activity as FragmentActivity,this, year, month, day).apply {
+            setButton(DialogInterface.BUTTON_NEUTRAL, "Reset") { _, _ ->
+                date = null
+                onClick(dialog, DialogInterface.BUTTON_POSITIVE)
+            }
+        }
         return dialog
     }
 

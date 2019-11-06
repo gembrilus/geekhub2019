@@ -18,11 +18,7 @@ class DatePreference(context: Context, attrs: AttributeSet) : DialogPreference(c
         summaryProvider = SimpleSummaryProvider.instance
     }
 
-    private val DEFAULT_VALUE
-        get() = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
-            Date()
-        )
-    var date: String? = DEFAULT_VALUE
+    var date: String? = null
         set(value) {
             val changed = !TextUtils.equals(value, date)
             if (changed) {
@@ -31,7 +27,7 @@ class DatePreference(context: Context, attrs: AttributeSet) : DialogPreference(c
                 notifyChanged()
             }
         }
-    var summary = ""
+    private var mSummary: String? = null
     private val mListener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
         if (getKey() == key) {
             date = prefs.getString(key, date)
@@ -50,7 +46,7 @@ class DatePreference(context: Context, attrs: AttributeSet) : DialogPreference(c
 
     override fun onSetInitialValue(restorePersistedValue: Boolean, defaultValue: Any?) {
         if (restorePersistedValue) {
-            date = getPersistedString(DEFAULT_VALUE)
+            date = getPersistedString(null)
         } else {
             date = defaultValue as String
             persistString(date)
@@ -80,6 +76,18 @@ class DatePreference(context: Context, attrs: AttributeSet) : DialogPreference(c
         val myState = state as SavedState
         super.onRestoreInstanceState(myState.superState)
         date = myState.value
+    }
+
+    override fun setSummary(summary: CharSequence?) {
+        if (summary == null && mSummary != null) {
+            mSummary = null
+        } else if (summary != null && summary != mSummary) {
+            mSummary = summary.toString()
+        }
+    }
+
+    override fun getSummary(): CharSequence? {
+            return summaryProvider?.provideSummary(this)
     }
 
 
@@ -117,7 +125,7 @@ class DatePreference(context: Context, attrs: AttributeSet) : DialogPreference(c
 
         override fun provideSummary(preference: DatePreference): CharSequence? {
             return if (TextUtils.isEmpty(preference.date)) {
-                preference.context.getString(R.string.not_set)
+                preference.context.getString(R.string.date_not_set)
             } else {
                 preference.date
             }

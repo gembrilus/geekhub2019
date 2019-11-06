@@ -31,7 +31,9 @@
     <string name="count_key">count_key</string>
     <string name="count_title">Count news</string>
     <string name="count_defaultValue">20</string>
-    <string name="not_set">Not set</string>
+    <string name="date_not_set">Not set</string>
+    <string name="news_apiKey">40f5a3b9ae834b2395af75738ccaca3b</string>
+    <string name="news_api_baseUrl">https://newsapi.org/v2/</string>
 
 
 </resources>

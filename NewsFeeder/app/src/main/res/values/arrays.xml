@@ -11,6 +11,7 @@
     </string-array>
 
     <string-array name="countries">
+        <item></item>
         <item>ru</item>
         <item>ua</item>
         <item>us</item>

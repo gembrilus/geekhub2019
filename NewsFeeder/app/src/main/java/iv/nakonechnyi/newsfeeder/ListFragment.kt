@@ -9,12 +9,14 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import iv.nakonechnyi.newsfeeder.model.Article
 import iv.nakonechnyi.newsfeeder.model.DataViewModel
 import iv.nakonechnyi.newsfeeder.net.NewsLoader
 import kotlinx.android.synthetic.main.list_fragment.view.*
+import java.lang.IllegalArgumentException
 
 class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
 
@@ -83,7 +85,7 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.menu_item_settings -> {
                 startActivity(Intent(context, SettingsActivity::class.java))
             }
@@ -94,7 +96,7 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<List<Article>> {
         return NewsLoader(
             requireContext(),
-            "https://newsapi.org/v2/top-headlines?country=ua&category=science&apiKey=40f5a3b9ae834b2395af75738ccaca3b"
+            getUrlWithArgs(getString(R.string.news_api_baseUrl))
         )
     }
 
@@ -105,6 +107,48 @@ class ListFragment : Fragment(), LoaderManager.LoaderCallbacks<List<Article>> {
 
     override fun onLoaderReset(loader: Loader<List<Article>>) {
         viewModel.setData(listOf())
+    }
+
+    @Throws(IllegalArgumentException::class)
+    private fun getUrlWithArgs(baseUrl: String): String {
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
+        val apiKey = getString(R.string.news_apiKey)
+        val typeOfNews = sharedPreferences.getString(
+            getString(R.string.type_of_news_key),
+            getString(R.string.type_of_news_defaultValue)
+        )!!
+        val country = sharedPreferences.getString(getString(R.string.countries_key), "")!!
+        val category = sharedPreferences.getString(getString(R.string.categories_key), "")!!
+        val keywords = sharedPreferences.getString(getString(R.string.keywords_key), "")!!
+        val count = sharedPreferences.getString(getString(R.string.count_key), "")!!
+        val dateFrom = sharedPreferences.getString(getString(R.string.date_from_key), "")!!
+        val dateTo = sharedPreferences.getString(getString(R.string.date_to_key), "")!!
+        val sortBy = sharedPreferences.getString(getString(R.string.sortBy_key), "")!!
+
+
+        return buildString {
+            if (typeOfNews == getString(R.string.type_of_news_defaultValue)) {
+                require(!(country == "" && category == "" && keywords == "")) { "Вы должны указать фильтр запроса" }
+                append("$baseUrl$typeOfNews?")
+                if (country != "") append("country=$country&")
+                if (category != "") append("category=$category&")
+                if (keywords != "") append("q=$keywords&")
+                if (count != "") append("pageSize=$count&")
+                append("apiKey=$apiKey")
+            }
+            else {
+                require(!(country == "" && keywords == "" && dateFrom == "" && dateTo == "")) { "Вы должны указать фильтр запроса" }
+                append("$baseUrl$typeOfNews?")
+                if (keywords != "") append("q=$keywords&")
+                if (dateFrom != "" || dateFrom != getString(R.string.date_not_set)) append("from=$dateFrom&")
+                if (dateTo != "" || dateTo != getString(R.string.date_not_set)) append("to=$dateTo&")
+                if (country != "") append("language=$country&")
+                if (sortBy != "") append("sortBy=$sortBy&")
+                if (count != "") append("pageSize=$count&")
+                append("apiKey=$apiKey")
+            }
+        }
     }
 
     private fun getOrientation() =

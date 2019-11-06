@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "576032769739",
+    "firebase_url": "https://nakonechnyimaks.firebaseio.com",
+    "project_id": "nakonechnyimaks",
+    "storage_bucket": "nakonechnyimaks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576032769739:android:aa081a3771c2e937b1fd4e",
+        "android_client_info": {
+          "package_name": "iv.nakonechnyi.aboutme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576032769739-eeeh0989an9f9lp17ba960s90f1si2p1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx_8fnwSU2rC_BRyWoSXa8qGQC6oOYKVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576032769739-eeeh0989an9f9lp17ba960s90f1si2p1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576032769739:android:e1380f50103561b7b1fd4e",
+        "android_client_info": {
+          "package_name": "iv.nakonechnyi.newsfeeder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "576032769739-eeeh0989an9f9lp17ba960s90f1si2p1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx_8fnwSU2rC_BRyWoSXa8qGQC6oOYKVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "576032769739-eeeh0989an9f9lp17ba960s90f1si2p1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
