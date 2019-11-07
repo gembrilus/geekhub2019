@@ -122,7 +122,7 @@ class ListFragment : Fragment() {
             if (typeOfNews == getString(R.string.type_of_news_defaultValue)) {
                 require(!(country == "" && category == "" && keywords == "")) { getString(R.string.require_news_filter) }
                 append("$baseUrl$typeOfNews?")
-                if (country != "" || country != getString(R.string.all_country_item_name)) append("country=$country&")
+                if (country != "") append("country=$country&")
                 if (category != "") append("category=$category&")
                 if (keywords != "") append("q=$keywords&")
                 if (count != "") append("pageSize=$count&")

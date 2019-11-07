@@ -15,7 +15,6 @@
     <string name="countries_key" translatable="false">countries</string>
     <string name="countries_title">Country of news</string>
     <string name="countries_defaultValue" translatable="false">ua</string>
-    <string name="all_country_item_name">Any</string>
     <string name="austalia_country_item_name">Australia</string>
     <string name="belgium_country_item_name">Belgium</string>
     <string name="bulgaria_country_item_name">Bulgaria</string>

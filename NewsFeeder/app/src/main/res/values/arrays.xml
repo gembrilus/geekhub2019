@@ -11,7 +11,6 @@
     </string-array>
 
     <string-array name="countries">
-        <item>@string/all_country_item_name</item>
         <item>@string/austalia_country_item_name</item>
         <item>@string/belgium_country_item_name</item>
         <item>@string/bulgaria_country_item_name</item>
@@ -25,7 +24,6 @@
     </string-array>
 
     <string-array name="countries_values">
-        <item>all</item>
         <item>au</item>
         <item>be</item>
         <item>bg</item>
