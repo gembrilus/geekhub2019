@@ -1,7 +1,5 @@
 package iv.nakonechnyi.newsfeeder
 
-import android.graphics.Bitmap
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +19,8 @@ class RecyclerAdapter :
     private val listDiffer: AsyncListDiffer<Article>  = AsyncListDiffer(this, DIFF_CALLBACK)
     lateinit var onClickListener: OnItemClickListener
 
+    var position: Int = 0
+
     fun submit(list: List<Article>){
         listDiffer.submitList(list)
     }
@@ -31,16 +31,17 @@ class RecyclerAdapter :
         return NewsHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, pos: Int) {
 
         with(holder as NewsHolder) {
 
-            val currentItem = listDiffer.currentList[position]
+            val currentArticle = listDiffer.currentList[pos]
 
             itemView.setOnClickListener {
-                onClickListener.onItemClick(currentItem.url)
+                this@RecyclerAdapter.position = pos
+                onClickListener.onItemClick(currentArticle.url)
             }
-            bind(currentItem)
+            bind(currentArticle)
         }
     }
 

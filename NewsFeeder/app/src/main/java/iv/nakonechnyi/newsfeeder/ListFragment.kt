@@ -27,6 +27,7 @@ class ListFragment : Fragment() {
     private lateinit var viewModel: DataViewModel
     private lateinit var fragmentView: View
     private lateinit var recyclerAdapter: RecyclerAdapter
+    private lateinit var recycleLayoutManager: LinearLayoutManager
     private lateinit var recyclerView: RecyclerView
     private var callback: Callbacks? = null
     private val orientation: Int
@@ -51,17 +52,19 @@ class ListFragment : Fragment() {
     ): View {
         fragmentView = inflater.inflate(R.layout.list_fragment, container, false)
         viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
+        recycleLayoutManager = LinearLayoutManager(requireContext(), orientation, false)
         recyclerAdapter = RecyclerAdapter().apply {
             onClickListener = object : OnItemClickListener {
                 override fun onItemClick(url: String) {
+                    recycleLayoutManager.scrollToPositionWithOffset(recyclerAdapter.position, 20)
                     callback?.onArticleSelected(url)
                 }
             }
         }
 
         recyclerView = fragmentView.recycle_fragment.apply {
-            layoutManager = LinearLayoutManager(requireContext(), orientation, false)
             adapter = recyclerAdapter
+            layoutManager = recycleLayoutManager
         }
 
         viewModel.data.observe(this, Observer {list: List<Article> -> recyclerAdapter.submit(list)})
@@ -117,7 +120,7 @@ class ListFragment : Fragment() {
 
         return buildString {
             if (typeOfNews == getString(R.string.type_of_news_defaultValue)) {
-                require(!(country == "" && category == "" && keywords == "")) { "Вы должны указать фильтр запроса" }
+                require(!(country == "" && category == "" && keywords == "")) { getString(R.string.require_news_filter) }
                 append("$baseUrl$typeOfNews?")
                 if (country != "" || country != getString(R.string.all_country_item_name)) append("country=$country&")
                 if (category != "") append("category=$category&")
@@ -126,7 +129,7 @@ class ListFragment : Fragment() {
                 append("apiKey=$apiKey")
             }
             else {
-                require(!(country == "" && keywords == "" && dateFrom == "" && dateTo == "")) { "Вы должны указать фильтр запроса" }
+                require(!(country == "" && keywords == "" && dateFrom == "" && dateTo == "")) { getString(R.string.require_news_filter) }
                 append("$baseUrl$typeOfNews?")
                 if (keywords != "") append("q=$keywords&")
                 if (dateFrom != "" || dateFrom != getString(R.string.date_not_set)) append("from=$dateFrom&")
