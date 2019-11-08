@@ -51,8 +51,15 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentView = inflater.inflate(R.layout.list_fragment, container, false)
+        return fragmentView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
+
         recycleLayoutManager = LinearLayoutManager(requireContext(), orientation, false)
+
         recyclerAdapter = RecyclerAdapter().apply {
             onClickListener = object : OnItemClickListener {
                 override fun onItemClick(url: String) {
@@ -67,16 +74,17 @@ class ListFragment : Fragment() {
             layoutManager = recycleLayoutManager
         }
 
-        viewModel.data.observe(this, Observer {list: List<Article> -> recyclerAdapter.submit(list)})
-
-        return fragmentView
+        viewModel.data.observe(
+            this,
+            Observer { list: List<Article> -> recyclerAdapter.submit(list) })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         GlobalScope.launch(Dispatchers.Main) {
-            val list = NewsLoaderHelper(getUrlWithArgs(getString(R.string.news_api_baseUrl))).fetchNews()
+            val list =
+                NewsLoaderHelper(getUrlWithArgs(getString(R.string.news_api_baseUrl))).fetchNews()
             viewModel.data.value = list
         }
 
@@ -107,7 +115,7 @@ class ListFragment : Fragment() {
         val typeOfNews = sharedPreferences.getString(
             getString(R.string.type_of_news_key),
             getString(R.string.type_of_news_defaultValue)
-        )!!
+        )
         val country = sharedPreferences.getString(getString(R.string.countries_key), "")
         val language = sharedPreferences.getString(getString(R.string.languages_key), "")
         val category = sharedPreferences.getString(getString(R.string.categories_key), "")
@@ -116,7 +124,6 @@ class ListFragment : Fragment() {
         val dateFrom = sharedPreferences.getString(getString(R.string.date_from_key), "")
         val dateTo = sharedPreferences.getString(getString(R.string.date_to_key), "")
         val sortBy = sharedPreferences.getString(getString(R.string.sortBy_key), "")
-
 
         return buildString {
             if (typeOfNews == getString(R.string.type_of_news_defaultValue)) {
@@ -127,9 +134,12 @@ class ListFragment : Fragment() {
                 if (keywords != "") append("q=$keywords&")
                 if (count != "") append("pageSize=$count&")
                 append("apiKey=$apiKey")
-            }
-            else {
-                require(!(country == "" && keywords == "" && dateFrom == "" && dateTo == "")) { getString(R.string.require_news_filter) }
+            } else {
+                require(!(country == "" && keywords == "" && dateFrom == "" && dateTo == "")) {
+                    getString(
+                        R.string.require_news_filter
+                    )
+                }
                 append("$baseUrl$typeOfNews?")
                 if (keywords != "") append("q=$keywords&")
                 if (dateFrom != "" || dateFrom != getString(R.string.date_not_set)) append("from=$dateFrom&")

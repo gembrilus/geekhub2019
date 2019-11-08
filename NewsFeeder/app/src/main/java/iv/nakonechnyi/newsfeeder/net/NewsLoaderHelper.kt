@@ -71,7 +71,7 @@ class NewsLoaderHelper(
 
     @Throws(IOException::class)
     private fun <T> makeHTTPRequest(url: URL?, loader: (InputStream?) -> T ): T? {
-        var jsonResponse: T? = null
+        var response: T? = null
         var urlConnection: HttpURLConnection? = null
         var inputStream: InputStream? = null
         try {
@@ -84,14 +84,14 @@ class NewsLoaderHelper(
                 }
             }
             inputStream = urlConnection?.inputStream
-            jsonResponse = loader(inputStream)
+            response = loader(inputStream)
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
                 urlConnection?.disconnect()
                 inputStream?.close()
         }
-        return jsonResponse
+        return response
     }
 
     @Throws(IOException::class)

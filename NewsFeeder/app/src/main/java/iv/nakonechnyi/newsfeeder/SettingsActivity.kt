@@ -2,6 +2,7 @@ package iv.nakonechnyi.newsfeeder
 
 import android.os.Bundle
 import android.text.InputType
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.*
 import iv.nakonechnyi.newsfeeder.preferences.DatePreference
@@ -48,19 +49,20 @@ class SettingsActivity : AppCompatActivity(),
         Preference.OnPreferenceChangeListener {
 
         override fun onPreferenceChange(pref: Preference?, value: Any?): Boolean {
-            val nValue = value as String
-            if (pref?.key == getString(R.string.type_of_news_key)) {
-                setPreferencesVisibility()
-            }
+            if (pref == null) return false
+            val nValue = value?.let { it as String }
             when (pref) {
                 is DropDownPreference -> {
+                    if (pref.key == getString(R.string.type_of_news_key)) {
+                        nValue?.let { setPreferencesVisibility(it) }
+                    }
                     val prefIndex = pref.findIndexOfValue(nValue)
                     if (prefIndex >= 0) {
                         val labels = pref.entries
                         pref.summary = labels[prefIndex]
                     }
                 }
-                else -> pref?.summary = nValue
+                else -> pref.summary = nValue
             }
             return true
         }
@@ -74,24 +76,21 @@ class SettingsActivity : AppCompatActivity(),
         }
 
         private fun initialize() {
-            setPreferencesVisibility()
-            preferenceManager.sharedPreferences.all.entries.forEach {
-                val pref = findPreference<Preference>(it.key)
-                pref?.let { p -> p.onPreferenceChangeListener = this }
-                when (pref) {
+            val rootPreference = preferenceManager.preferenceScreen
+            var index = rootPreference.preferenceCount-1
+            while (index >= 0){
+                val pref = rootPreference.getPreference(index--)
+                pref.onPreferenceChangeListener = this
+                when(pref) {
                     is DropDownPreference -> pref.summary = pref.entry
                     is EditTextPreference -> pref.summary = pref.text
                     is DatePreference -> pref.summary = pref.date
                 }
-
             }
+            setPreferencesVisibility()
         }
 
-        private fun setPreferencesVisibility() {
-
-            val typeOfNews =
-                findPreference<DropDownPreference>(getString(R.string.type_of_news_key))
-            val isForTopNews = typeOfNews?.value == getString(R.string.type_of_news_defaultValue)
+        private fun setPreferencesVisibility(value: String) {
 
             val countries = findPreference<DropDownPreference>(getString(R.string.countries_key))
             val languages = findPreference<DropDownPreference>(getString(R.string.languages_key))
@@ -99,6 +98,7 @@ class SettingsActivity : AppCompatActivity(),
             val dateFrom = findPreference<DatePreference>(getString(R.string.date_from_key))
             val dateTo = findPreference<DatePreference>(getString(R.string.date_to_key))
             val sortBy = findPreference<DropDownPreference>(getString(R.string.sortBy_key))
+            val isForTopNews = value == getString(R.string.type_of_news_defaultValue)
 
             countries?.isVisible = isForTopNews
             languages?.isVisible = !isForTopNews
@@ -106,6 +106,12 @@ class SettingsActivity : AppCompatActivity(),
             dateFrom?.isVisible = !isForTopNews
             dateTo?.isVisible = !isForTopNews
             sortBy?.isVisible = !isForTopNews
+        }
+
+        private fun setPreferencesVisibility(){
+            val typeOfNews =
+                findPreference<DropDownPreference>(getString(R.string.type_of_news_key))
+            typeOfNews?.value?.let { setPreferencesVisibility(it) }
         }
 
     }

@@ -1,63 +1,73 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="@string/root_preference_screen">
 
     <DropDownPreference
         android:defaultValue="@string/type_of_news_defaultValue"
         android:entries="@array/top_or_everything"
         android:entryValues="@array/top_or_everything_values"
         android:key="@string/type_of_news_key"
-        android:title="@string/type_of_news_title" />
+        android:title="@string/type_of_news_title"
+        android:icon="@drawable/list"/>
 
     <DropDownPreference
         android:defaultValue="@string/countries_defaultValue"
         android:entries="@array/countries"
         android:entryValues="@array/countries_values"
         android:key="@string/countries_key"
-        android:title="@string/countries_title" />
+        android:title="@string/countries_title"
+        android:icon="@drawable/list"/>
 
     <DropDownPreference
         android:defaultValue="@string/categories_defaultValue"
         android:entries="@array/categories"
         android:entryValues="@array/categories_values"
         android:key="@string/categories_key"
-        android:title="@string/categories_title" />
+        android:title="@string/categories_title"
+        android:icon="@drawable/list"/>
 
     <DropDownPreference
         android:defaultValue="@string/languages_defaultValue"
         android:entries="@array/languages"
         android:entryValues="@array/languages_value"
         android:key="@string/languages_key"
-        android:title="@string/languages_title" />
+        android:title="@string/languages_title"
+        android:icon="@drawable/list"/>
 
     <EditTextPreference
         android:key="@string/keywords_key"
         android:negativeButtonText="@android:string/cancel"
         android:positiveButtonText="@android:string/ok"
-        android:title="@string/keywords_title" />
+        android:title="@string/keywords_title"
+        android:icon="@drawable/edit"/>
 
     <iv.nakonechnyi.newsfeeder.preferences.DatePreference
         android:key="@string/date_from_key"
         android:negativeButtonText="@android:string/cancel"
         android:positiveButtonText="@android:string/ok"
-        android:title="@string/date_from_title" />
+        android:title="@string/date_from_title"
+        android:icon="@drawable/calendar"/>
 
     <iv.nakonechnyi.newsfeeder.preferences.DatePreference
         android:key="@string/date_to_key"
         android:negativeButtonText="@android:string/cancel"
         android:positiveButtonText="@android:string/ok"
-        android:title="@string/date_to_title" />
+        android:title="@string/date_to_title"
+        android:icon="@drawable/calendar"/>
 
     <DropDownPreference
         android:defaultValue="@string/sortBy_defaultValue"
         android:entries="@array/sortBy"
         android:entryValues="@array/sortBy"
         android:key="@string/sortBy_key"
-        android:title="@string/sortBy_title" />
+        android:title="@string/sortBy_title"
+        android:icon="@drawable/list"/>
 
     <EditTextPreference
         android:key="@string/count_key"
         android:negativeButtonText="@android:string/cancel"
         android:positiveButtonText="@android:string/ok"
         android:title="@string/count_title"
-        android:defaultValue="@string/count_defaultValue"/>
+        android:defaultValue="@string/count_defaultValue"
+        android:icon="@drawable/edit"/>
 
 </PreferenceScreen>

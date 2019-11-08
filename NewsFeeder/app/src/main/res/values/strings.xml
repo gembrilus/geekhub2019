@@ -6,6 +6,8 @@
 
     <!--Preferences-->
 
+    <string name="root_preference_screen" translatable="false">root_preference screen</string>
+
     <string name="type_of_news_key" translatable="false">type_of_news</string>
     <string name="type_of_news_title">Type of news</string>
     <string name="type_of_news_defaultValue" translatable="false">top-headlines</string>
@@ -72,6 +74,5 @@
     <string name="news_apiKey" translatable="false">40f5a3b9ae834b2395af75738ccaca3b</string>
     <string name="news_api_baseUrl" translatable="false">https://newsapi.org/v2/</string>
     <string name="require_news_filter">You should choose a request filter</string>
-
 
 </resources>

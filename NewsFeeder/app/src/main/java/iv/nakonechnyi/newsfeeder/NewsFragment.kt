@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
 import android.webkit.WebView
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_news.view.*
 import android.webkit.WebViewClient
 import android.webkit.WebResourceRequest
 import android.os.Build
-
 
 class NewsFragment : Fragment() {
 
@@ -48,8 +46,6 @@ class NewsFragment : Fragment() {
                     }
                 }
             }
-
-            //webChromeClient = WebChromeClient()
 
             setInitialScale(resources.getInteger(R.integer.web_page_scale))
             settings.builtInZoomControls = true

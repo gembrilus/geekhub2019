@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.TypedArray
 import android.util.AttributeSet
-import java.text.SimpleDateFormat
-import java.util.*
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.TextUtils
