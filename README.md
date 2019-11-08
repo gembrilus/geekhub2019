@@ -33,8 +33,9 @@
  </ul>
 <b>Bags:</b>
  <ul>
-<li>Do not update correctly settings when their visibility is changed;
-<li>Do not load pictures for list of news.
+<li>Allways load preview and content from internet
+<li>Can crash without internet
+<li>There is no progressbar and messages that is no connection
 </ul>
 </div>
 <div style="width=100%; margin:auto">
