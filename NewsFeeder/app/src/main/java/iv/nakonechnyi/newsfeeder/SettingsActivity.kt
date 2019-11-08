@@ -2,7 +2,6 @@ package iv.nakonechnyi.newsfeeder
 
 import android.os.Bundle
 import android.text.InputType
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.*
 import iv.nakonechnyi.newsfeeder.preferences.DatePreference
@@ -51,11 +50,11 @@ class SettingsActivity : AppCompatActivity(),
         override fun onPreferenceChange(pref: Preference?, value: Any?): Boolean {
             if (pref == null) return false
             val nValue = value?.let { it as String }
+            if (pref.key == getString(R.string.type_of_news_key)) {
+                nValue?.let { setPreferencesVisibility(it) }
+            }
             when (pref) {
                 is DropDownPreference -> {
-                    if (pref.key == getString(R.string.type_of_news_key)) {
-                        nValue?.let { setPreferencesVisibility(it) }
-                    }
                     val prefIndex = pref.findIndexOfValue(nValue)
                     if (prefIndex >= 0) {
                         val labels = pref.entries

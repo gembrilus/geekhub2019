@@ -10,10 +10,12 @@ import kotlinx.android.synthetic.main.fragment_news.view.*
 import android.webkit.WebViewClient
 import android.webkit.WebResourceRequest
 import android.os.Build
+import android.webkit.WebSettings
 
 class NewsFragment : Fragment() {
 
     private val URL_KEY = "URL"
+    private lateinit var webView: WebView
 
     companion object {
         fun getInstance() = NewsFragment()
@@ -23,10 +25,20 @@ class NewsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val fragmentVew = inflater.inflate(R.layout.fragment_news, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_news, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val url = requireActivity().intent.getStringExtra(URL_KEY) ?: arguments?.getString(URL_KEY)
-        fragmentVew.web_view.apply {
+
+        webView = view.web_view
+        with(webView) {
+            setInitialScale(resources.getInteger(R.integer.web_page_scale))
+            settings.builtInZoomControls = true
+            settings.loadWithOverviewMode = true
+            settings.javaScriptEnabled = true
+            settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 webViewClient = object : WebViewClient() {
@@ -46,14 +58,18 @@ class NewsFragment : Fragment() {
                     }
                 }
             }
-
-            setInitialScale(resources.getInteger(R.integer.web_page_scale))
-            settings.builtInZoomControls = true
-            settings.loadWithOverviewMode = true
-            settings.javaScriptEnabled = true
             loadUrl(url)
         }
-        return fragmentVew
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        webView.saveState(outState)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        webView.restoreState(savedInstanceState)
     }
 
 }
