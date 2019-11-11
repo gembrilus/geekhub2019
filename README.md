@@ -33,9 +33,9 @@
  </ul>
 <b>Bags:</b>
  <ul>
-<li>Allways load preview and content from internet
-<li>Can crash without internet
-<li>There is no progressbar and messages that is no connection
+<li>Can crash without internet.
+<li>There is no notification that it's no internet connection.
+<li>For devices with a middle screen, the logic of actions is incorrect. When switching from landscape mode to portrait mode, when the news was opened, a list is displayed.
 </ul>
 </div>
 <div style="width=100%; margin:auto">
