@@ -8,14 +8,12 @@ import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
+import java.net.*
 import java.nio.charset.Charset
 
 
 class NewsLoaderHelper(
-    private val stringUrl: String
+    private val stringUrl: String, private val exceptionHandler: NetworkExceptionHandler? = null
 ) {
 
     suspend fun fetchNews(): List<Article> {
@@ -90,6 +88,8 @@ class NewsLoaderHelper(
             }
             inputStream = urlConnection?.inputStream
             response = loader(inputStream)
+        } catch (e: UnknownHostException){
+            exceptionHandler?.onNoNetworkConnection()
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
@@ -126,5 +126,9 @@ class NewsLoaderHelper(
             e.printStackTrace()
         }
         return url
+    }
+
+    interface NetworkExceptionHandler {
+        fun onNoNetworkConnection()
     }
 }

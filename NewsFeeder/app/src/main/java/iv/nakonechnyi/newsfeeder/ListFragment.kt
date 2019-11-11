@@ -22,7 +22,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    SharedPreferences.OnSharedPreferenceChangeListener {
+    SharedPreferences.OnSharedPreferenceChangeListener, NewsLoaderHelper.NetworkExceptionHandler {
 
     companion object {
 
@@ -138,12 +138,19 @@ class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         loadContent()
     }
 
+    override fun onNoNetworkConnection() {
+        GlobalScope.launch(Dispatchers.Main) {
+            fragmentView.background = resources.getDrawable(R.drawable.no_internet_connection)
+        }
+    }
+
     /*----------------------Additionl functions-----------------------*/
 
 
     private fun loadContent() = GlobalScope.launch(Dispatchers.Main) {
+        fragmentView.background = resources.getDrawable(R.color.newsfeeder_bg_color)
         val list =
-            NewsLoaderHelper(mUrl).fetchNews()
+            NewsLoaderHelper(mUrl, this@ListFragment).fetchNews()
         viewModel.data.value = list
         fragmentView.swipe_to_refresh.isRefreshing = false
     }
