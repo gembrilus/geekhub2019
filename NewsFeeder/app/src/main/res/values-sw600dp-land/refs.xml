@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="main_activity" type="layout">@layout/activity_news_450_land</item>
+    <item name="activity_news" type="layout">@layout/activity_news_450_land</item>
+</resources>

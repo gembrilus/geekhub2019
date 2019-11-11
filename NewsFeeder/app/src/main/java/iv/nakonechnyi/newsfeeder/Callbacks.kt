@@ -1,9 +1,5 @@
 package iv.nakonechnyi.newsfeeder
 
 interface Callbacks {
-    fun onArticleSelected(url: String)
-}
-
-interface OnItemClickListener{
-    fun onItemClick(url: String)
+    fun onArticleSelected(url: String, position: Int)
 }

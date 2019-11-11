@@ -2,6 +2,7 @@ package iv.nakonechnyi.newsfeeder
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
@@ -10,19 +11,31 @@ import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import iv.nakonechnyi.newsfeeder.model.Article
 import iv.nakonechnyi.newsfeeder.model.DataViewModel
+import iv.nakonechnyi.newsfeeder.model.POS_KEY
 import iv.nakonechnyi.newsfeeder.net.NewsLoaderHelper
 import kotlinx.android.synthetic.main.list_fragment.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ListFragment : Fragment() {
+class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     companion object {
-        fun newInstance() = ListFragment()
+
+        fun newInstance(pos: Int?) = ListFragment().apply {
+            pos?.let {
+                arguments = Bundle().apply {
+                    putInt(POS_KEY, it)
+                }
+            }
+        }
     }
+
+    /*-------------------------------Variables---------------------------------*/
 
     private lateinit var viewModel: DataViewModel
     private lateinit var fragmentView: View
@@ -30,20 +43,27 @@ class ListFragment : Fragment() {
     private lateinit var recycleLayoutManager: LinearLayoutManager
     private lateinit var recyclerView: RecyclerView
     private var callback: Callbacks? = null
+    private val mUrl get() = getUrlWithArgs(getString(R.string.news_api_baseUrl))
+
     private val orientation: Int
         get() = if (resources.getBoolean(R.bool.recycler_orientation))
             RecyclerView.VERTICAL
         else
             RecyclerView.HORIZONTAL
 
+    /*----------------------------Callbacks methods------------------------------*/
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callback = context as Callbacks
+        PreferenceManager.getDefaultSharedPreferences(context)
+            .registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        loadContent()
     }
 
     override fun onCreateView(
@@ -58,13 +78,23 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
 
-        recycleLayoutManager = LinearLayoutManager(requireContext(), orientation, false)
+        view.swipe_to_refresh.apply {
+            isRefreshing = true
+            setOnRefreshListener(this@ListFragment)
+        }
 
+        recycleLayoutManager = LinearLayoutManager(requireContext(), orientation, false)
         recyclerAdapter = RecyclerAdapter().apply {
-            onClickListener = object : OnItemClickListener {
-                override fun onItemClick(url: String) {
-                    recycleLayoutManager.scrollToPositionWithOffset(recyclerAdapter.position, 20)
-                    callback?.onArticleSelected(url)
+            onClickListener = object : RecyclerAdapter.OnItemClickListener {
+                override fun onItemClick(url: String, position: Int) {
+                    if (orientation == RecyclerView.HORIZONTAL) {
+                        recycleLayoutManager.smoothScrollToPosition(
+                            recyclerView,
+                            RecyclerView.State(),
+                            20
+                        )
+                    }
+                    callback?.onArticleSelected(url, position)
                 }
             }
         }
@@ -79,20 +109,15 @@ class ListFragment : Fragment() {
             Observer { list: List<Article> -> recyclerAdapter.submit(list) })
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        GlobalScope.launch(Dispatchers.Main) {
-            val list =
-                NewsLoaderHelper(getUrlWithArgs(getString(R.string.news_api_baseUrl))).fetchNews()
-            viewModel.data.value = list
-        }
-
+    override fun onRefresh() {
+        loadContent()
     }
 
     override fun onDetach() {
         super.onDetach()
         callback = null
+        PreferenceManager.getDefaultSharedPreferences(context)
+            .registerOnSharedPreferenceChangeListener(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -106,6 +131,21 @@ class ListFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
+        fragmentView.swipe_to_refresh.isRefreshing = true
+        loadContent()
+    }
+
+    /*----------------------Additionl functions-----------------------*/
+
+
+    private fun loadContent() = GlobalScope.launch(Dispatchers.Main) {
+        val list =
+            NewsLoaderHelper(mUrl).fetchNews()
+        viewModel.data.value = list
+        fragmentView.swipe_to_refresh.isRefreshing = false
     }
 
     private fun getUrlWithArgs(baseUrl: String): String {

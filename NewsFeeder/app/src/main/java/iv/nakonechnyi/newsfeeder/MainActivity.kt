@@ -8,13 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import kotlinx.android.synthetic.main.activity_news.*
+import iv.nakonechnyi.newsfeeder.model.STORE_URL_KEY
+import iv.nakonechnyi.newsfeeder.model.URL_KEY
 
 class MainActivity : AppCompatActivity(), Callbacks {
 
-    private val URL_KEY = "URL"
-    private val STORE_URL_KEY = "STORE_URL"
     private var mUrl: String? = null
+    private var mPosition: Int? = null
+    private val isDualPane get() = resources.getBoolean(R.bool.dual_pane)
+    private val newsFragment get() = mUrl?.let { NewsFragment.newInstance(it) } ?: EmptyFragment()
+    private val listFragment get() = ListFragment.newInstance(mPosition)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,32 +25,22 @@ class MainActivity : AppCompatActivity(), Callbacks {
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
+        mUrl = savedInstanceState?.getString(STORE_URL_KEY) ?: intent.getStringExtra(
+            URL_KEY
+        )
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container_list_fragment, ListFragment.newInstance())
+                .replace(R.id.container_list_fragment, listFragment)
                 .commitNow()
-        } else {
-            mUrl = savedInstanceState.getString(STORE_URL_KEY)
         }
 
-        if (container_news_fragment != null) {
-            val fragment = mUrl?.let {
-                NewsFragment.getInstance().apply {
-                    arguments = Bundle().apply {
-                        putString(URL_KEY, mUrl)
-                    }
-                }
-            }
+        if (isDualPane) {
             supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.container_news_fragment, fragment ?: EmptyFragment())
+                .replace(R.id.container_news_fragment, newsFragment)
                 .commitNow()
         }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(STORE_URL_KEY, mUrl)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -55,22 +48,22 @@ class MainActivity : AppCompatActivity(), Callbacks {
         mUrl = savedInstanceState.getString(STORE_URL_KEY)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(STORE_URL_KEY, mUrl)
+    }
 
-    override fun onArticleSelected(url: String) {
+    override fun onArticleSelected(url: String, position: Int) {
+        mPosition = position
         mUrl = url
-        if (!resources.getBoolean(R.bool.dual_pane)) {
+        if (!isDualPane) {
             startActivity(Intent(this, NewsActivity::class.java).apply {
                 putExtra(URL_KEY, url)
             })
         } else {
-            val fragment = NewsFragment.getInstance().also {
-                it.arguments = Bundle().apply {
-                    putString(URL_KEY, url)
-                }
-            }
             supportFragmentManager.apply {
                 beginTransaction()
-                    .replace(R.id.container_news_fragment, fragment)
+                    .replace(R.id.container_news_fragment, newsFragment)
                     .commitNow()
             }
         }

@@ -50,9 +50,6 @@ class SettingsActivity : AppCompatActivity(),
         override fun onPreferenceChange(pref: Preference?, value: Any?): Boolean {
             if (pref == null) return false
             val nValue = value?.let { it as String }
-            if (pref.key == getString(R.string.type_of_news_key)) {
-                nValue?.let { setPreferencesVisibility(it) }
-            }
             when (pref) {
                 is DropDownPreference -> {
                     val prefIndex = pref.findIndexOfValue(nValue)
@@ -62,6 +59,9 @@ class SettingsActivity : AppCompatActivity(),
                     }
                 }
                 else -> pref.summary = nValue
+            }
+            if (pref.key == getString(R.string.type_of_news_key)) {
+                nValue?.let { setPreferencesVisibility(it) }
             }
             return true
         }
@@ -75,6 +75,7 @@ class SettingsActivity : AppCompatActivity(),
         }
 
         private fun initialize() {
+
             val rootPreference = preferenceManager.preferenceScreen
             var index = rootPreference.preferenceCount-1
             while (index >= 0){

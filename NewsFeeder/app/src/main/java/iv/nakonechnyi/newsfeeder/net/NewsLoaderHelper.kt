@@ -28,8 +28,8 @@ class NewsLoaderHelper(
         return articles.await()
     }
 
-    suspend fun fetchImage(): Bitmap? {
-        val url = createUrl(stringUrl)
+    private suspend fun fetchImage(sUrl: String): Bitmap? {
+        val url = createUrl(sUrl)
         val handler = CoroutineExceptionHandler {_, exception ->
             exception.printStackTrace()
         }
@@ -50,11 +50,16 @@ class NewsLoaderHelper(
                 var i = 0
                 while (i < jsonArray.length()) {
                     val articleJson = jsonArray.getJSONObject(i++)
+                    val urlImage = articleJson.getString("urlToImage")
+                    var bitmap: Bitmap? = null
+                    runBlocking(Dispatchers.IO) {
+                        bitmap = fetchImage(urlImage)
+                    }
                     val article = with(articleJson) {
                         Article(
                             getString("title"),
                             getString("url"),
-                            getString("urlToImage"),
+                            bitmap,
                             stringToLongDate(getString("publishedAt")) ?: 0L
                         )
                     }

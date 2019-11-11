@@ -7,19 +7,13 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import iv.nakonechnyi.newsfeeder.model.Article
-import iv.nakonechnyi.newsfeeder.net.NewsLoaderHelper
 import kotlinx.android.synthetic.main.one_list_item_news.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class RecyclerAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val listDiffer: AsyncListDiffer<Article>  = AsyncListDiffer(this, DIFF_CALLBACK)
     lateinit var onClickListener: OnItemClickListener
-
-    var position: Int = 0
 
     fun submit(list: List<Article>){
         listDiffer.submitList(list)
@@ -38,8 +32,7 @@ class RecyclerAdapter :
             val currentArticle = listDiffer.currentList[pos]
 
             itemView.setOnClickListener {
-                this@RecyclerAdapter.position = pos
-                onClickListener.onItemClick(currentArticle.url)
+                onClickListener.onItemClick(currentArticle.url, pos)
             }
             bind(currentArticle)
         }
@@ -59,17 +52,17 @@ class RecyclerAdapter :
         }
     }
 
-
     private inner class NewsHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(article: Article) {
             itemView.title.text = article.title
-            GlobalScope.launch(Dispatchers.IO) {
-                val image = NewsLoaderHelper(article.urlToImage).fetchImage()
-                launch(Dispatchers.Main) {
-                    itemView.article_image.setImageBitmap(image)
-                }
+            with(itemView.article_image) {
+                article.bitmap?.let { setImageBitmap(it) }
+                    ?: setImageResource(R.drawable.no_image)
             }
         }
     }
 
+    interface OnItemClickListener{
+        fun onItemClick(url: String, position: Int)
+    }
 }

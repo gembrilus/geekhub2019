@@ -1,9 +1,11 @@
 package iv.nakonechnyi.newsfeeder.model
 
+import android.graphics.Bitmap
+
 class Article(
     val title: String,
     val url: String,
-    val urlToImage: String,
+    val bitmap: Bitmap?,
     val dateOfPublishing: Long
 ){
     override fun equals(other: Any?): Boolean {
@@ -14,7 +16,7 @@ class Article(
 
         if (title != other.title) return false
         if (url != other.url) return false
-        if (urlToImage != other.urlToImage) return false
+        if (bitmap != other.bitmap) return false
         if (dateOfPublishing != other.dateOfPublishing) return false
 
         return true
@@ -23,7 +25,7 @@ class Article(
     override fun hashCode(): Int {
         var result = title.hashCode()
         result = 31 * result + url.hashCode()
-        result = 31 * result + urlToImage.hashCode()
+        result = 31 * result + (bitmap?.hashCode() ?: 0)
         result = 31 * result + dateOfPublishing.hashCode()
         return result
     }
