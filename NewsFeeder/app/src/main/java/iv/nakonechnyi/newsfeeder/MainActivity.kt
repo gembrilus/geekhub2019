@@ -1,5 +1,6 @@
 package iv.nakonechnyi.newsfeeder
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,8 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import iv.nakonechnyi.newsfeeder.model.STORE_URL_KEY
-import iv.nakonechnyi.newsfeeder.model.URL_KEY
+import iv.nakonechnyi.newsfeeder.model.*
 
 class MainActivity : AppCompatActivity(), Callbacks {
 
@@ -25,25 +25,15 @@ class MainActivity : AppCompatActivity(), Callbacks {
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
-        mUrl = intent.getStringExtra( URL_KEY ) ?: savedInstanceState?.getString(STORE_URL_KEY)
-
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container_list_fragment, listFragment)
-                .commitNow()
+            putFragment(R.id.container_list_fragment, listFragment)
+        } else {
+            mUrl = savedInstanceState.getString(STORE_URL_KEY)
         }
 
         if (isDualPane) {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container_news_fragment, newsFragment)
-                .commitNow()
+            putFragment(R.id.container_news_fragment, newsFragment)
         }
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        mUrl = savedInstanceState.getString(STORE_URL_KEY)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -51,19 +41,42 @@ class MainActivity : AppCompatActivity(), Callbacks {
         outState.putString(STORE_URL_KEY, mUrl)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (data == null) return
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_NEW_URL -> {
+                    if (isDualPane) {
+                        val url = data.getStringExtra(RESULT_URL_FROM_PAGER)
+                        putFragment(R.id.container_news_fragment, NewsFragment.newInstance(url))
+                    }
+                }
+                else -> super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+    }
+
     override fun onArticleSelected(url: String, position: Int) {
         mPosition = position
         mUrl = url
         if (!isDualPane) {
-            startActivity(Intent(this, NewsPagerActivity::class.java).apply {
-                putExtra(URL_KEY, url)
-            })
+            showNewsInActivity(mUrl)
         } else {
-            supportFragmentManager.apply {
-                beginTransaction()
-                    .replace(R.id.container_news_fragment, newsFragment)
-                    .commitNow()
-            }
+            putFragment(R.id.container_news_fragment, newsFragment)
+        }
+    }
+
+    private fun showNewsInActivity(url: String?) {
+        startActivityForResult(Intent(this, NewsPagerActivity::class.java).apply {
+            putExtra(URL_KEY, url)
+        }, REQUEST_NEW_URL)
+    }
+
+    private fun putFragment(id: Int, fragment: Fragment){
+        supportFragmentManager.apply {
+            beginTransaction()
+                .replace(id, fragment)
+                .commitNow()
         }
     }
 

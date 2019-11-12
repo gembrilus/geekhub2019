@@ -65,7 +65,6 @@ class NewsFragment : Fragment() {
         webView.restoreState(savedInstanceState)
     }
 
-
     private inner class BrowserClient(private val frView: View) : WebViewClient() {
 
         override fun shouldOverrideUrlLoading(

@@ -37,7 +37,6 @@ fun monthNameByNumber(id: Int): String {
 
 }
 
-
 fun displayErrorMessage(context: Context, message: String): Unit {
     AlertDialog.Builder(context).apply {
         setMessage(message)
