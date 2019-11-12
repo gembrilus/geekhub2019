@@ -19,13 +19,11 @@ class NewsFragment : Fragment() {
     private lateinit var fragmentView: View
     private lateinit var webView: WebView
     private val mUrl
-        get() = requireActivity().intent.getStringExtra(URL_KEY) ?: arguments?.getString(
-            URL_KEY
-        )
+        get() = arguments?.getString(URL_KEY)
 
     companion object {
 
-        fun newInstance(url: String) = NewsFragment().apply {
+        fun newInstance(url: String?) = NewsFragment().apply {
             arguments = Bundle().apply {
                 putString(URL_KEY, url)
             }

@@ -25,9 +25,7 @@ class MainActivity : AppCompatActivity(), Callbacks {
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false)
 
-        mUrl = savedInstanceState?.getString(STORE_URL_KEY) ?: intent.getStringExtra(
-            URL_KEY
-        )
+        mUrl = intent.getStringExtra( URL_KEY ) ?: savedInstanceState?.getString(STORE_URL_KEY)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -57,7 +55,7 @@ class MainActivity : AppCompatActivity(), Callbacks {
         mPosition = position
         mUrl = url
         if (!isDualPane) {
-            startActivity(Intent(this, NewsActivity::class.java).apply {
+            startActivity(Intent(this, NewsPagerActivity::class.java).apply {
                 putExtra(URL_KEY, url)
             })
         } else {

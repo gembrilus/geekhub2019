@@ -3,7 +3,6 @@ package iv.nakonechnyi.newsfeeder
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import iv.nakonechnyi.newsfeeder.model.Article
-import iv.nakonechnyi.newsfeeder.model.DataViewModel
+import iv.nakonechnyi.newsfeeder.model.ArticleViewModel
 import iv.nakonechnyi.newsfeeder.model.POS_KEY
 import iv.nakonechnyi.newsfeeder.net.NewsLoaderHelper
 import kotlinx.android.synthetic.main.list_fragment.view.*
@@ -37,7 +36,6 @@ class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     /*-------------------------------Variables---------------------------------*/
 
-    private lateinit var viewModel: DataViewModel
     private lateinit var fragmentView: View
     private lateinit var recyclerAdapter: RecyclerAdapter
     private lateinit var recycleLayoutManager: LinearLayoutManager
@@ -76,7 +74,6 @@ class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(DataViewModel::class.java)
 
         view.swipe_to_refresh.apply {
             isRefreshing = true
@@ -104,7 +101,7 @@ class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             layoutManager = recycleLayoutManager
         }
 
-        viewModel.data.observe(
+        ArticleViewModel.data.observe(
             this,
             Observer { list: List<Article> -> recyclerAdapter.submit(list) })
     }
@@ -151,7 +148,7 @@ class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         fragmentView.background = resources.getDrawable(R.color.newsfeeder_bg_color)
         val list =
             NewsLoaderHelper(mUrl, this@ListFragment).fetchNews()
-        viewModel.data.value = list
+        ArticleViewModel.data.value = list.toMutableList()
         fragmentView.swipe_to_refresh.isRefreshing = false
     }
 
