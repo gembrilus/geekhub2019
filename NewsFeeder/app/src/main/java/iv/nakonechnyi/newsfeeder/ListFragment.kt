@@ -1,13 +1,9 @@
 package iv.nakonechnyi.newsfeeder
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.*
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.preference.PreferenceManager
@@ -18,14 +14,15 @@ import iv.nakonechnyi.newsfeeder.model.Article
 import iv.nakonechnyi.newsfeeder.model.ArticleViewModel
 import iv.nakonechnyi.newsfeeder.model.POS_KEY
 import iv.nakonechnyi.newsfeeder.net.NewsLoaderHelper
-import iv.nakonechnyi.newsfeeder.util.PermissionHelper
 import kotlinx.android.synthetic.main.list_fragment.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
-    SharedPreferences.OnSharedPreferenceChangeListener, NewsLoaderHelper.NetworkExceptionHandler {
+class ListFragment : Fragment(),
+    SwipeRefreshLayout.OnRefreshListener,
+    SharedPreferences.OnSharedPreferenceChangeListener,
+    NewsLoaderHelper.NetworkExceptionHandler {
 
     companion object {
 
@@ -65,7 +62,6 @@ class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setHasOptionsMenu(true)
         loadContent()
     }
 
@@ -129,6 +125,7 @@ class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onNoNetworkConnection() {
         GlobalScope.launch(Dispatchers.Main) {
+            recyclerView.recycle_fragment.visibility = View.GONE
             fragmentView.background = resources.getDrawable(R.drawable.no_internet_connection)
         }
     }
@@ -137,6 +134,7 @@ class ListFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
 
     private fun loadContent() = GlobalScope.launch(Dispatchers.Main) {
+        recyclerView.recycle_fragment.visibility = View.VISIBLE
         fragmentView.background = resources.getDrawable(R.color.newsfeeder_bg_color)
         val list =
             NewsLoaderHelper(mUrl, this@ListFragment).fetchNews()
