@@ -1,9 +1,11 @@
-package iv.nakonechnyi.newsfeeder
+package iv.nakonechnyi.newsfeeder.util
 
 import android.app.AlertDialog
 import android.content.Context
+import iv.nakonechnyi.newsfeeder.R
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 fun stringToLongDate(date: String) =
     SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH).parse(date)?.time
@@ -35,6 +37,13 @@ fun monthNameByNumber(id: Int): String {
 
     return sdf.format(calendar.time)
 
+}
+
+fun convertToDegrees(v: Double): String{
+    val degrees = v.toInt()
+    val min = ((v - degrees) * 60).toInt()
+    val sec = ((v - degrees) * 60 - min) * 60
+    return String.format("%d° %d′ %.2f″", abs(degrees), abs(min), abs(sec))
 }
 
 fun displayErrorMessage(context: Context, message: String): Unit {

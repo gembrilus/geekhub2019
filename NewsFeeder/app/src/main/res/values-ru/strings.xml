@@ -73,5 +73,18 @@
     <string name="news_api_baseUrl" translatable="false">https://newsapi.org/v2/</string>
     <string name="require_news_filter">Необходимо указать хотя бы один фильтр для поиска новостей</string>
 
+    <string name="notification_channel_description">Спам от News Feeder</string>
+
+    <string name="dialog_explain_title">Пояснительная записка</string>
+    <string name="dialog_explain_message">Приложению нужен доступ к вашей секретной информации. Клянемся не использовать ее и не показывать никому!</string>
+    <string name="title_activity_maps">Карта</string>
+    <string name="dialog_denied_title">Доступ запрещен!</string>
+    <string name="dialog_denied_message">Вы запретили досуп к геолокации. Вы либо шпион, либо параноик! Бигом в настройки!</string>
+    <string name="menu_item_title_location">Геолокация</string>
+    <string name="nothing_selected">Ничего не выбрано</string>
+    <string name="notification_service_title">Координаты</string>
+    <string name="notification_launch_service_text">Круть!</string>
+    <string name="notification_launch_service_title">Сервис запущен..</string>
+
 
 </resources>

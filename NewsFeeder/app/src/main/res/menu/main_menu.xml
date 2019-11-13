@@ -7,4 +7,10 @@
         android:title="@string/menu_item_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/geo_location"
+        android:title="@string/menu_item_title_location"
+        android:icon="@drawable/ic_add_location_black_24dp"
+        app:showAsAction="ifRoom"/>
 </menu>

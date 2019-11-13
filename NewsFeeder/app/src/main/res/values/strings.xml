@@ -75,4 +75,20 @@
     <string name="news_api_baseUrl" translatable="false">https://newsapi.org/v2/</string>
     <string name="require_news_filter">You should choose a request filter</string>
 
+    <string name="title_activity_maps">Map</string>
+
+    <string name="notification_channel_id" translatable="false">iv.nakonechnyi.newsfeeder.NotificationChannel</string>
+    <string name="notification_channel_name" translatable="false">NEWS_FEEDER</string>
+    <string name="notification_channel_description">Spam from News Feeder</string>
+
+    <string name="dialog_explain_title">Explanatory note</string>
+    <string name="dialog_explain_message">The application needs access to your sensitive information. We swear not to use it and not to show it to anyone!</string>
+    <string name="dialog_denied_title">Access denied!</string>
+    <string name="dialog_denied_message">You have denied access to geolocation. You are either a spy or paranoid! Let\'s go in settings!</string>
+    <string name="menu_item_title_location">Location</string>
+    <string name="nothing_selected">Nothing selected</string>
+    <string name="notification_service_title">Coordinates</string>
+    <string name="notification_launch_service_title">Service launched..</string>
+    <string name="notification_launch_service_text">Cool!</string>
+
 </resources>

@@ -3,7 +3,7 @@ package iv.nakonechnyi.newsfeeder.net
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import iv.nakonechnyi.newsfeeder.model.Article
-import iv.nakonechnyi.newsfeeder.stringToLongDate
+import iv.nakonechnyi.newsfeeder.util.stringToLongDate
 import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -58,7 +58,8 @@ class NewsLoaderHelper(
                             getString("title"),
                             getString("url"),
                             bitmap,
-                            stringToLongDate(getString("publishedAt")) ?: 0L
+                            stringToLongDate(getString("publishedAt"))
+                                ?: 0L
                         )
                     }
                     list += article
