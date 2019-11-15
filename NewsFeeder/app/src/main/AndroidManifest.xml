@@ -48,7 +48,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -56,13 +56,12 @@
         </activity>
         <activity
             android:name=".NewsPagerActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="iv.nakonechnyi.newsfeeder.MainActivity" />
         </activity>
-        <activity android:name=".GeoActivity" />
     </application>
 
 </manifest>

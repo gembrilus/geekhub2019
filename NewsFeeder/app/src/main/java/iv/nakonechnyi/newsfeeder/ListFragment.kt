@@ -60,10 +60,6 @@ class ListFragment : Fragment(),
             .registerOnSharedPreferenceChangeListener(this)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        loadContent()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,12 +69,17 @@ class ListFragment : Fragment(),
         return fragmentView
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         view.swipe_to_refresh.apply {
-            isRefreshing = true
             setOnRefreshListener(this@ListFragment)
+        }
+
+        if(ArticleViewModel.data.value.isNullOrEmpty()) {
+            fragmentView.swipe_to_refresh.isRefreshing = true
+            loadContent()
         }
 
         recycleLayoutManager = LinearLayoutManager(requireContext(), orientation, false)
@@ -107,9 +108,11 @@ class ListFragment : Fragment(),
             Observer { list: List<Article> -> recyclerAdapter.submit(list) })
     }
 
+
     override fun onRefresh() {
         loadContent()
     }
+
 
     override fun onDetach() {
         super.onDetach()
@@ -118,10 +121,12 @@ class ListFragment : Fragment(),
             .registerOnSharedPreferenceChangeListener(this)
     }
 
+
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
         fragmentView.swipe_to_refresh.isRefreshing = true
         loadContent()
     }
+
 
     override fun onNoNetworkConnection() {
         GlobalScope.launch(Dispatchers.Main) {
