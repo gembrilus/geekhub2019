@@ -30,3 +30,7 @@ class Article(
         return result
     }
 }
+
+object UrlHolder {
+    var url: String? = null
+}

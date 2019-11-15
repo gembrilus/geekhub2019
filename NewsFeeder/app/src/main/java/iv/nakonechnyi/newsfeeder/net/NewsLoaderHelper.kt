@@ -8,6 +8,7 @@ import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.*
+import java.lang.NullPointerException
 import java.net.*
 import java.nio.charset.Charset
 
@@ -18,25 +19,34 @@ class NewsLoaderHelper(
 
     suspend fun fetchNews(): List<Article> {
         val url = createUrl(stringUrl)
-        val handler = CoroutineExceptionHandler {_, exception ->
+        val handler = CoroutineExceptionHandler { _, exception ->
             exception.printStackTrace()
         }
-        val jsonResponse = GlobalScope.async(Dispatchers.IO + handler) { makeHTTPRequest(url) {stream -> readFromStream(stream)} }
-        val articles = GlobalScope.async(Dispatchers.IO + handler) { extractArticlesFromJson(jsonResponse.await()) }
+        val jsonResponse = GlobalScope.async(Dispatchers.IO + handler) {
+            makeHTTPRequest(url) { stream ->
+                readFromStream(stream)
+            }
+        }
+        val articles =
+            GlobalScope.async(Dispatchers.IO + handler) { extractArticlesFromJson(jsonResponse.await()) }
         return articles.await()
     }
 
     private suspend fun fetchImage(sUrl: String): Bitmap? {
         val url = createUrl(sUrl)
-        val handler = CoroutineExceptionHandler {_, exception ->
+        val handler = CoroutineExceptionHandler { _, exception ->
             exception.printStackTrace()
         }
-        val jsonResponse = GlobalScope.async(Dispatchers.IO + handler) { makeHTTPRequest(url){stream -> readImageFromStream(stream)} }
+        val jsonResponse = GlobalScope.async(Dispatchers.IO + handler) {
+            makeHTTPRequest(url) { stream ->
+                readImageFromStream(stream)
+            }
+        }
         return jsonResponse.await()
     }
 
     private fun extractArticlesFromJson(jsonResponse: String?): List<Article> {
-        if (jsonResponse == null) return emptyList()
+        if (jsonResponse == null || jsonResponse.isEmpty()) return emptyList()
 
         val list = mutableListOf<Article>()
 
@@ -66,7 +76,7 @@ class NewsLoaderHelper(
                 }
             }
             return list
-        } catch (e: JSONException){
+        } catch (e: JSONException) {
             e.printStackTrace()
         }
 
@@ -74,7 +84,7 @@ class NewsLoaderHelper(
     }
 
     @Throws(IOException::class)
-    private fun <T> makeHTTPRequest(url: URL?, loader: (InputStream?) -> T ): T? {
+    private fun <T> makeHTTPRequest(url: URL?, loader: (InputStream) -> T): T? {
         var response: T? = null
         var urlConnection: HttpURLConnection? = null
         var inputStream: InputStream? = null
@@ -84,38 +94,43 @@ class NewsLoaderHelper(
                     requestMethod = "GET"
                     readTimeout = 10000
                     connectTimeout = 15000
-                    connect()
                 }
             }
-            inputStream = urlConnection?.inputStream
-            response = loader(inputStream)
-        } catch (e: UnknownHostException){
+            if (urlConnection != null) {
+                urlConnection.connect()
+                inputStream = urlConnection.inputStream
+                try {
+                    response = loader(inputStream)
+                } catch (e: Throwable){
+                    e.printStackTrace()
+                }
+            }
+        } catch (e: UnknownHostException) {
             exceptionHandler?.onNoNetworkConnection()
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
-                urlConnection?.disconnect()
-                inputStream?.close()
+            urlConnection?.disconnect()
+            inputStream?.close()
+            return response
         }
-        return response
     }
 
     @Throws(IOException::class)
-    private fun readFromStream(inputStream: InputStream?): String? {
+    private fun readFromStream(inputStream: InputStream): String? {
         val output = StringBuilder()
-        if (inputStream != null) {
-            val inputStreamReader = InputStreamReader(inputStream, Charset.forName("UTF-8"))
-            val reader = BufferedReader(inputStreamReader)
-            var line = reader.readLine()
-            while (line != null) {
-                output.append(line)
-                line = reader.readLine()
-            }
+        val inputStreamReader = InputStreamReader(inputStream, Charset.forName("UTF-8"))
+        val reader = BufferedReader(inputStreamReader)
+        var line = reader.readLine()
+        while (line != null) {
+            output.append(line)
+            line = reader.readLine()
         }
         return output.toString()
     }
 
-    private fun readImageFromStream(inputStream: InputStream?) =
+    @Throws(NullPointerException::class)
+    private fun readImageFromStream(inputStream: InputStream) =
         BitmapFactory.decodeStream(inputStream)
 
 

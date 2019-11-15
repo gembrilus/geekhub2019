@@ -1,17 +1,17 @@
 package iv.nakonechnyi.newsfeeder
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_news.view.*
-import android.os.Build
 import android.webkit.*
 import android.widget.Toast
-import android.webkit.WebView
+import androidx.fragment.app.Fragment
 import iv.nakonechnyi.newsfeeder.model.URL_KEY
+import kotlinx.android.synthetic.main.fragment_news.view.*
 
 
 class NewsFragment : Fragment() {
@@ -48,9 +48,21 @@ class NewsFragment : Fragment() {
             setInitialScale(resources.getInteger(R.integer.web_page_scale))
             settings.builtInZoomControls = true
             settings.loadWithOverviewMode = true
-            settings.javaScriptEnabled = true
+//            settings.javaScriptEnabled = true
             settings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
             webViewClient = BrowserClient(fragmentView)
+            webChromeClient = object : WebChromeClient(){
+                override fun getDefaultVideoPoster(): Bitmap? {
+                    return if (super.getDefaultVideoPoster() == null) {
+                        BitmapFactory.decodeResource(
+                            context.resources,
+                            R.drawable.no_image
+                        )
+                    } else {
+                        super.getDefaultVideoPoster()
+                    }
+                }
+            }
             loadUrl(mUrl)
         }
     }
