@@ -11,7 +11,7 @@ object ArticleViewModel : ViewModel() {
         data.value = mutableListOf()
     }
 
-    fun getArticles() : List<Article> = data.value!!
+    fun getArticles() : MutableList<Article> = data.value ?: mutableListOf()
 
     fun setArticles(list: MutableList<Article>) {
         data.value = list

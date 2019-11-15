@@ -13,8 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
 import android.view.*
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.preference.PreferenceManager
 import iv.nakonechnyi.newsfeeder.model.*
 import iv.nakonechnyi.newsfeeder.util.PermissionHelper
@@ -57,10 +61,12 @@ class MainActivity : AppCompatActivity(), Callbacks {
         }
     }
 
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(STORE_URL_KEY, mUrl)
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data == null) return
@@ -76,6 +82,7 @@ class MainActivity : AppCompatActivity(), Callbacks {
             }
         }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         MenuInflater(this).inflate(R.menu.main_menu, menu)
