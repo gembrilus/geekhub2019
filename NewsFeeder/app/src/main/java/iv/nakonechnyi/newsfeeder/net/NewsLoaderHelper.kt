@@ -3,6 +3,7 @@ package iv.nakonechnyi.newsfeeder.net
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import iv.nakonechnyi.newsfeeder.model.Article
+import iv.nakonechnyi.newsfeeder.util.getDisplaySize
 import iv.nakonechnyi.newsfeeder.util.stringToLongDate
 import kotlinx.coroutines.*
 import org.json.JSONException
@@ -130,8 +131,16 @@ class NewsLoaderHelper(
     }
 
     @Throws(NullPointerException::class)
-    private fun readImageFromStream(inputStream: InputStream) =
-        BitmapFactory.decodeStream(inputStream)
+    private fun readImageFromStream(inputStream: InputStream): Bitmap? {
+        var bitmap = BitmapFactory.decodeStream(inputStream)
+        val bitmapWidth = bitmap.width
+        val bitmapHeight = bitmap.height
+        if (bitmapHeight > 128 || bitmapWidth > 128){
+            val scale = minOf(bitmapHeight / 128, bitmapWidth / 128)
+            bitmap = Bitmap.createScaledBitmap(bitmap, bitmapWidth / scale, bitmapHeight / scale, false)
+        }
+        return bitmap
+    }
 
 
     private fun createUrl(stringUrl: String): URL? {

@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity(), Callbacks {
     /********************************Variables***************************************/
     /********************************************************************************/
     private val mUrl get() = UrlHolder.url
-    private var mPosition: Int? = null
+    private var mPosition: Int = 0
     private val isDualPane get() = resources.getBoolean(R.bool.dual_pane)
     private val newsFragment get() = mUrl?.let { NewsFragment.newInstance(it) } ?: EmptyFragment()
     private val listFragment get() = ListFragment.newInstance(mPosition)

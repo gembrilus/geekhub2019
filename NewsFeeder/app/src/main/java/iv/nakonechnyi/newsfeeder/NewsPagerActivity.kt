@@ -51,6 +51,10 @@ class NewsPagerActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         UrlHolder.url = article.url
     }
 
+    override fun onNavigateUp(): Boolean {
+        UrlHolder.url = null
+        return super.onNavigateUp()
+    }
 
     override fun onBackPressed() {
         UrlHolder.url = null

@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Special Numbers</string>
+    <string name="title_prime">Prime</string>
+    <string name="title_armstrong">Armstrong</string>
+    <string name="title_fibonacci">Fibonacci</string>
+    <string name="input_correct_number">Enter a correct number!</string>
+    <string name="enter_an_integer">Enter an integer</string>
+    <string name="menu_item_clear">Clear</string>
+    <string name="menu_item_stop">Stop</string>
+    <string name="eval_failed">An evaluation is failed while run</string>
+    <string name="task_stopped">Task is stopped</string>
+</resources>
