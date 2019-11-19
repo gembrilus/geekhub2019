@@ -41,3 +41,20 @@
 <div style="width=100%; margin:auto">
 <img src="NewsFeeder/qr-code.gif" alt="QR Code"/>
 </div>
+
+
+<h2>Special Numbers</h2>
+<p>An app for evaluating special numbers</p>
+<b>Features:</b>
+ <ul>
+<li>Parallel calculation;
+<li>Prime numbers;
+<li>Armstrong numbers;
+<li>Fibonacci numbers.
+ </ul>
+<b>Bags:</b>
+
+</div>
+<div style="width=100%; margin:auto">
+<img src="SpecialNumbers/qr-code.gif" alt="QR Code"/>
+</div>
