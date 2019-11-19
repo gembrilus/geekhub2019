@@ -93,8 +93,7 @@ abstract class Factory : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
             R.id.clear -> {
-                model.clear()
-                mAdapter.clear()
+                clearAll()
                 fragmentView.input.text.clear()
                 true
             }
@@ -114,7 +113,7 @@ abstract class Factory : Fragment() {
     }
 
     private fun run(number: Long): WorkRequest {
-        model.clear()
+        clearAll()
         val input = Data.Builder()
             .putLong(NUMBER, number)
             .putInt(FRAGMENT_POSITION, (activity as MainActivity).pager.currentItem)
@@ -143,9 +142,14 @@ abstract class Factory : Fragment() {
                         Toast.makeText(context, getString(R.string.task_stopped), Toast.LENGTH_LONG).show()
                     }
                     WorkInfo.State.RUNNING -> {}
-                    else -> { workManager?.enqueue(op) }
+                    else -> { }
                 }
             })
+    }
+
+    private fun clearAll(){
+        model.clear()
+        mAdapter.clear()
     }
 }
 
