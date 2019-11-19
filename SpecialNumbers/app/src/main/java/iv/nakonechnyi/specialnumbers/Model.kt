@@ -21,8 +21,13 @@ class Model : ViewModel(){
     }
 
 
-    override fun onCleared() {
+    fun update() {
+        data.value = data.value
+    }
+
+
+/*    override fun onCleared() {
         super.onCleared()
         clear()
-    }
+    }*/
 }

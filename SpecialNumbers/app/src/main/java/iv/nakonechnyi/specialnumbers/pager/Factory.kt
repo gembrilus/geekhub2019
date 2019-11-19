@@ -31,7 +31,7 @@ abstract class Factory : Fragment() {
 
     protected lateinit var fragmentView: View
     protected lateinit var mAdapter: PrimeAdapter
-    protected lateinit var mRecyclerView: RecyclerView
+    private lateinit var mRecyclerView: RecyclerView
 
     abstract val NAME: String
     abstract fun calculate(n: Long): LongArray
@@ -67,7 +67,7 @@ abstract class Factory : Fragment() {
         setUpRecyclerView()
 
         model.data.observe(this, Observer { list ->
-            if (list.isNotEmpty()) mAdapter.addItem(list.last())
+                mAdapter.update(model.data.value!!)
         })
 
         view.input.setOnEditorActionListener { _, _, _ ->
@@ -142,7 +142,8 @@ abstract class Factory : Fragment() {
                     WorkInfo.State.CANCELLED -> {
                         Toast.makeText(context, getString(R.string.task_stopped), Toast.LENGTH_LONG).show()
                     }
-                    else -> { }
+                    WorkInfo.State.RUNNING -> {}
+                    else -> { workManager?.enqueue(op) }
                 }
             })
     }

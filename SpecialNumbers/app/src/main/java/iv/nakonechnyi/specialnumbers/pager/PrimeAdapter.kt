@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import iv.nakonechnyi.specialnumbers.R
 import kotlinx.android.synthetic.main.number_item.view.*
 
-class PrimeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class PrimeAdapter(private var list: MutableList<Long> = mutableListOf()) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-    private var list = mutableListOf<Long>()
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.number_item, parent, false)
@@ -21,6 +21,11 @@ class PrimeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val number = list[position]
         (holder as Holder).bind(number)
+    }
+
+    fun update(numbers: MutableList<Long>){
+        list = numbers
+        notifyDataSetChanged()
     }
 
     fun addItem(num: Long) {
