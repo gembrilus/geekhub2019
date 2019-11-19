@@ -28,6 +28,7 @@ abstract class Factory : Fragment() {
 
     private val workManager by lazy { context?.let { WorkManager.getInstance(it) } }
     protected val model by lazy { ViewModelProviders.of(this).get(Model::class.java) }
+
     protected lateinit var fragmentView: View
     protected lateinit var mAdapter: PrimeAdapter
     protected lateinit var mRecyclerView: RecyclerView
@@ -113,6 +114,7 @@ abstract class Factory : Fragment() {
     }
 
     private fun run(number: Long): WorkRequest {
+        model.clear()
         val input = Data.Builder()
             .putLong(NUMBER, number)
             .putInt(FRAGMENT_POSITION, (activity as MainActivity).pager.currentItem)
