@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity(), Callbacks {
 
     private fun showMainContent() {
 
-        if (mUrl != null && !isDualPane) {
+        if (UrlHolder.url != null && !isDualPane) {
             startActivity(Intent(this, NewsPagerActivity::class.java))
         }
 

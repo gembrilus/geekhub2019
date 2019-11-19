@@ -86,13 +86,6 @@ class ListFragment : Fragment(),
         recyclerAdapter = RecyclerAdapter().apply {
             onClickListener = object : RecyclerAdapter.OnItemClickListener {
                 override fun onItemClick(url: String, position: Int) {
-                    if (orientation == RecyclerView.HORIZONTAL) {
-                        recycleLayoutManager.smoothScrollToPosition(
-                            recyclerView,
-                            RecyclerView.State(),
-                            20
-                        )
-                    }
                     callback?.onArticleSelected(url, position)
                 }
             }

@@ -17,7 +17,7 @@ class PrimeFragment : Factory() {
     private val handler by lazy { Handler(Looper.getMainLooper()) }
     private var task: Thread? = null
 
-    private var isTaskNotStopped = true
+    private var isTaskNotStopped = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,6 +34,7 @@ class PrimeFragment : Factory() {
                 return@setOnEditorActionListener false
             }
 
+            isTaskNotStopped = true
             task = Thread {
                 getPrimes(number) { num ->
                     if(isTaskNotStopped) handler.post {

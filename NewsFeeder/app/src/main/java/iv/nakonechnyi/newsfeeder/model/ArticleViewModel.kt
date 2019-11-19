@@ -25,4 +25,9 @@ object ArticleViewModel : ViewModel() {
 
     fun removeArticle(article: Article) = data.value?.remove(article)
 
+    override fun onCleared() {
+        super.onCleared()
+        data.value = null
+    }
+
 }

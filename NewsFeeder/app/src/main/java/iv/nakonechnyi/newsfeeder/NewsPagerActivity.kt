@@ -1,6 +1,5 @@
 package iv.nakonechnyi.newsfeeder
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -35,30 +34,20 @@ class NewsPagerActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             setCurrentItem(pos, false)
         }
 
-        if (isDualPane) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
+        if (isDualPane) finish()
     }
 
-    override fun onPageScrollStateChanged(state: Int) = Unit
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) =
-        Unit
+    override fun onPageScrollStateChanged(state: Int) {}
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
     override fun onPageSelected(position: Int) {
         val article = ArticleViewModel.getArticles()[position]
-        title = article.title
+        supportActionBar?.subtitle = article.title
         UrlHolder.url = article.url
-    }
-
-    override fun onNavigateUp(): Boolean {
-        UrlHolder.url = null
-        return super.onNavigateUp()
     }
 
     override fun onBackPressed() {
         UrlHolder.url = null
-        startActivity(Intent(this, MainActivity::class.java))
         super.onBackPressed()
     }
 }
