@@ -66,11 +66,14 @@ abstract class Factory : Fragment() {
 
         setUpRecyclerView()
 
-        model.data.observe(this, Observer { list ->
+        model.data.observe(this, Observer { _ ->
                 mAdapter.update(model.data.value!!)
         })
 
         view.input.setOnEditorActionListener { _, _, _ ->
+
+            clearAll()
+
             val number: Long
             try {
                 number = view.input.text.toString().toLong()
@@ -113,7 +116,6 @@ abstract class Factory : Fragment() {
     }
 
     private fun run(number: Long): WorkRequest {
-        clearAll()
         val input = Data.Builder()
             .putLong(NUMBER, number)
             .putInt(FRAGMENT_POSITION, (activity as MainActivity).pager.currentItem)
@@ -133,7 +135,7 @@ abstract class Factory : Fragment() {
                 when (workInfo.state) {
                     WorkInfo.State.SUCCEEDED -> {
                         val array = workInfo.outputData.getLongArray(OUTPUT_DATA_KEY)
-                        array?.forEach { model.add(it) }
+                        array?.let { model.set(it) }
                     }
                     WorkInfo.State.FAILED -> {
                         Toast.makeText(context, getString(R.string.eval_failed), Toast.LENGTH_LONG).show()
@@ -147,7 +149,7 @@ abstract class Factory : Fragment() {
             })
     }
 
-    private fun clearAll(){
+    protected fun clearAll(){
         model.clear()
         mAdapter.clear()
     }

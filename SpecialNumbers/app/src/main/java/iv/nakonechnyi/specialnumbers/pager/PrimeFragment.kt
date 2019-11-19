@@ -23,6 +23,9 @@ class PrimeFragment : Factory() {
         super.onViewCreated(view, savedInstanceState)
 
         view.input.setOnEditorActionListener { _, _, _ ->
+
+            clearAll()
+
             val number: Long
             try {
                 number = view.input.text.toString().toLong()
@@ -55,8 +58,7 @@ class PrimeFragment : Factory() {
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
             R.id.clear -> {
-                model.clear()
-                mAdapter.clear()
+                clearAll()
                 fragmentView.input.text.clear()
                 true
             }

@@ -11,9 +11,14 @@ class Model : ViewModel(){
         data.value = mutableListOf()
     }
 
-    fun add(n: Long) {
+    fun set(list: LongArray) {
+        data.value = list.toMutableList()
+    }
+
+    fun add(n: Long){
         data.value?.add(n)
-        data.value = data.value
+        val list = data.value
+        data.value = list
     }
 
     fun clear() {
