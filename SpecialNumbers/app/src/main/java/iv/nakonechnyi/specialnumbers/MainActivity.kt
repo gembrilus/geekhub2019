@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment = Factory.creator(position)
         override fun getCount(): Int = Factory.count()
         override fun getPageTitle(position: Int): CharSequence? {
-            return (getItem(position) as Factory).NAME
+            return (getItem(position) as Factory).name
         }
     }
 }

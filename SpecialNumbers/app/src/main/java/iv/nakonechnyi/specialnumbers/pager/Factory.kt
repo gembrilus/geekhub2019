@@ -34,10 +34,11 @@ abstract class Factory : Fragment() {
     private lateinit var fragmentView: View
     private lateinit var mAdapter: PrimeAdapter
     private lateinit var mRecyclerView: RecyclerView
+
     protected var number: Long? = null
     protected var isTaskNotStopped = false
 
-    abstract val NAME: String
+    abstract val name: String
     abstract fun calculate(n: Long): LongArray
 
     companion object {
@@ -182,7 +183,7 @@ abstract class Factory : Fragment() {
         workManager?.cancelAllWorkByTag(WORKER_TAG)
     }
 
-    protected fun clearAll() {
+    private fun clearAll() {
         model.clear()
         mAdapter.notifyDataSetChanged()
         number = null
@@ -192,11 +193,11 @@ abstract class Factory : Fragment() {
 }
 
 class ArmstrongFragment : Factory() {
-    override val NAME = "Armstrong"
+    override val name = "Armstrong"
     override fun calculate(n: Long) = getArmstrongs(n)
 }
 
 class FibonacciFragment : Factory() {
-    override val NAME = "Fibonacci"
+    override val name = "Fibonacci"
     override fun calculate(n: Long) = fibonacci(n)
 }
