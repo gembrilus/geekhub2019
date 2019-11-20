@@ -10,8 +10,6 @@ import kotlinx.android.synthetic.main.number_item.view.*
 
 class PrimeAdapter(private val model: Model) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.number_item, parent, false)
         return Holder(view)

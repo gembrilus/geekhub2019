@@ -17,31 +17,19 @@ import java.util.concurrent.locks.LockSupport
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
+private const val LAST_NUMBER_KEY = "LAST_NUMBER"
+
 class PrimeFragment : Factory() {
-    override val NAME: String
-        get() = "Prime"//getString(R.string.title_prime)
+
+    override val NAME = "Prime"
     private val handler by lazy { Handler(Looper.getMainLooper()) }
     private var lastNumber: Long = 0L
     private var task: Thread? = null
-    private var isTaskNotStopped = false
-
-    private val LAST_NUMBER_KEY = "LAST_NUMBER"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             lastNumber = savedInstanceState.getLong(LAST_NUMBER_KEY)
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        view.input.setOnEditorActionListener { _, _, _ ->
-
-            clearAll()
-
-            false
         }
     }
 
@@ -50,57 +38,40 @@ class PrimeFragment : Factory() {
         outState.putLong(LAST_NUMBER_KEY, lastNumber)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) =
-        when (item.itemId) {
-            R.id.clear -> {
-                clearAll()
-                fragmentView.input.text.clear()
-                true
-            }
-            R.id.stop -> {
-
-                var number: Long? = null
-                try {
-                    number = fragmentView.input.text.toString().toLong()
-                } catch (e: IllegalArgumentException) {
-                    Toast.makeText(context, getString(R.string.input_correct_number), Toast.LENGTH_LONG).show()
-                }
-
-                number?.let {
-                    isTaskNotStopped = !isTaskNotStopped
-                    if (isTaskNotStopped) {
-                        item.setIcon(R.drawable.ic_stop_black_24dp)
-                        task = startTask(number)
-                        task?.start()
-                    } else {
-                        item.setIcon(R.drawable.ic_play_arrow_black_24dp)
-                        task?.interrupt()
+    private fun startTask() = Thread {
+        number?.let {
+            getPrimes(it, lastNumber, model.data.value!!) { num ->
+                if (isTaskNotStopped) {
+                    try {
+                        Thread.sleep(100)
+                    } catch (e: InterruptedException) {
                     }
+                    handler.post {
+                        lastNumber = num + 1
+                        model.add(num)
+                    }
+                    true
+                } else {
+                    false
                 }
-                true
             }
-            else -> super.onOptionsItemSelected(item)
         }
-
-    private fun startTask(number: Long): Thread {
-        return Thread {
-            getPrimes(number, lastNumber, model.data.value!!) { num ->
-                try {
-                    Thread.sleep(100)
-                } catch (e: InterruptedException){}
-                handler.post{
-                    lastNumber = num + 1
-                    model.update()
-                }
-            }
-        }.apply {
-            isDaemon = true
-            setUncaughtExceptionHandler { thread, throwable ->
-                thread.interrupt()
-                throwable.printStackTrace()
-            }
+    }.apply {
+        isDaemon = true
+        setUncaughtExceptionHandler { thread, throwable ->
+            thread.interrupt()
+            throwable.printStackTrace()
         }
     }
 
     override fun calculate(n: Long) = longArrayOf()
+    override fun eval() {
+        task = startTask()
+        task?.start()
+    }
+
+    override fun cancel() {
+        task?.interrupt()
+        task = null
+    }
 }

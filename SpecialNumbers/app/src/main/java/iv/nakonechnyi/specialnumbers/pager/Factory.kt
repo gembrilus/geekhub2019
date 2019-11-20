@@ -20,18 +20,22 @@ import kotlinx.android.synthetic.main.fragment_layout.view.*
 import java.lang.IllegalArgumentException
 
 internal const val NUMBER = "NUMBER"
+internal const val SAVED_NUMBER = "SAVED_NUMBER"
 internal const val FRAGMENT_POSITION = "FRAGMENT_POS"
 internal const val OUTPUT_DATA_KEY = "OUTPUT"
 private const val WORKER_TAG = "CALC_WORKER"
+private const val IS_NOT_STOPPED = "IS_NOT_STOPPED"
 
 abstract class Factory : Fragment() {
 
     private val workManager by lazy { context?.let { WorkManager.getInstance(it) } }
     protected val model by lazy { ViewModelProviders.of(this).get(Model::class.java) }
 
-    protected lateinit var fragmentView: View
-    protected lateinit var mAdapter: PrimeAdapter
+    private lateinit var fragmentView: View
+    private lateinit var mAdapter: PrimeAdapter
     private lateinit var mRecyclerView: RecyclerView
+    protected var number: Long? = null
+    protected var isTaskNotStopped = false
 
     abstract val NAME: String
     abstract fun calculate(n: Long): LongArray
@@ -51,6 +55,27 @@ abstract class Factory : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+
+        if (savedInstanceState != null) {
+            number = savedInstanceState.getLong(SAVED_NUMBER)
+            isTaskNotStopped = savedInstanceState.getBoolean(IS_NOT_STOPPED)
+        }
+
+        if (isTaskNotStopped) {
+            eval()
+        }
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        number?.let { outState.putLong(SAVED_NUMBER, it) }
+        outState.putBoolean(IS_NOT_STOPPED, isTaskNotStopped)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        cancel()
     }
 
     override fun onCreateView(
@@ -64,53 +89,58 @@ abstract class Factory : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        setUpRecyclerView()
+        setupRecyclerView()
 
         model.data.observe(this, Observer { _ ->
-                model.data.value?.let { data ->
-                    if(data.isNotEmpty()){
-                        mAdapter.notifyItemInserted(data.indexOf(data.last()))
-                    } }
-        })
-
-        view.input.setOnEditorActionListener { _, _, _ ->
-
-            clearAll()
-
-            val number: Long
-            try {
-                number = view.input.text.toString().toLong()
-            } catch (e: IllegalArgumentException) {
-                Toast.makeText(context, getString(R.string.input_correct_number), Toast.LENGTH_LONG).show()
-                return@setOnEditorActionListener false
+            model.data.value?.let { data ->
+                if (data.isNotEmpty()) {
+                    mAdapter.notifyDataSetChanged()
+                }
             }
-
-            val op = run(number)
-            showResult(op)
-            false
-        }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.action_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.action_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
         when (item.itemId) {
             R.id.clear -> {
                 clearAll()
-                fragmentView.input.text.clear()
                 true
             }
             R.id.stop -> {
-                workManager?.cancelAllWorkByTag(WORKER_TAG)
+
+                val text = fragmentView.input.text.toString()
+                if (text.isNotEmpty()){
+                    number = text.toLong()
+                }
+
+                if (number != null) {
+                    isTaskNotStopped = !isTaskNotStopped
+
+                    if (isTaskNotStopped) {
+                        item.setIcon(R.drawable.ic_stop_black_24dp)
+                        eval()
+                    } else {
+                        item.setIcon(R.drawable.ic_play_arrow_black_24dp)
+                        cancel()
+                    }
+                } else {
+                    Toast.makeText(
+                        context,
+                        getString(R.string.input_correct_number),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
 
-    private fun setUpRecyclerView() {
+    private fun setupRecyclerView() {
         mAdapter = PrimeAdapter(model)
         mRecyclerView = fragmentView.recycler_view.apply {
             adapter = mAdapter
@@ -135,43 +165,38 @@ abstract class Factory : Fragment() {
     private fun showResult(op: WorkRequest) {
         workManager?.getWorkInfoByIdLiveData(op.id)
             ?.observe(this@Factory, Observer { workInfo ->
-                when (workInfo.state) {
-                    WorkInfo.State.SUCCEEDED -> {
+                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
                         val array = workInfo.outputData.getLongArray(OUTPUT_DATA_KEY)
                         array?.let { model.set(it) }
-                    }
-                    WorkInfo.State.FAILED -> {
-                        Toast.makeText(context, getString(R.string.eval_failed), Toast.LENGTH_LONG).show()
-                    }
-                    WorkInfo.State.CANCELLED -> {
-                        Toast.makeText(context, getString(R.string.task_stopped), Toast.LENGTH_LONG).show()
-                    }
-                    WorkInfo.State.RUNNING -> {}
-                    else -> { }
+                        isTaskNotStopped = false
                 }
             })
     }
 
-    protected fun clearAll(){
+    protected open fun eval() {
+        val op = number?.let { run(it) }
+        op?.let { showResult(it) }
+    }
+
+    protected open fun cancel() {
+        workManager?.cancelAllWorkByTag(WORKER_TAG)
+    }
+
+    protected fun clearAll() {
         model.clear()
         mAdapter.notifyDataSetChanged()
+        number = null
+        fragmentView.input.text.clear()
+        isTaskNotStopped = false
     }
 }
 
 class ArmstrongFragment : Factory() {
-    override val NAME: String
-        get() = "Armstrong"//getString(R.string.title_armstrong)
-
-    override fun calculate(n: Long): LongArray {
-        return getArmstrongs(n)
-    }
+    override val NAME = "Armstrong"
+    override fun calculate(n: Long) = getArmstrongs(n)
 }
 
 class FibonacciFragment : Factory() {
-    override val NAME: String
-        get() = "Fibonacci"//getString(R.string.title_fibonacci)
-
-    override fun calculate(n: Long): LongArray {
-        return fibonacci(n)
-    }
+    override val NAME = "Fibonacci"
+    override fun calculate(n: Long) = fibonacci(n)
 }

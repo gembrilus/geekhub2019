@@ -15,6 +15,11 @@ class Model : ViewModel(){
         data.value = list.toMutableList()
     }
 
+    fun add(n: Long){
+        data.value?.add(n)
+        update()
+    }
+
     fun update(){
         val list = data.value
         data.value = list

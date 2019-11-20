@@ -61,33 +61,37 @@ package iv.nakonechnyi.specialnumbers.workers
 // мои реализации
 
 
-fun getPrimes(N: Long, startNumber: Long = 0, list: MutableList<Long> = mutableListOf(), block: (Long) -> Unit) {
+fun getPrimes(
+    N: Long,
+    startNumber: Long = 0,
+    list: MutableList<Long>,
+    block: (Long) -> Boolean
+) {
     var p = startNumber
-        if (N > 2 && p <= 2) {
-            list += 2
-            block(2)
-        }
+    if (N > 2 && p <= 2) {
+        if (!block(2)) return
+    }
     if (p < 3) p = 3L
     else if (p % 2 == 0L) p += 1L
-        for (i in p..N step 2) {
-            if (list.all { i % it != 0L }) {
-                list.add(i)
-                block(i)
-            }
+
+    for (i in p..N step 2) {
+        if (list.all { i % it != 0L }) {
+            if(!block(i)) return
         }
+    }
 }
 
 
 fun fibonacci(N: Long): LongArray {
-val list = mutableListOf<Long>()
+    val list = mutableListOf<Long>()
     var i = 0L
-    while (true){
+    while (true) {
         when (i) {
             0L -> list.add(0)
             1L -> list.add(1)
             else -> {
-                val next = list[i.toInt()-1] + list[i.toInt()-2]
-                if(next > N) return list.toLongArray()
+                val next = list[i.toInt() - 1] + list[i.toInt() - 2]
+                if (next > N) return list.toLongArray()
                 else list.add(next)
             }
         }
@@ -140,7 +144,8 @@ private fun run(
                 arm,
                 getDigitsCount(arm),
                 m
-            ) == arm && arm < N) {
+            ) == arm && arm < N
+        ) {
             set.add(arm)
         }
         if (pos > 1) {
