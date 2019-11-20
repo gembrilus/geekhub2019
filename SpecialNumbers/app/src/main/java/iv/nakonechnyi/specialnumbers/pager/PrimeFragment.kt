@@ -3,6 +3,7 @@ package iv.nakonechnyi.specialnumbers.pager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import iv.nakonechnyi.specialnumbers.R
 import iv.nakonechnyi.specialnumbers.workers.getPrimes
 
 private const val LAST_NUMBER_KEY = "LAST_NUMBER"
@@ -34,8 +35,12 @@ class PrimeFragment : Factory() {
                     kotlin.runCatching { Thread.sleep(100) }
 
                     handler.post {
-                        lastNumber = num + 1
+                        lastNumber = num + 2
                         model.add(num)
+                        if(lastNumber >= it-2) {
+                            mMenu.findItem(R.id.stop).setIcon(R.drawable.ic_play_arrow_black_24dp)
+                            mMenu.findItem(R.id.clear).isEnabled = true
+                        }
                     }
                     true
                 } else false
@@ -53,6 +58,11 @@ class PrimeFragment : Factory() {
     override fun eval() {
         task = startTask()
         task?.start()
+    }
+
+    override fun clearAll() {
+        super.clearAll()
+        lastNumber = 0L
     }
 
     override fun cancel() {

@@ -63,17 +63,15 @@ package iv.nakonechnyi.specialnumbers.workers
 
 fun getPrimes(
     N: Long,
-    startNumber: Long = 0,
+    startNumber: Long,
     list: MutableList<Long>,
     block: (Long) -> Boolean
 ) {
     var p = startNumber
-    if (N > 2 && p <= 2) {
+    if (N >= 2 && p < 3) {
         if (!block(2)) return
     }
-    if (p < 3) p = 3L
-    else if (p % 2 == 0L) p += 1L
-
+    if (p < 3) p = 3
     for (i in p..N step 2) {
         if (list.all { i % it != 0L }) {
             if(!block(i)) return

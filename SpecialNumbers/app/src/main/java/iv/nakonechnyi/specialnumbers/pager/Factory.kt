@@ -34,6 +34,7 @@ abstract class Factory : Fragment() {
     private lateinit var fragmentView: View
     private lateinit var mAdapter: PrimeAdapter
     private lateinit var mRecyclerView: RecyclerView
+    protected lateinit var mMenu: Menu
 
     protected var number: Long? = null
     protected var isTaskNotStopped = false
@@ -104,6 +105,7 @@ abstract class Factory : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.action_menu, menu)
+        mMenu = menu
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -121,11 +123,12 @@ abstract class Factory : Fragment() {
 
                 if (number != null) {
                     isTaskNotStopped = !isTaskNotStopped
-
                     if (isTaskNotStopped) {
+                        mMenu.findItem(R.id.clear).isEnabled = false
                         item.setIcon(R.drawable.ic_stop_black_24dp)
                         eval()
                     } else {
+                        mMenu.findItem(R.id.clear).isEnabled = true
                         item.setIcon(R.drawable.ic_play_arrow_black_24dp)
                         cancel()
                     }
@@ -169,7 +172,8 @@ abstract class Factory : Fragment() {
                 if (workInfo.state == WorkInfo.State.SUCCEEDED) {
                         val array = workInfo.outputData.getLongArray(OUTPUT_DATA_KEY)
                         array?.let { model.set(it) }
-                        isTaskNotStopped = false
+                    mMenu.findItem(R.id.stop).setIcon(R.drawable.ic_play_arrow_black_24dp)
+                    mMenu.findItem(R.id.clear).isEnabled = true
                 }
             })
     }
@@ -183,7 +187,7 @@ abstract class Factory : Fragment() {
         workManager?.cancelAllWorkByTag(WORKER_TAG)
     }
 
-    private fun clearAll() {
+    protected open fun clearAll() {
         model.clear()
         mAdapter.notifyDataSetChanged()
         number = null
