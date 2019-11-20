@@ -67,7 +67,10 @@ abstract class Factory : Fragment() {
         setUpRecyclerView()
 
         model.data.observe(this, Observer { _ ->
-                mAdapter.update(model.data.value!!)
+                model.data.value?.let { data ->
+                    if(data.isNotEmpty()){
+                        mAdapter.notifyItemInserted(data.indexOf(data.last()))
+                    } }
         })
 
         view.input.setOnEditorActionListener { _, _, _ ->
@@ -108,7 +111,7 @@ abstract class Factory : Fragment() {
         }
 
     private fun setUpRecyclerView() {
-        mAdapter = PrimeAdapter()
+        mAdapter = PrimeAdapter(model)
         mRecyclerView = fragmentView.recycler_view.apply {
             adapter = mAdapter
             layoutManager = GridLayoutManager(requireContext(), 4, RecyclerView.VERTICAL, false)
@@ -151,7 +154,7 @@ abstract class Factory : Fragment() {
 
     protected fun clearAll(){
         model.clear()
-        mAdapter.clear()
+        mAdapter.notifyDataSetChanged()
     }
 }
 

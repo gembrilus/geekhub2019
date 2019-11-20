@@ -15,8 +15,7 @@ class Model : ViewModel(){
         data.value = list.toMutableList()
     }
 
-    fun add(n: Long){
-        data.value?.add(n)
+    fun update(){
         val list = data.value
         data.value = list
     }
@@ -25,14 +24,8 @@ class Model : ViewModel(){
         data.value = mutableListOf()
     }
 
-
-    fun update() {
-        data.value = data.value
-    }
-
-
-/*    override fun onCleared() {
+    override fun onCleared() {
         super.onCleared()
         clear()
-    }*/
+    }
 }

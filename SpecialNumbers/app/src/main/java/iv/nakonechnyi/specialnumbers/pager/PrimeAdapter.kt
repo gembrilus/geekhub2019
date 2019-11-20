@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import iv.nakonechnyi.specialnumbers.Model
 import iv.nakonechnyi.specialnumbers.R
 import kotlinx.android.synthetic.main.number_item.view.*
 
-class PrimeAdapter(private var list: MutableList<Long> = mutableListOf()) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class PrimeAdapter(private val model: Model) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
 
 
@@ -16,28 +17,12 @@ class PrimeAdapter(private var list: MutableList<Long> = mutableListOf()) : Recy
         return Holder(view)
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = model.data.value?.size ?: 0
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val number = list[position]
+        val number = model.data.value?.get(position) ?: 0
         (holder as Holder).bind(number)
     }
-
-    fun update(numbers: MutableList<Long>){
-        list = numbers
-        notifyDataSetChanged()
-    }
-
-    fun addItem(num: Long) {
-        list.add(num)
-        notifyItemChanged(list.indexOf(list.last()))
-    }
-
-    fun clear(){
-        list = mutableListOf()
-        notifyDataSetChanged()
-    }
-
 
     private inner class Holder(view: View) : RecyclerView.ViewHolder(view){
 

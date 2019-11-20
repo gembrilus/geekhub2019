@@ -61,23 +61,20 @@ package iv.nakonechnyi.specialnumbers.workers
 // мои реализации
 
 
-fun getPrimes(N: Long, block: (Long) -> Unit){
-    val list = mutableListOf<Long>()
-    if(N > 2) {
-        list += 2
-        block(2)
-    }
-    if(N > 3) {
-        list += 3
-        block(3)
-    }
-    for (i in 5..N step 2){
-        if (list.all { i % it != 0L }){
-            list.add(i)
-            block(i)
+fun getPrimes(N: Long, startNumber: Long = 0, list: MutableList<Long> = mutableListOf(), block: (Long) -> Unit) {
+    var p = startNumber
+        if (N > 2 && p <= 2) {
+            list += 2
+            block(2)
         }
-    }
-    list.clear()
+    if (p < 3) p = 3L
+    else if (p % 2 == 0L) p += 1L
+        for (i in p..N step 2) {
+            if (list.all { i % it != 0L }) {
+                list.add(i)
+                block(i)
+            }
+        }
 }
 
 

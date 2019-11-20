@@ -8,7 +8,7 @@
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/stop"
-        android:icon="@drawable/ic_stop_black_24dp"
+        android:icon="@drawable/ic_play_arrow_black_24dp"
         android:title="@string/menu_item_stop"
         app:showAsAction="ifRoom"/>
 </menu>
