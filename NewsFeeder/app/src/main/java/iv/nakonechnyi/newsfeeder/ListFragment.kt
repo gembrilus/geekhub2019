@@ -122,10 +122,10 @@ class ListFragment : Fragment(),
 
 
     override fun onNoNetworkConnection() {
-        GlobalScope.launch(Dispatchers.Main) {
+//        GlobalScope.launch(Dispatchers.Main) {
             recyclerView.recycle_fragment.visibility = View.GONE
             fragmentView.background = resources.getDrawable(R.drawable.no_internet_connection)
-        }
+//        }
     }
 
     /*----------------------Additionl functions-----------------------*/

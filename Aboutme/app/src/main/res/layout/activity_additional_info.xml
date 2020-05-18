@@ -7,88 +7,109 @@
         android:id="@+id/ll_add_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/padding16dp">
 
         <TextView
             style="@style/TextView_title_style"
             android:text="@string/address" />
+
         <TextView
             android:id="@+id/tw_address_info"
             style="@style/TextView_item_style" />
+
         <TextView
             style="@style/TextView_title_style"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/phonenumber"/>
+            android:text="@string/phonenumber" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tw_phonenumber_info"
-            android:layout_alignParentStart="true"
-            style="@style/TextView_item_style" />
-        <ImageButton
-            android:id="@+id/ib_call_contact"
-            android:layout_alignParentEnd="true"
-            style="@style/Aboutme_icon_style"
-            android:src="@drawable/icon_call"/>
+
+            <TextView
+                android:id="@+id/tw_phonenumber_info"
+                style="@style/TextView_item_style"
+                android:layout_alignParentStart="true" />
+
+            <ImageButton
+                android:id="@+id/ib_call_contact"
+                style="@style/Aboutme_icon_style"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/icon_call" />
         </RelativeLayout>
+
         <TextView
             style="@style/TextView_title_style"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/email"/>
+            android:text="@string/email" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tw_email_info"
-            android:layout_alignParentStart="true"
-            style="@style/TextView_item_style" />
-        <ImageButton
-            android:id="@+id/ib_send_email"
-            style="@style/Aboutme_icon_style"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/icon_email"/>
+
+            <TextView
+                android:id="@+id/tw_email_info"
+                style="@style/TextView_item_style"
+                android:layout_alignParentStart="true" />
+
+            <ImageButton
+                android:id="@+id/ib_send_email"
+                style="@style/Aboutme_icon_style"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/icon_email" />
         </RelativeLayout>
+
         <TextView
             style="@style/TextView_title_style"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/work"/>
+            android:text="@string/work" />
+
         <TextView
             android:id="@+id/tw_work_info"
             style="@style/TextView_item_style" />
+
         <TextView
             style="@style/TextView_title_style"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/university"/>
+            android:text="@string/university" />
+
         <TextView
             android:id="@+id/tw_study_info"
             style="@style/TextView_item_style" />
+
         <TextView
             style="@style/TextView_title_style"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/loving_hobbis"/>
+            android:text="@string/loving_hobbis" />
+
         <TextView
             android:id="@+id/tw_hobbies_info"
             style="@style/TextView_item_style" />
+
         <TextView
             style="@style/TextView_title_style"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/loving_books"/>
+            android:text="@string/loving_books" />
+
         <TextView
             android:id="@+id/tw_loving_books_info"
             style="@style/TextView_item_style" />
+
         <TextView
             style="@style/TextView_title_style"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/loving_movies"/>
+            android:text="@string/loving_movies" />
+
         <TextView
             android:id="@+id/tw_loving_movies_info"
             style="@style/TextView_item_style" />
+
         <TextView
             style="@style/TextView_title_style"
             android:layout_marginTop="@dimen/margin"
-            android:text="@string/loving_music"/>
+            android:text="@string/loving_music" />
+
         <TextView
             android:id="@+id/tw_loving_music_info"
             style="@style/TextView_item_style" />

@@ -3,14 +3,18 @@ package iv.nakonechnyi.newsfeeder.net
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import iv.nakonechnyi.newsfeeder.model.Article
-import iv.nakonechnyi.newsfeeder.util.getDisplaySize
 import iv.nakonechnyi.newsfeeder.util.stringToLongDate
 import kotlinx.coroutines.*
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.*
-import java.lang.NullPointerException
-import java.net.*
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.URL
+import java.net.UnknownHostException
 import java.nio.charset.Charset
 
 
@@ -102,7 +106,7 @@ class NewsLoaderHelper(
                 inputStream = urlConnection.inputStream
                 try {
                     response = loader(inputStream)
-                } catch (e: Throwable){
+                } catch (e: Throwable) {
                     e.printStackTrace()
                 }
             }
@@ -119,25 +123,27 @@ class NewsLoaderHelper(
 
     @Throws(IOException::class)
     private fun readFromStream(inputStream: InputStream): String? {
-        val output = StringBuilder()
-        val inputStreamReader = InputStreamReader(inputStream, Charset.forName("UTF-8"))
-        val reader = BufferedReader(inputStreamReader)
-        var line = reader.readLine()
-        while (line != null) {
-            output.append(line)
-            line = reader.readLine()
-        }
-        return output.toString()
+        BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
+            .use { reader ->
+                val output = StringBuilder()
+                var line = reader.readLine()
+                while (line != null) {
+                    output.append(line)
+                    line = reader.readLine()
+                }
+                return output.toString()
+            }
     }
 
-    @Throws(NullPointerException::class)
+    @Throws(IllegalArgumentException::class)
     private fun readImageFromStream(inputStream: InputStream): Bitmap? {
         var bitmap = BitmapFactory.decodeStream(inputStream)
         val bitmapWidth = bitmap.width
         val bitmapHeight = bitmap.height
-        if (bitmapHeight > 128 || bitmapWidth > 128){
+        if (bitmapHeight > 128 || bitmapWidth > 128) {
             val scale = minOf(bitmapHeight / 128, bitmapWidth / 128)
-            bitmap = Bitmap.createScaledBitmap(bitmap, bitmapWidth / scale, bitmapHeight / scale, false)
+            bitmap =
+                Bitmap.createScaledBitmap(bitmap, bitmapWidth / scale, bitmapHeight / scale, false)
         }
         return bitmap
     }

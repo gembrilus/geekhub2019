@@ -47,7 +47,7 @@ fun save(context: Context, obj: Me) {
 }
 
 fun changeGroupVisible(viewGroup: ViewGroup){
-    if (viewGroup.isVisible) viewGroup.visibility = View.GONE
+    if (viewGroup.visibility == View.VISIBLE) viewGroup.visibility = View.GONE
     else viewGroup.visibility = View.VISIBLE
 }
 
@@ -86,11 +86,8 @@ fun getAge(d: Long): Int {
     return a
 }
 
-fun dateToLong(d: String): Long = try {
-    SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).parse(d).time
-} catch (e: Throwable) {
-    0L
-}
+fun dateToLong(d: String): Long =
+    SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).parse(d)?.time ?: 0L
 
 fun dateToString(d: Long): String =
     SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date(d))

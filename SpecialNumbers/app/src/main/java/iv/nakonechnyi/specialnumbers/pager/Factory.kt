@@ -205,3 +205,6 @@ class FibonacciFragment : Factory() {
     override val name = "Fibonacci"
     override fun calculate(n: Long) = fibonacci(n)
 }
+
+fun Any.wait() = Object().wait()
+fun Any.wait(timeout: Long) = Object().wait(timeout)

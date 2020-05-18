@@ -23,10 +23,6 @@ class MainActivity : AppCompatActivity(), Callbacks {
     private val newsFragment get() = mUrl?.let { NewsFragment.newInstance(it) } ?: EmptyFragment()
     private val listFragment get() = ListFragment.newInstance(mPosition)
 
-    private lateinit var newsService: NewsService
-    private val mConnection: ServiceConnection = NewsServiceConnection()
-    private var isBound = false
-
 
     /********************************Callbacks***************************************/
     /********************************************************************************/
@@ -40,13 +36,6 @@ class MainActivity : AppCompatActivity(), Callbacks {
             putFragment(R.id.container_list_fragment, listFragment)
         }
     }
-
-
-    override fun onStart() {
-        super.onStart()
-        makeBinding()
-    }
-
 
     override fun onResume() {
         super.onResume()
@@ -79,14 +68,6 @@ class MainActivity : AppCompatActivity(), Callbacks {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (isBound) {
-            unbindService(mConnection)
-            isBound = false
-        }
-    }
-
 
     /********************************Private methods*********************************/
     /********************************************************************************/
@@ -110,37 +91,16 @@ class MainActivity : AppCompatActivity(), Callbacks {
                 .commitNow()
         }
     }
+}
 
-    private fun makeBinding() {
-        bindService(
-            Intent(this, NewsService::class.java),
-            mConnection,
-            Context.BIND_AUTO_CREATE
-        )
-    }
-
-    /********************************Nested classes**********************************/
-    /********************************************************************************/
+/********************************Nested classes**********************************/
+/********************************************************************************/
 
 
-    class EmptyFragment : Fragment() {
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? = inflater.inflate(R.layout.empty_fragment_layout, container, false)
-    }
-
-
-    private inner class NewsServiceConnection : ServiceConnection {
-        override fun onServiceDisconnected(p0: ComponentName?) {
-            isBound = false
-        }
-
-        override fun onServiceConnected(className: ComponentName?, binder: IBinder?) {
-            newsService = (binder as NewsService.NewsBinder).getService()
-            isBound = true
-        }
-    }
-
+class EmptyFragment : Fragment() {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.empty_fragment_layout, container, false)
 }
